@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 String jsonString = "{\"username\":\"huts\",\"password\":\"huts\"}";
                 JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
 
-                AsodoRequester.newRequest("authenticate", json, new CustomListener() {
+                AsodoRequester.newRequest("authenticate", json, MainActivity.this, new CustomListener() {
                     @Override
                     public void onResponse(JsonObject jsonResponse) {
                         System.out.println(jsonResponse);

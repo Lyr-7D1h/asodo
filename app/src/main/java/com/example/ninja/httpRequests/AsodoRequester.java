@@ -1,5 +1,8 @@
 package com.example.ninja.httpRequests;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+
 import com.android.volley.Cache;
 import com.android.volley.Network;
 import com.android.volley.Request;
@@ -9,6 +12,7 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
+import com.example.ninja.util.AlertUtils;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -55,11 +59,15 @@ public class AsodoRequester {
      * @param responseListener A listener which is fired whenever we get a response from the api
      * @ Returns a StringRequest object according to the given parameters
      */
-    private static StringRequest createStringRequest(String view, JsonObject json, Response.Listener<String> responseListener) {
+    private static StringRequest createStringRequest(String view, JsonObject json, Activity context, Response.Listener<String> responseListener) {
         String apiEndpoint = "http://api.asodo.nl/";
         return new CustomStringRequest(Request.Method.POST, apiEndpoint,
                 responseListener, error -> {
-            System.err.println("F"); // TODO
+            // Show alert
+            AlertUtils.showAlert("Retry", "No internet connection.", context, (dialog, which) -> {
+                // New request
+                AsodoRequester.newRequest(view, json, context, responseListener);
+            });
         }, view, json);
     }
 
@@ -70,12 +78,12 @@ public class AsodoRequester {
      * @param json Contains the parameters that are required for the view
      * @param responseListener A listener which is fired whenever we get a response from the api
      */
-    public static void newRequest(String view, JsonObject json, Response.Listener<String> responseListener) {
+    public static void newRequest(String view, JsonObject json, Activity context, Response.Listener<String> responseListener) {
         // Init RequestQueue
         AsodoRequester asodoRequester = new AsodoRequester();
 
         // Formulate the request and handle the response.
-        StringRequest stringRequest = createStringRequest(view, json, responseListener);
+        StringRequest stringRequest = createStringRequest(view, json, context, responseListener);
 
         // Add the request to the RequestQueue.
         asodoRequester.addRequestToQueue(stringRequest);

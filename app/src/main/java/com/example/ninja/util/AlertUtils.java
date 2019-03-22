@@ -9,17 +9,14 @@ import android.net.NetworkInfo;
 
 public class AlertUtils {
 
-    public static void showAlert(String message, Activity context) {
-        showAlert("OK", message, context);
+    public static void showAlert(String message, Activity context, DialogInterface.OnClickListener clickListener) {
+        showAlert("OK", message, context, clickListener);
     }
 
-    public static void showAlert(String button, String message, Activity context) {
+    public static void showAlert(String button, String message, Activity context, DialogInterface.OnClickListener clickListener) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        builder.setMessage(message).setCancelable(false)
-                .setPositiveButton(button, (dialog, id) -> {
-                    // TODO
-                });
+        builder.setMessage(message).setCancelable(false).setPositiveButton(button, clickListener);
 
         try {
             builder.show();
