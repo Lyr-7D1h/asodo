@@ -1,5 +1,6 @@
 package com.example.ninja;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
         Button start = (Button) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("start"); // Placeholder
+                Intent intent = new Intent(v.getContext(), Startroute.class);
+                startActivity(intent);
             }
         });
         // Functionality of statistics button
