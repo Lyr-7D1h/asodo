@@ -26,7 +26,7 @@ public class Startroute extends AppCompatActivity {
 
 
                 Intent intent = new Intent(v.getContext(), Route.class);
-                intent.putExtra("startkm", currentTrip);
+                intent.putExtra("km", currentTrip);
                 startActivity(intent);
             }
         });

@@ -18,6 +18,7 @@
         </activity>
         <activity android:name=".Startroute"></activity>
         <activity android:name=".Route"></activity>
+        <activity android:name=".Endroute"></activity>
     </application>
 
 </manifest>
