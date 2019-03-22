@@ -6,6 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.ninja.httpRequests.CustomListener;
+import com.example.ninja.httpRequests.Requester;
+import com.example.ninja.util.CommonMethod;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -18,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("start"); // Placeholder
+                CommonMethod.showAlert("test 1", MainActivity.this);
             }
         });
         // Functionality of statistics button
@@ -25,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
         statistics.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("statistics"); // Placeholder
+                CommonMethod.showAlert("Retry", "test 2", MainActivity.this);
             }
+
         });
         // Functionality of export button
         ImageButton export = (ImageButton) findViewById(R.id.export);
@@ -39,6 +48,17 @@ public class MainActivity extends AppCompatActivity {
         options.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("options"); // Placeholder
+
+                // Example Request
+                String jsonString = "{\"username\":\"huts\",\"password\":\"huts\"}";
+                JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
+
+                Requester.newRequest("authenticate", json, new CustomListener() {
+                    @Override
+                    public void onResponse(JsonObject jsonResponse) {
+                        System.out.println(jsonResponse);
+                    }
+                });
             }
         });
 
