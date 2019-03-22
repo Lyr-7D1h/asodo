@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("start"); // Placeholder
-                AlertUtils.showAlert("test 1", MainActivity.this);
             }
         });
         // Functionality of statistics button
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         statistics.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("statistics"); // Placeholder
-                AlertUtils.showAlert("Retry", "test 2", MainActivity.this);
             }
 
         });

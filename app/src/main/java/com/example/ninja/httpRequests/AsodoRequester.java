@@ -19,9 +19,13 @@ import java.io.File;
 public class AsodoRequester {
     private RequestQueue requestQueue;
 
+    /**
+     * Constructor for Asodo Class
+     * Instantiates an Volley RequestQueue
+     */
     public AsodoRequester() {
         // Instantiate the cache
-        File f = new File("cache");
+        File f = new File("cache"); // TODO remove this shizzle
         Cache cache = new DiskBasedCache(f, 1024 * 1024); // 1MB cap
 
         // Set up the network to use HttpURLConnection as the HTTP client.
@@ -34,18 +38,38 @@ public class AsodoRequester {
         requestQueue.start();
     }
 
+    /**
+     * Add a StringRequest to the RequestQueue object
+     *
+     * @param request the StringRequest to add
+     */
     private void addRequestToQueue(StringRequest request) {
         this.requestQueue.add(request);
     }
 
+    /**
+     * Creates a StringRequest based on the parameters
+     *
+     * @param view Indicates the view which is requested from the server
+     * @param json Contains the parameters that are required for the view
+     * @param responseListener A listener which is fired whenever we get a response from the api
+     * @ Returns a StringRequest object according to the given parameters
+     */
     private static StringRequest createStringRequest(String view, JsonObject json, Response.Listener<String> responseListener) {
         String apiEndpoint = "http://api.asodo.nl/";
-        return new CustomStringRequest(view, json, Request.Method.POST, apiEndpoint,
+        return new CustomStringRequest(Request.Method.POST, apiEndpoint,
                 responseListener, error -> {
             System.err.println("F"); // TODO
-        });
+        }, view, json);
     }
 
+    /**
+     * Static method used to create an api call which is fired at the Asodo API
+     *
+     * @param view Indicates the view which is requested from the server
+     * @param json Contains the parameters that are required for the view
+     * @param responseListener A listener which is fired whenever we get a response from the api
+     */
     public static void newRequest(String view, JsonObject json, Response.Listener<String> responseListener) {
         // Init RequestQueue
         AsodoRequester asodoRequester = new AsodoRequester();
