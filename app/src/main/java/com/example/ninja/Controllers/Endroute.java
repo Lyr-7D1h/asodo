@@ -1,4 +1,4 @@
-package com.example.ninja;
+package com.example.ninja.Controllers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ninja.Domain.Trip;
+import com.example.ninja.R;
 
-public class Route extends AppCompatActivity {
+public class Endroute extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,31 +19,23 @@ public class Route extends AppCompatActivity {
         final Context context = this;
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.route);
-        final TextView kmtotaal = findViewById(R.id.kmtotaal);
+        setContentView(R.layout.endcheck);
+        final TextView kmend = findViewById(R.id.kmend);
 
-        kmtotaal.setText(currentTrip.getVals()[0]);
+        kmend.setText(currentTrip.getVals()[1]);
 
-
-
-
-
-        final Button button = findViewById(R.id.endtrip);
+        final Button button = findViewById(R.id.checked);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 //TextView kmtotaal = findViewById(R.id.kmtotaal);
 
-                currentTrip.setEnd(kmtotaal.getText().toString());
+                currentTrip.setEnd(kmend.getText().toString());
 
-               // currentTrip.builder(context);
-
-                Intent intent = new Intent(v.getContext(), Endroute.class);
-                intent.putExtra("km", currentTrip);
-                startActivity(intent);
+                currentTrip.builder(context);
             }
 
-    });
-}
+        });
+    }
 }
 

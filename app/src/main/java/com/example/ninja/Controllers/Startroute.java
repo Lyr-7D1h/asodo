@@ -1,4 +1,4 @@
-package com.example.ninja;
+package com.example.ninja.Controllers;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ninja.Domain.Trip;
+import com.example.ninja.R;
 
 public class Startroute extends AppCompatActivity {
 
