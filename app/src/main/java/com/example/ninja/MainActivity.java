@@ -7,9 +7,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.ninja.httpRequests.CustomListener;
-import com.example.ninja.httpRequests.Requester;
+import com.example.ninja.httpRequests.AsodoRequester;
 import com.example.ninja.util.AlertUtils;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 String jsonString = "{\"username\":\"huts\",\"password\":\"huts\"}";
                 JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
 
-                Requester.newRequest("authenticate", json, new CustomListener() {
+                AsodoRequester.newRequest("authenticate", json, new CustomListener() {
                     @Override
                     public void onResponse(JsonObject jsonResponse) {
                         System.out.println(jsonResponse);

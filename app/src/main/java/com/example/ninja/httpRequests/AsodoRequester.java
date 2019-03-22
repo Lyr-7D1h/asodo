@@ -9,16 +9,17 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
-import com.example.ninja.MainActivity;
-import com.example.ninja.util.AlertUtils;
 import com.google.gson.JsonObject;
 
 import java.io.File;
 
-public class Requester {
+/**
+ * Class used to make requests to our own Asodo API
+ */
+public class AsodoRequester {
     private RequestQueue requestQueue;
 
-    public Requester() {
+    public AsodoRequester() {
         // Instantiate the cache
         File f = new File("cache");
         Cache cache = new DiskBasedCache(f, 1024 * 1024); // 1MB cap
@@ -47,12 +48,12 @@ public class Requester {
 
     public static void newRequest(String view, JsonObject json, Response.Listener<String> responseListener) {
         // Init RequestQueue
-        Requester requester = new Requester();
+        AsodoRequester asodoRequester = new AsodoRequester();
 
         // Formulate the request and handle the response.
         StringRequest stringRequest = createStringRequest(view, json, responseListener);
 
         // Add the request to the RequestQueue.
-        requester.addRequestToQueue(stringRequest);
+        asodoRequester.addRequestToQueue(stringRequest);
     }
 }
