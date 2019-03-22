@@ -48,11 +48,9 @@ public class Requester {
     public static void newRequest(String view, JsonObject json, Response.Listener<String> responseListener) {
         // Init RequestQueue
         Requester requester = new Requester();
-        System.out.println(requester);
 
         // Formulate the request and handle the response.
         StringRequest stringRequest = createStringRequest(view, json, responseListener);
-        System.out.println();
 
         // Add the request to the RequestQueue.
         requester.addRequestToQueue(stringRequest);

@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import com.example.ninja.httpRequests.CustomListener;
 import com.example.ninja.httpRequests.Requester;
 import com.example.ninja.util.AlertUtils;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
