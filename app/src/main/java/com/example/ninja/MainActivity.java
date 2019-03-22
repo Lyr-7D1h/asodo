@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 
 import com.example.ninja.httpRequests.CustomListener;
 import com.example.ninja.httpRequests.Requester;
-import com.example.ninja.util.CommonMethod;
+import com.example.ninja.util.AlertUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("start"); // Placeholder
-                CommonMethod.showAlert("test 1", MainActivity.this);
+                AlertUtils.showAlert("test 1", MainActivity.this);
             }
         });
         // Functionality of statistics button
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         statistics.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("statistics"); // Placeholder
-                CommonMethod.showAlert("Retry", "test 2", MainActivity.this);
+                AlertUtils.showAlert("Retry", "test 2", MainActivity.this);
             }
 
         });

@@ -9,6 +9,8 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
+import com.example.ninja.MainActivity;
+import com.example.ninja.util.AlertUtils;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -38,7 +40,9 @@ public class Requester {
     private static StringRequest createStringRequest(String view, JsonObject json, Response.Listener<String> responseListener) {
         String apiEndpoint = "http://api.asodo.nl/";
         return new CustomStringRequest(view, json, Request.Method.POST, apiEndpoint,
-                responseListener, error -> System.err.println("F"));
+                responseListener, error -> {
+            System.err.println("F"); // TODO
+        });
     }
 
     public static void newRequest(String view, JsonObject json, Response.Listener<String> responseListener) {
