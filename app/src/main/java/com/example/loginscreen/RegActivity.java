@@ -39,7 +39,7 @@ public class RegActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String user = mTextUsername.getText().toString().trim();oi
+                String user = mTextUsername.getText().toString().trim();
                 String password = mTextPassword.getText().toString().trim();
                 String cnf_pwd = mTextCnfPassword.getText().toString().trim();
                 if(password.equals(cnf_pwd)){
