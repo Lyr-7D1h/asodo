@@ -36,6 +36,11 @@ public class LogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
 
+        // Check if user is logged in
+        if(CacheUtils.readCache(context, "user.cache") != null) {
+            ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);
+        }
+
         awaitingResponse = false;
 
         mTextUsername = (EditText) findViewById(R.id.edittext_username);
@@ -116,7 +121,7 @@ public class LogActivity extends AppCompatActivity {
         Toast.makeText(LogActivity.this, "Login succesvol!", Toast.LENGTH_SHORT).show();
 
         // Store response to file
-        CacheUtils.cacheJsonObject(context, response, "user.cache");
+        CacheUtils.cacheJsonObject(context, 0, response, "user.cache");
 
         // Move to home
         ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);
