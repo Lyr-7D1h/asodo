@@ -2,6 +2,7 @@ package com.example.ninja.Domain;
 
 import android.content.Context;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -57,7 +58,8 @@ public class Trip implements Serializable {
             outputStream.write(json.getBytes());
             outputStream.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            File directory = ctx.getFilesDir();
+            new File(directory, "trips.list");
         }
     }
 
