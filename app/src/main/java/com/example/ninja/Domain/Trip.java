@@ -15,7 +15,8 @@ public class Trip implements Serializable {
     private String start    = "";
     private String end      = "";
     private String date     = "";
-    private String timdate = "";
+    private String startdate = "";
+    private String enddate = "";
 
     public Trip(String start){
         this.start = start;
@@ -23,22 +24,22 @@ public class Trip implements Serializable {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
         Date date = new Date();
         this.date = dateFormat.format(date);
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        this.timdate = dateFormat.format(date);
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.startdate = dateFormat.format(date);
     }
 
     public void setEnd(String end){
         this.end = end;
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        this.enddate = dateFormat.format(date);
     }
 
     public String[] getVals(){
-        String[] vals = {this.start, this.end, this.date, this.timdate};
+        String[] vals = {this.start, this.end, this.date, this.startdate, this.enddate};
         return vals;
     }
-
-
-
-
 
     public void builder(Context ctx){
         FileOutputStream outputStream;
@@ -58,8 +59,6 @@ public class Trip implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
 
