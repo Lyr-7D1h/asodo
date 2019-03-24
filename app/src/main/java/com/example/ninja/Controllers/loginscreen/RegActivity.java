@@ -1,6 +1,7 @@
 package com.example.ninja.Controllers.loginscreen;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ninja.Controllers.MainActivity;
+import com.example.ninja.Domain.util.CacheUtils;
 import com.example.ninja.R;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
@@ -19,6 +22,7 @@ import com.google.gson.JsonParser;
 public class RegActivity extends AppCompatActivity {
 
     private boolean awaitingResponse;
+    private final Context context = this;
     EditText mTextUsername;
     EditText mTextPassword;
     Button mButtonRegistreer;
@@ -109,18 +113,21 @@ public class RegActivity extends AppCompatActivity {
             return;
         }
 
-        registerSuccess();
+        registerSuccess(response);
     }
 
     /**
      * Called whenever a registration succeeds.
      */
-    public void registerSuccess() {
+    public void registerSuccess(JsonObject response) {
         // Show toast
         Toast.makeText(RegActivity.this, "Succesvol geregistreerd!", Toast.LENGTH_SHORT).show();
 
-        // Move to login
-        ActivityUtils.changeActivity(this, RegActivity.this, LogActivity.class);
+        // Store response to file
+        CacheUtils.cacheJsonObject(context, 0, response, "user.cache");
+
+        // Move to home
+        ActivityUtils.changeActivity(this, RegActivity.this, MainActivity.class);
     }
 
     /**
