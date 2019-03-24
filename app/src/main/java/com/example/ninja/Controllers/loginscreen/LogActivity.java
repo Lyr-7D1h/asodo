@@ -1,4 +1,4 @@
-package com.example.ninja.loginscreen;
+package com.example.ninja.Controllers.loginscreen;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,11 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ninja.MainActivity;
+import com.example.ninja.Controllers.MainActivity;
 import com.example.ninja.R;
-import com.example.ninja.httpRequests.AsodoRequester;
-import com.example.ninja.httpRequests.CustomListener;
-import com.example.ninja.util.ActivityUtils;
+import com.example.ninja.Domain.httpRequests.AsodoRequester;
+import com.example.ninja.Domain.httpRequests.CustomListener;
+import com.example.ninja.Domain.util.ActivityUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 

@@ -1,4 +1,4 @@
-package com.example.ninja.loginscreen;
+package com.example.ninja.Controllers.loginscreen;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.ninja.loginscreen", appContext.getPackageName());
+        assertEquals("com.example.ninja.Controllers.loginscreen", appContext.getPackageName());
     }
 }

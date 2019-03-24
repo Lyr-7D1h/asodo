@@ -1,4 +1,4 @@
-package com.example.ninja.util;
+package com.example.ninja.Domain.util;
 
 import android.app.Activity;
 import android.content.Context;

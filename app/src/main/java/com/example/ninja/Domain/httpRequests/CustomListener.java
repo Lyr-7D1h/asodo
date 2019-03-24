@@ -1,4 +1,4 @@
-package com.example.ninja.httpRequests;
+package com.example.ninja.Domain.httpRequests;
 
 import com.android.volley.Response;
 import com.google.gson.JsonObject;

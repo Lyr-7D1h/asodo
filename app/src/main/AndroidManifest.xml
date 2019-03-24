@@ -13,9 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
-        <activity android:name=".loginscreen.RegActivity" />
-        <activity android:name=".loginscreen.LogActivity" >
+        <activity android:name=".Controllers.MainActivity" />
+        <activity android:name=".Controllers.loginscreen.RegActivity" />
+        <activity android:name=".Controllers.loginscreen.LogActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

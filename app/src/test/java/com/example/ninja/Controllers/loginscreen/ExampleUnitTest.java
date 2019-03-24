@@ -1,4 +1,4 @@
-package com.example.ninja.loginscreen;
+package com.example.ninja.Controllers.loginscreen;
 
 import org.junit.Test;
 
