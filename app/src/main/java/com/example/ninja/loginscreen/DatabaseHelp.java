@@ -1,4 +1,4 @@
-package com.example.loginscreen;
+package com.example.ninja.loginscreen;
 
 import android.content.ContentValues;
 import android.content.Context;

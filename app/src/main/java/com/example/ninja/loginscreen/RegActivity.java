@@ -1,4 +1,4 @@
-package com.example.loginscreen;
+package com.example.ninja.loginscreen;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.ninja.R;
 
 public class RegActivity extends AppCompatActivity {
     EditText mTextUsername;

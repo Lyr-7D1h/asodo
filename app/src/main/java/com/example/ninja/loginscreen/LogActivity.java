@@ -1,15 +1,16 @@
-package com.example.loginscreen;
+package com.example.ninja.loginscreen;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.ninja.MainActivity;
+import com.example.ninja.R;
 
 public class LogActivity extends AppCompatActivity {
 
@@ -23,7 +24,7 @@ public class LogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_log);
 
 
 
@@ -49,7 +50,7 @@ public class LogActivity extends AppCompatActivity {
                 Boolean res =  db.checkUser(user, pass);
                 if(res == true){
 
-                    Intent moveToHome = new Intent(LogActivity.this,HomeActivity.class);
+                    Intent moveToHome = new Intent(LogActivity.this, MainActivity.class);
                     startActivity(moveToHome);
                 }
                 else{
