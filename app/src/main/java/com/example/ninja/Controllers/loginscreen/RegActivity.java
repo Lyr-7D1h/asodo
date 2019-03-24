@@ -69,7 +69,7 @@ public class RegActivity extends AppCompatActivity {
             String licensePlate = mTextKenteken.getText().toString().trim();
 
             // Only proceed if values are filled in
-            if (user.isEmpty() || password.isEmpty() || cnf_pwd.isEmpty()) {
+            if (user.isEmpty() || password.isEmpty() || cnf_pwd.isEmpty() || licensePlate.isEmpty()) {
                 return;
             }
 
