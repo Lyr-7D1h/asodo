@@ -26,6 +26,7 @@ public class RegActivity extends AppCompatActivity {
     EditText mTextKenteken;
     EditText mTextCnfPassword;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,11 @@ public class RegActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Handler which handles interaction with the register button.
+     *
+     * @param v
+     */
     public void registerButtonHandler(View v) {
         if (!awaitingResponse) {
             // Get variables
@@ -90,6 +96,11 @@ public class RegActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Called when the application receives a response from the API.
+     *
+     * @param response The response from the API.
+     */
     public void registerResponseHandler(JsonObject response) {
         awaitingResponse = false;
         System.out.println(response);
@@ -98,10 +109,13 @@ public class RegActivity extends AppCompatActivity {
             return;
         }
 
-        registerSuccess(response);
+        registerSuccess();
     }
 
-    public void registerSuccess(JsonObject response) {
+    /**
+     * Called whenever a registration succeeds.
+     */
+    public void registerSuccess() {
         // Show toast
         Toast.makeText(RegActivity.this, "Succesvol geregistreerd!", Toast.LENGTH_SHORT).show();
 
@@ -109,6 +123,11 @@ public class RegActivity extends AppCompatActivity {
         ActivityUtils.changeActivity(this, RegActivity.this, LogActivity.class);
     }
 
+    /**
+     * Called whenever a registration fails.
+     *
+     * @param reason The reason the  registration has failed.
+     */
     public void registerFailed(String reason) {
         // Show toast
         Toast.makeText(RegActivity.this, reason, Toast.LENGTH_SHORT).show();

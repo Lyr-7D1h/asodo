@@ -56,6 +56,11 @@ public class LogActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Handler which handles interaction with the register button.
+     *
+     * @param v
+     */
     public void loginButtonHandler(View v) {
         if (!awaitingResponse) {
             // Get variables
@@ -83,6 +88,11 @@ public class LogActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Called when the application receives a response from the API.
+     *
+     * @param response The response from the API.
+     */
     public void loginResponseHandler(JsonObject response) {
         awaitingResponse = false;
         if (response.get("error") != null) {
@@ -93,6 +103,11 @@ public class LogActivity extends AppCompatActivity {
         loginSuccess(response);
     }
 
+    /**
+     * Called whenever a login attempt succeeds.
+     *
+     * @param response The userData to save to file
+     */
     public void loginSuccess(JsonObject response) {
         // Show toast
         Toast.makeText(LogActivity.this, "Login succesvol!", Toast.LENGTH_SHORT).show();
@@ -104,6 +119,9 @@ public class LogActivity extends AppCompatActivity {
         ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);
     }
 
+    /**
+     * Called whenever a login attempt fails.
+     */
     public void loginFailed() {
         // Show toast
         Toast.makeText(LogActivity.this, "Ongeldige gebruikersnaam/wachtwoord!", Toast.LENGTH_SHORT).show();
