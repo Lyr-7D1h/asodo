@@ -1,5 +1,6 @@
-package com.example.ninja;
+package com.example.ninja.Controllers;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.example.ninja.util.AlertUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import com.example.ninja.R;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -23,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
         Button start = (Button) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("start"); // Placeholder
+                Intent intent = new Intent(v.getContext(), Startroute.class);
+                startActivity(intent);
             }
         });
         // Functionality of statistics button
@@ -32,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println("statistics"); // Placeholder
             }
-
         });
         // Functionality of export button
         ImageButton export = (ImageButton) findViewById(R.id.export);

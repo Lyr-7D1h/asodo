@@ -21,6 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Controllers.Startroute"></activity>
+        <activity android:name=".Controllers.Route"></activity>
+        <activity android:name=".Controllers.Endroute"></activity>
+        <activity android:name=".Controllers.Stats"></activity>
     </application>
 
 </manifest>
