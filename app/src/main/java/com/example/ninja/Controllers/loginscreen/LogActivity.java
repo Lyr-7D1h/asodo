@@ -1,6 +1,7 @@
 package com.example.ninja.Controllers.loginscreen;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ninja.Controllers.MainActivity;
+import com.example.ninja.Domain.util.CacheUtils;
 import com.example.ninja.R;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
@@ -20,6 +22,7 @@ import com.google.gson.JsonParser;
 public class LogActivity extends AppCompatActivity {
 
     private boolean awaitingResponse;
+    private final Context context = this;
     EditText mTextUsername;
     EditText mTextPassword;
     Button mButtonLogin;
@@ -113,7 +116,7 @@ public class LogActivity extends AppCompatActivity {
         Toast.makeText(LogActivity.this, "Login succesvol!", Toast.LENGTH_SHORT).show();
 
         // Store response to file
-        //TODO
+        CacheUtils.cacheJsonObject(context, response, "user.cache");
 
         // Move to home
         ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);
