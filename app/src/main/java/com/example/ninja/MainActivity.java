@@ -6,6 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.ninja.httpRequests.CustomListener;
+import com.example.ninja.httpRequests.AsodoRequester;
+import com.example.ninja.util.AlertUtils;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -26,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println("statistics"); // Placeholder
             }
+
         });
         // Functionality of export button
         ImageButton export = (ImageButton) findViewById(R.id.export);
@@ -39,6 +46,17 @@ public class MainActivity extends AppCompatActivity {
         options.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("options"); // Placeholder
+
+                // Example Request
+                String jsonString = "{\"username\":\"huts\",\"password\":\"huts\"}";
+                JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
+
+                AsodoRequester.newRequest("authenticate", json, MainActivity.this, new CustomListener() {
+                    @Override
+                    public void onResponse(JsonObject jsonResponse) {
+                        System.out.println(jsonResponse);
+                    }
+                });
             }
         });
 
