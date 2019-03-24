@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.example.ninja.Domain.util.CacheUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -43,24 +45,7 @@ public class Trip implements Serializable {
     }
 
     public void builder(Context ctx){
-        FileOutputStream outputStream;
-
-
-        final GsonBuilder gbuilder = new GsonBuilder();
-        final Gson gson = gbuilder.create();
-
-        String json = gson.toJson(this);
-        System.out.println(json);
-
-
-        try {
-            outputStream = ctx.openFileOutput("trips.list", Context.MODE_APPEND);
-            outputStream.write(json.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            File directory = ctx.getFilesDir();
-            new File(directory, "trips.list");
-        }
+        CacheUtils.cacheObject(ctx, this, "trips.list");
     }
 
 
