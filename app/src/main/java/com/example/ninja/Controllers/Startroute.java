@@ -14,6 +14,8 @@ import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.util.UserUtils;
 import com.example.ninja.R;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -28,7 +30,10 @@ public class Startroute extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_route);
 
-        // Make request for last mileage
+        // Init
+        currentTrip = new Trip();
+        findViewById(R.id.startkm).setEnabled(false);
+        findViewById(R.id.start).setEnabled(false);
         getLastMileage();
     }
 
@@ -53,18 +58,27 @@ public class Startroute extends AppCompatActivity {
     }
 
     private void lastMileageResponseListener(JsonObject jsonResponse) {
-        System.out.println(jsonResponse);
-        initTrip(0);
+        int res = 0;
+
+        JsonArray trips = jsonResponse.getAsJsonArray("trips");
+        if(trips.size() > 0) {
+            JsonObject lastTrip = trips.get(0).getAsJsonObject();
+            res = lastTrip.get("mileageEnded").getAsInt();
+        }
+
+
+        initTrip(res);
     }
 
     private void initTrip(int lastMileage) {
         // Init start mileage
-        currentTrip = new Trip();
         currentTrip.setStartMileage(lastMileage);
         ((TextView) findViewById(R.id.startkm)).setText(String.valueOf(lastMileage));
+        findViewById(R.id.startkm).setEnabled(true);
 
         // Start button
         final Button button = findViewById(R.id.start);
+        button.setEnabled(true);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), Route.class);
