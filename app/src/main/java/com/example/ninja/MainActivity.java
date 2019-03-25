@@ -1,5 +1,6 @@
 package com.example.ninja;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("statistics"); // Placeholder
             }
         });
-        // Functionality of export button
+        // Functionality of activity_export button
         ImageButton export = (ImageButton) findViewById(R.id.export);
         export.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("export"); // Placeholder
+                startActivity(new Intent(MainActivity.this, ExportActivity.class));
             }
         });
         // Functionality of options button
