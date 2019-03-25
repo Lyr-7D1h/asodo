@@ -28,11 +28,11 @@ public class Endroute extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                //TextView kmtotaal = findViewById(R.id.kmtotaal);
-
                 currentTrip.setEnd(kmend.getText().toString());
-
                 currentTrip.builder(context);
+
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                startActivity(intent);
             }
 
         });
