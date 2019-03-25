@@ -30,6 +30,7 @@ public class Endroute extends AppCompatActivity {
 
                 currentTrip.setMileageEnded(Integer.parseInt(kmend.getText().toString()));
                 currentTrip.builder(context);
+                currentTrip.registerToDB(Endroute.this);
 
                 Intent intent = new Intent(v.getContext(), MainActivity.class);
                 startActivity(intent);

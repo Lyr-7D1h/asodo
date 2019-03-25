@@ -1,5 +1,6 @@
 package com.example.ninja.Domain;
 
+import android.app.Activity;
 import android.content.Context;
 
 import java.io.Serializable;
@@ -7,24 +8,37 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.example.ninja.Domain.httpRequests.AsodoRequester;
+import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.util.CacheUtils;
+import com.example.ninja.Domain.util.UserUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class Trip implements Serializable {
 
+    private String userID     = "";
+    private String carID     = "";
     private int mileageStarted = 0;
     private int mileageEnded = 0;
     private String date     = "";
-    private String startDate = "";
-    private String endDate = "";
+    private String tripStarted = "";
+    private String tripEnded = "";
+    private int businessTrip = 1;
 
-    public Trip(){
+    public Trip(Context ctx){
+        this.userID = UserUtils.getUserID(ctx);
+        this.carID = UserUtils.getFirstCarID(ctx);
+
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
         Date date = new Date();
         this.date = dateFormat.format(date);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        this.startDate = dateFormat.format(date);
+        this.tripStarted = dateFormat.format(date);
+    }
+
+    public String getCarID() {
+        return carID;
     }
 
     public void setMileageStarted(int mileageStarted) {
@@ -36,7 +50,7 @@ public class Trip implements Serializable {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        this.endDate = dateFormat.format(date);
+        this.tripEnded = dateFormat.format(date);
     }
 
     public JsonObject getVals(){
@@ -44,14 +58,26 @@ public class Trip implements Serializable {
         JsonObject res = new JsonObject();
 
         // Add properties
+        res.add("userID", new JsonPrimitive(this.userID));
+        res.add("carID", new JsonPrimitive(this.carID));
         res.add("mileageStarted", new JsonPrimitive(this.mileageStarted));
         res.add("mileageEnded", new JsonPrimitive(this.mileageEnded));
-        res.add("startDate", new JsonPrimitive(this.startDate));
-        res.add("endDate", new JsonPrimitive(this.endDate));
+        res.add("tripStarted", new JsonPrimitive(this.tripStarted));
+        res.add("tripEnded", new JsonPrimitive(this.tripEnded));
         res.add("date", new JsonPrimitive(this.date));
+        res.add("businessTrip", new JsonPrimitive(this.businessTrip));
 
         // Return
         return res;
+    }
+
+    public void registerToDB(Activity ctx) {
+        AsodoRequester.newRequest("registerTrip", getVals(), ctx, new CustomListener() {
+            @Override
+            public void onResponse(JsonObject jsonResponse) {
+                // Do nothing with response
+            }
+        });
     }
 
     public void builder(Context ctx){

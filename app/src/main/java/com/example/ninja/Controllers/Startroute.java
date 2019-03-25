@@ -1,6 +1,7 @@
 package com.example.ninja.Controllers;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,10 +9,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.ninja.Controllers.loginscreen.LogActivity;
 import com.example.ninja.Domain.Trip;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
+import com.example.ninja.Domain.util.ActivityUtils;
 import com.example.ninja.Domain.util.UserUtils;
 import com.example.ninja.R;
 import com.google.gson.JsonArray;
@@ -30,9 +34,13 @@ public class Startroute extends AppCompatActivity {
         setContentView(R.layout.start_route);
 
         // Init
-        currentTrip = new Trip();
+        currentTrip = new Trip(context);
+
+        // Set disabled
         findViewById(R.id.startkm).setEnabled(false);
         findViewById(R.id.start).setEnabled(false);
+
+        // Get mileage
         getLastMileage();
     }
 
@@ -42,10 +50,9 @@ public class Startroute extends AppCompatActivity {
 
         // Make request
         String jsonString = "{"
-                + "\"userID\":" + userID + ","
+                + "\"userID\":\"" + userID + "\","
                 + "\"limit\":1"
                 + "}";
-        System.out.println(jsonString);
         JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
 
         AsodoRequester.newRequest("getTrips", json, Startroute.this, new CustomListener() {
@@ -65,7 +72,6 @@ public class Startroute extends AppCompatActivity {
             res = lastTrip.get("mileageEnded").getAsInt();
         }
 
-
         initTrip(res);
     }
 
@@ -76,10 +82,24 @@ public class Startroute extends AppCompatActivity {
         findViewById(R.id.startkm).setEnabled(true);
 
         // Start button
+        Activity self = this;
         final Button button = findViewById(R.id.start);
         button.setEnabled(true);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                // Check for corrupt Trip
+                if(currentTrip.getCarID().isEmpty()) {
+                    // Show toast
+                    Toast.makeText(Startroute.this, "Geen auto voor route geselecteerd!", Toast.LENGTH_SHORT).show();
+
+                    // Return
+                    return;
+                }
+
+                //TODO validate
+                currentTrip.setMileageStarted(Integer.parseInt(((TextView) findViewById(R.id.startkm)).getText().toString()));
+
+                // Move to next activity
                 Intent intent = new Intent(v.getContext(), Route.class);
                 intent.putExtra("km", currentTrip);
                 startActivity(intent);
