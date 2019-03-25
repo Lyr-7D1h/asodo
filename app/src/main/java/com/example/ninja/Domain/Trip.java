@@ -15,11 +15,15 @@ import com.google.gson.GsonBuilder;
 
 public class Trip implements Serializable {
 
-    private String start    = "";
-    private String end      = "";
-    private String date     = "";
-    private String startdate = "";
-    private String enddate = "";
+    private String start;
+    private String end;
+    private String date;
+    private String startdate;
+    private String enddate;
+    private String startcity;
+    private String endcity;
+    private String afwijking;
+    private String reistijd;
 
     public Trip(String start){
         this.start = start;
@@ -43,6 +47,7 @@ public class Trip implements Serializable {
         String[] vals = {this.start, this.end, this.date, this.startdate, this.enddate};
         return vals;
     }
+
 
     public void builder(Context ctx){
         CacheUtils.cacheObject(ctx, this, "trips.list");

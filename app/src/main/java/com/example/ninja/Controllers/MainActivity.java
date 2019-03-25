@@ -18,7 +18,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import com.example.ninja.R;
-import com.example.ninja.Domain.DummyContent;
 
 public class MainActivity extends AppCompatActivity {
 
