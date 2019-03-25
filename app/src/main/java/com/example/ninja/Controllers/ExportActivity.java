@@ -1,31 +1,17 @@
-package com.example.ninja;
+package com.example.ninja.Controllers;
 
-import android.app.usage.UsageEvents;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.ninja.Domain.exporter.CustomCalendarViewListener;
+import com.example.ninja.R;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 public class ExportActivity extends AppCompatActivity {
     @Override
@@ -55,6 +41,7 @@ public class ExportActivity extends AppCompatActivity {
         // Set month action bar
         getSupportActionBar().setTitle(""+new SimpleDateFormat("YYY MMMM").format(compactCalendarView.getFirstDayOfCurrentMonth().getTime()));
 
-        new CustomCalendarViewListener(this,ExportActivity.this, compactCalendarView);
+        // Set listener
+        compactCalendarView.setListener(new CustomCalendarViewListener(this, ExportActivity.this, compactCalendarView));
     };
 }
