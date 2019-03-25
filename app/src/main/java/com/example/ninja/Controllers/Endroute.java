@@ -22,13 +22,13 @@ public class Endroute extends AppCompatActivity {
         setContentView(R.layout.endcheck);
         final TextView kmend = findViewById(R.id.kmend);
 
-        kmend.setText(String.valueOf(currentTrip.getVals().get("endMileage").getAsInt()));
+        kmend.setText(String.valueOf(currentTrip.getVals().get("mileageEnded").getAsInt()));
 
         final Button button = findViewById(R.id.checked);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                currentTrip.setEndMileage(Integer.parseInt(kmend.getText().toString()));
+                currentTrip.setMileageEnded(Integer.parseInt(kmend.getText().toString()));
                 currentTrip.builder(context);
 
                 Intent intent = new Intent(v.getContext(), MainActivity.class);

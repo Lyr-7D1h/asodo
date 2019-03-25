@@ -13,8 +13,8 @@ import com.google.gson.JsonPrimitive;
 
 public class Trip implements Serializable {
 
-    private int startMileage = 0;
-    private int endMileage = 0;
+    private int mileageStarted = 0;
+    private int mileageEnded = 0;
     private String date     = "";
     private String startDate = "";
     private String endDate = "";
@@ -27,12 +27,12 @@ public class Trip implements Serializable {
         this.startDate = dateFormat.format(date);
     }
 
-    public void setStartMileage(int startMileage) {
-        this.startMileage = startMileage;
+    public void setMileageStarted(int mileageStarted) {
+        this.mileageStarted = mileageStarted;
     }
 
-    public void setEndMileage(int endMileage){
-        this.endMileage = endMileage;
+    public void setMileageEnded(int mileageEnded){
+        this.mileageEnded = mileageEnded;
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
@@ -44,8 +44,8 @@ public class Trip implements Serializable {
         JsonObject res = new JsonObject();
 
         // Add properties
-        res.add("startMileage", new JsonPrimitive(this.startMileage));
-        res.add("endMileage", new JsonPrimitive(this.endMileage));
+        res.add("mileageStarted", new JsonPrimitive(this.mileageStarted));
+        res.add("mileageEnded", new JsonPrimitive(this.mileageEnded));
         res.add("startDate", new JsonPrimitive(this.startDate));
         res.add("endDate", new JsonPrimitive(this.endDate));
         res.add("date", new JsonPrimitive(this.date));

@@ -15,7 +15,6 @@ import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.util.UserUtils;
 import com.example.ninja.R;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -72,7 +71,7 @@ public class Startroute extends AppCompatActivity {
 
     private void initTrip(int lastMileage) {
         // Init start mileage
-        currentTrip.setStartMileage(lastMileage);
+        currentTrip.setMileageStarted(lastMileage);
         ((TextView) findViewById(R.id.startkm)).setText(String.valueOf(lastMileage));
         findViewById(R.id.startkm).setEnabled(true);
 
