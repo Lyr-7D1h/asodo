@@ -1,8 +1,7 @@
-package com.example.ninja.httpRequests;
+package com.example.ninja.Domain.httpRequests;
 
 import android.support.annotation.Nullable;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.JsonObject;

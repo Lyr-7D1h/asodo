@@ -1,7 +1,7 @@
-package com.example.ninja.httpRequests;
+package com.example.ninja.Domain.httpRequests;
 
 import android.app.Activity;
-import android.content.DialogInterface;
+import android.content.Context;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
@@ -12,7 +12,8 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
-import com.example.ninja.util.AlertUtils;
+import com.android.volley.toolbox.Volley;
+import com.example.ninja.Domain.util.AlertUtils;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -27,16 +28,9 @@ public class AsodoRequester {
      * Constructor for Asodo Class
      * Instantiates an Volley RequestQueue
      */
-    public AsodoRequester() {
-        // Instantiate the cache
-        File f = new File("cache"); // TODO remove this shizzle
-        Cache cache = new DiskBasedCache(f, 1024 * 1024); // 1MB cap
-
-        // Set up the network to use HttpURLConnection as the HTTP client.
-        Network network = new BasicNetwork(new HurlStack());
-
+    private AsodoRequester(Context ctx) {
         // Instantiate the RequestQueue with the cache and network.
-        requestQueue = new RequestQueue(cache, network);
+        requestQueue = Volley.newRequestQueue(ctx);
 
         // Start the queue
         requestQueue.start();
@@ -80,7 +74,7 @@ public class AsodoRequester {
      */
     public static void newRequest(String view, JsonObject json, Activity context, Response.Listener<String> responseListener) {
         // Init RequestQueue
-        AsodoRequester asodoRequester = new AsodoRequester();
+        AsodoRequester asodoRequester = new AsodoRequester(context);
 
         // Formulate the request and handle the response.
         StringRequest stringRequest = createStringRequest(view, json, context, responseListener);

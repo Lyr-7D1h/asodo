@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Asodo</string>
+    <string name="username">Gebruikersnaam</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="niet_geregistreerd">Niet Geregistreerd? </string>
+    <string name="registreer">Registreer</string>
+    <string name="Kenteken">Kenteken</string>
+    <string name="al_geregistreerd">Al Geregistreerd?</string>
+    <string name="login2">Login</string>
+    <string name="confirm_password">Bevestig Password</string>
+    <string name="welkom_gebruiker">Welkom Gebruiker!</string>
 </resources>
