@@ -46,11 +46,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Functionality of export button
+        // Functionality of activity_export button
+        Activity self = this;
         ImageButton export = (ImageButton) findViewById(R.id.export);
         export.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("export"); // Placeholder
+                ActivityUtils.changeActivity(self, MainActivity.this, ExportActivity.class);
             }
         });
 
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Functionality of logout button
-        Activity self = this;
         Button logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
