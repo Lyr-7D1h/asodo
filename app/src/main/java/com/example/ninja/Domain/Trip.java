@@ -47,6 +47,4 @@ public class Trip implements Serializable {
     public void builder(Context ctx){
         CacheUtils.cacheObject(ctx, this, "trips.list");
     }
-
-
 }

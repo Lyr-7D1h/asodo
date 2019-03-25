@@ -31,9 +31,6 @@ public class Startroute extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
     }
 }
 
