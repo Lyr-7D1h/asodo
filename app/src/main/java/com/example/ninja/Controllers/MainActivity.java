@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import com.example.ninja.R;
+import com.example.ninja.Domain.DummyContent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
         ImageButton statistics = (ImageButton) findViewById(R.id.statistics);
         statistics.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("statistics"); // Placeholder
+                Intent intent = new Intent(v.getContext(), ItemListActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -53,7 +53,7 @@ public class AsodoRequester {
      * @param responseListener A listener which is fired whenever we get a response from the api
      * @ Returns a StringRequest object according to the given parameters
      */
-    private static StringRequest createStringRequest(String view, JsonObject json, Activity context, Response.Listener<String> responseListener) {
+    public static StringRequest createStringRequest(String view, JsonObject json, Activity context, Response.Listener<String> responseListener) {
         String apiEndpoint = "http://api.asodo.nl/";
         return new CustomStringRequest(Request.Method.POST, apiEndpoint,
                 responseListener, error -> {
