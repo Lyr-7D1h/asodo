@@ -26,6 +26,7 @@
         <activity android:name=".Controllers.Route"></activity>
         <activity android:name=".Controllers.Endroute"></activity>
         <activity android:name=".Controllers.Stats"></activity>
+        <activity android:name=".Controllers.ExportActivity" />
     </application>
 
 </manifest>
