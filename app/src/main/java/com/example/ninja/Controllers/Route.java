@@ -22,28 +22,19 @@ public class Route extends AppCompatActivity {
         setContentView(R.layout.route);
         final TextView kmtotaal = findViewById(R.id.kmtotaal);
 
-        kmtotaal.setText(currentTrip.getVals()[0]);
-
-
-
-
+        kmtotaal.setText(String.valueOf(currentTrip.getVals().get("mileageStarted").getAsInt()));
 
         final Button button = findViewById(R.id.endtrip);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                //TextView kmtotaal = findViewById(R.id.kmtotaal);
-
-                currentTrip.setEnd(kmtotaal.getText().toString());
-
-               // currentTrip.builder(context);
+                currentTrip.setMileageEnded(Integer.parseInt(kmtotaal.getText().toString()));
 
                 Intent intent = new Intent(v.getContext(), Endroute.class);
                 intent.putExtra("km", currentTrip);
                 startActivity(intent);
             }
 
-    });
-}
+        });
+    }
 }
 
