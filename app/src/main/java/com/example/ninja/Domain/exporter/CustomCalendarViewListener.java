@@ -26,7 +26,7 @@ public class CustomCalendarViewListener implements CompactCalendarView.CompactCa
     public CustomCalendarViewListener(AppCompatActivity activity, Context context, CompactCalendarView calendar) {
         this.activity = activity;
         this.calendar = calendar;
-
+        
         view = this.activity.getWindow().getDecorView().getRootView();
 
         this.text = (Button) view.findViewById(R.id.date);
@@ -80,7 +80,6 @@ public class CustomCalendarViewListener implements CompactCalendarView.CompactCa
             }
         }
     }
-
     public Date[] getDates() {
         Date[] dates = {this.firstDate, this.secondDate};
         return dates;

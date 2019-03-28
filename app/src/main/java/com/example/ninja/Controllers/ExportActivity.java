@@ -3,10 +3,12 @@ package com.example.ninja.Controllers;
 import android.Manifest;
 import android.app.Activity;
 import android.support.v4.app.ActivityCompat;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
 import android.widget.Toast;
 
 import com.example.ninja.Domain.exporter.CustomCalendarViewListener;
@@ -58,6 +60,5 @@ public class ExportActivity extends AppCompatActivity {
         text.setVisibility(View.GONE);
         Button text2 = (Button) findViewById(R.id.date2);
         text2.setVisibility(View.GONE);
-
     };
 }
