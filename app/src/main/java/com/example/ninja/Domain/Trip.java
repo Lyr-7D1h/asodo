@@ -2,12 +2,15 @@ package com.example.ninja.Domain;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.Location;
+import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.example.ninja.Domain.coordinates.LocationList;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.util.CacheUtils;
@@ -17,6 +20,7 @@ import com.google.gson.JsonPrimitive;
 
 public class Trip implements Serializable {
 
+    private String tripID     = "";
     private String userID     = "";
     private String carID     = "";
     private int mileageStarted = 0;
@@ -24,7 +28,11 @@ public class Trip implements Serializable {
     private String date     = "";
     private String tripStarted = "";
     private String tripEnded = "";
+    private Location locationStarted;
+    private Location locationEnded;
     private int businessTrip = 1;
+    private LocationList locationList;
+    private float estimatedDistanceDriven = 0;
 
     public Trip(Context ctx){
         this.userID = UserUtils.getUserID(ctx);
@@ -35,10 +43,16 @@ public class Trip implements Serializable {
         this.date = dateFormat.format(date);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.tripStarted = dateFormat.format(date);
+
+        this.locationList = new LocationList();
     }
 
     public String getCarID() {
         return carID;
+    }
+
+    public int getMileageStarted() {
+        return mileageStarted;
     }
 
     public void setMileageStarted(int mileageStarted) {
@@ -47,10 +61,40 @@ public class Trip implements Serializable {
 
     public void setMileageEnded(int mileageEnded){
         this.mileageEnded = mileageEnded;
+    }
 
+    public void setTripEnded() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         this.tripEnded = dateFormat.format(date);
+    }
+
+    public void setLocationStarted(Location locationStarted) {
+        this.locationStarted = locationStarted;
+    }
+
+    public void setLocationEnded(Location locationEnded) {
+        this.locationEnded = locationEnded;
+    }
+
+    public float getEstimatedMetersDriven() {
+        return estimatedDistanceDriven;
+    }
+
+    public int getEstimatedKMDriven() {
+        return Math.round(getEstimatedMetersDriven() / 1000);
+    }
+
+    public LocationList getLocationList() {
+        return locationList;
+    }
+
+    public void addLocation(Location location) {
+        getLocationList().addLocation(location);
+
+        if(getLocationList().getLocationsSize() >= 2) {
+            estimatedDistanceDriven += getLocationList().getLocations().get(getLocationList().getLocationsSize()-2).distanceTo(getLocationList().getLocations().get(getLocationList().getLocationsSize()-1));
+        }
     }
 
     public JsonObject getVals(){
@@ -72,10 +116,11 @@ public class Trip implements Serializable {
     }
 
     public void registerToDB(Activity ctx) {
+        Trip self = this;
         AsodoRequester.newRequest("registerTrip", getVals(), ctx, new CustomListener() {
             @Override
             public void onResponse(JsonObject jsonResponse) {
-                // Do nothing with response
+                tripID = jsonResponse.get("tripID").getAsString();
             }
         });
     }

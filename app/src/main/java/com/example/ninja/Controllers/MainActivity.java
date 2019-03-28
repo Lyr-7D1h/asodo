@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.ninja.Controllers.loginscreen.LogActivity;
+import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.util.ActivityUtils;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        System.out.println(((Global) this.getApplication()).isActiveTrip());
 
         // Functionality of start button
         Button start = (Button) findViewById(R.id.start);

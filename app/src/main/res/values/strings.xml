@@ -10,4 +10,8 @@
     <string name="login2">Login</string>
     <string name="confirm_password">Bevestig Password</string>
     <string name="welkom_gebruiker">Welkom Gebruiker!</string>
+    <string name="notification_title">Test title</string>
+    <string name="notification_text">Test content</string>
+    <string name="channel_name">Test content</string>
+    <string name="channel_description">Test content</string>
 </resources>

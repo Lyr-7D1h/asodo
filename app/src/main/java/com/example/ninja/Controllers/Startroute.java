@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ninja.Controllers.loginscreen.LogActivity;
+import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.Trip;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
@@ -35,6 +36,7 @@ public class Startroute extends AppCompatActivity {
 
         // Init
         currentTrip = new Trip(context);
+        ((Global) this.getApplication()).setTrip(currentTrip);
 
         // Set disabled
         findViewById(R.id.startkm).setEnabled(false);
@@ -101,7 +103,6 @@ public class Startroute extends AppCompatActivity {
 
                 // Move to next activity
                 Intent intent = new Intent(v.getContext(), Route.class);
-                intent.putExtra("km", currentTrip);
                 startActivity(intent);
             }
         });
