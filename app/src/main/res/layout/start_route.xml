@@ -27,7 +27,8 @@
         android:layout_marginEnd="100dp"
         android:ems="10"
         android:inputType="text"
-        android:text="1500"
+        android:text="Aan het laden..."
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />

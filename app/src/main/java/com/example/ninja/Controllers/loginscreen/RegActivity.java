@@ -107,7 +107,6 @@ public class RegActivity extends AppCompatActivity {
      */
     public void registerResponseHandler(JsonObject response) {
         awaitingResponse = false;
-        System.out.println(response);
         if (response.get("error") != null) {
             registerFailed("Gebruikersnaam al in gebruik!");
             return;
