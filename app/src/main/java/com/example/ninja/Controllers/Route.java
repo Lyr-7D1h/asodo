@@ -188,6 +188,7 @@ public class Route extends PermissionActivity {
         // Move to next page
         Intent intent = new Intent(Route.this, Endroute.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

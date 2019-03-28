@@ -2,6 +2,7 @@ package com.example.ninja.Controllers.loginscreen;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ninja.Controllers.MainActivity;
+import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.util.CacheUtils;
 import com.example.ninja.R;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
@@ -38,7 +40,13 @@ public class LogActivity extends AppCompatActivity {
 
         // Check if user is logged in
         if(CacheUtils.readCache(context, "user.cache") != null) {
-            ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);
+            if(((Global) this.getApplication()).isActiveTrip()) {
+                Intent intent = new Intent(LogActivity.this, MainActivity.class);
+                intent.putExtra("redirect", 1);
+                startActivity(intent);
+            } else {
+                ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);
+            }
         }
 
         awaitingResponse = false;

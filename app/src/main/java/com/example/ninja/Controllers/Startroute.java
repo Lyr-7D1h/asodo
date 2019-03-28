@@ -34,6 +34,8 @@ public class Startroute extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_route);
 
+        checkActiveTrip();
+
         // Init
         currentTrip = new Trip(context);
         ((Global) this.getApplication()).setTrip(currentTrip);
@@ -107,8 +109,16 @@ public class Startroute extends AppCompatActivity {
                 // Move to next activity
                 Intent intent = new Intent(v.getContext(), Route.class);
                 startActivity(intent);
+                finish();
             }
         });
+    }
+
+    public void checkActiveTrip() {
+        if(((Global) this.getApplication()).isActiveTrip()) {
+            ActivityUtils.changeActivity(this, Startroute.this, Route.class);
+            finish();
+        }
     }
 }
 
