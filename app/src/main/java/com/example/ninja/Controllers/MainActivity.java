@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.ninja.Controllers.Routetracking.Startroute;
+import com.example.ninja.Controllers.Stats.ItemListActivity;
 import com.example.ninja.Controllers.loginscreen.LogActivity;
 import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println("options"); // Placeholder
 
+                CacheUtils.deleteCache(context, "trips.list");
                 // Example Request
                 String jsonString = "{\"username\":\"huts\",\"password\":\"huts\"}";
                 JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();

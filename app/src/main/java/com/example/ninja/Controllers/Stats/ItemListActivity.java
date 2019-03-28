@@ -1,4 +1,4 @@
-package com.example.ninja.Controllers;
+package com.example.ninja.Controllers.Stats;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,11 +7,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.ninja.Controllers.MainActivity;
 import com.example.ninja.Domain.StatFiller;
 
 
@@ -34,6 +37,9 @@ public class ItemListActivity extends AppCompatActivity{
      * device.
      */
     private boolean mTwoPane;
+
+    private final Context ctx = this;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -146,6 +152,10 @@ public class ItemListActivity extends AppCompatActivity{
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public Context getCtx(){
+        return this.ctx;
     }
 
 }

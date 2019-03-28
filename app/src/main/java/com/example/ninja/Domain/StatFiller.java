@@ -1,6 +1,15 @@
 package com.example.ninja.Domain;
 
 
+import android.content.Context;
+
+import com.example.ninja.Controllers.Stats.ItemListActivity;
+import com.example.ninja.Domain.util.CacheUtils;
+import com.example.ninja.Domain.util.ContextProvider;
+import com.example.ninja.Domain.util.TripList;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,18 +28,31 @@ public class StatFiller {
      */
     public static final List<StatItem> ITEMS = new ArrayList<>();
 
+
     /**
      * A map of sample (dummy) items, by ID.
      */
+
+
     public static final Map<String, StatItem> ITEM_MAP = new HashMap<>();
 
     private static final int COUNT = 10;
 
+
+
     static {
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createStatItem(i));
+
+
+        for (int i = 0; i < COUNT; i++) {
+            try {
+                addItem(createStatItem(i));
+            }
+            catch(IndexOutOfBoundsException ex){
+                //doe de huts
+            }
         }
     }
+
 
     private static void addItem(StatItem item) {
         ITEMS.add(item);
@@ -38,28 +60,41 @@ public class StatFiller {
     }
 
     private static StatItem createStatItem(int position) {
-        //hoofddata aufholen
 
-        return new StatItem(String.valueOf(position), "Item " + position, makeDetails(position));
+        TripList tripList = TripList.build(ContextProvider.getContext());
+        JsonArray trips = tripList.getTrips();
+
+        Trip trip = Trip.build(trips.get(position).getAsJsonObject());
+        JsonObject jtrip = trip.getVals();
+
+
+        return new StatItem(String.valueOf(position + 1), jtrip.get("mileageStarted").getAsString() + " - " + jtrip.get("mileageEnded").getAsString(), makeDetails(position));
     }
+
 
     private static String makeDetails(int position) {
         //subdata cache JSONS naar list [1 Json per entry], loop door List [i<count
 
+        TripList tripList = TripList.build(ContextProvider.getContext());
+        JsonArray trips = tripList.getTrips();
+        Trip trip = Trip.build(trips.get(position).getAsJsonObject());
+        JsonObject jtrip = trip.getVals();
+
         StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
+        builder.append( "kilometers: \t" + jtrip.get("mileageStarted") + " - " + jtrip.get("mileageEnded") + "\n" +
+                        "start/eindtijd: \t" + jtrip.get("tripStarted") + " - " + jtrip.get("tripEnded") + "\n");
+
         return builder.toString();
     }
+
+
 
     /**
      * A dummy item representing a piece of content.
      */
 
 
-    public static class StatItem {
+    public static class StatItem{
         public final String id;
         public final String content;
         public final String details;
@@ -70,9 +105,14 @@ public class StatFiller {
             this.details = details;
         }
 
+
         @Override
         public String toString() {
             return content;
         }
+
+
     }
+
+
 }

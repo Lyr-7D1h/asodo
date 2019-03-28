@@ -1,4 +1,4 @@
-package com.example.ninja.Controllers;
+package com.example.ninja.Controllers.Stats;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
