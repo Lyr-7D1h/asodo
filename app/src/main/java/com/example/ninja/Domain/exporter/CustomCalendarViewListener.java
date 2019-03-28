@@ -1,6 +1,5 @@
 package com.example.ninja.Domain.exporter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,6 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 public class CustomCalendarViewListener implements CompactCalendarView.CompactCalendarViewListener {
     private Date firstDate = null;
@@ -29,7 +27,6 @@ public class CustomCalendarViewListener implements CompactCalendarView.CompactCa
         this.activity = activity;
         this.calendar = calendar;
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = this.activity.getWindow().getDecorView().getRootView();
 
         this.text = (Button) view.findViewById(R.id.date);
@@ -38,7 +35,6 @@ public class CustomCalendarViewListener implements CompactCalendarView.CompactCa
 
     @Override
     public void onDayClick(Date date) {
-        System.out.println("Test");
         if (firstDate == null) {
             firstDate = date;
             text.setText(new SimpleDateFormat("EEE d MMMM YYY").format(date));
@@ -75,7 +71,6 @@ public class CustomCalendarViewListener implements CompactCalendarView.CompactCa
                 Event ev = new Event(Color.parseColor("#ffb3b3"), current);
                 calendar.addEvent(ev);
                 current -= 1 * 24 * 60 * 60 * 1000;
-                System.out.println(current);
             }
         } else if (current < end.getTime()) {
             while (current < end.getTime()) {
@@ -84,5 +79,10 @@ public class CustomCalendarViewListener implements CompactCalendarView.CompactCa
                 current += 1 * 24 * 60 * 60 * 1000;
             }
         }
+    }
+
+    public Date[] getDates() {
+        Date[] dates = {this.firstDate, this.secondDate};
+        return dates;
     }
 }
