@@ -81,6 +81,9 @@ public class Startroute extends AppCompatActivity {
         // Init start mileage
         currentTrip.setMileageStarted(lastMileage);
         ((TextView) findViewById(R.id.startkm)).setText(String.valueOf(lastMileage));
+        if(lastMileage == 0) {
+            ((TextView) findViewById(R.id.confirmTV)).setText(String.valueOf("Vul kilometerstand in"));
+        }
         findViewById(R.id.startkm).setEnabled(true);
 
         // Start button

@@ -21,7 +21,7 @@ public class Endroute extends AppCompatActivity {
         final Context context = this;
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.endcheck);
+        setContentView(R.layout.end_route);
         final TextView kmend = findViewById(R.id.kmend);
 
         kmend.setText(String.valueOf(currentTrip.getMileageStarted() + currentTrip.getEstimatedKMDriven()));

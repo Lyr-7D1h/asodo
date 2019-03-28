@@ -179,10 +179,9 @@ public class Route extends PermissionActivity {
         }
 
         // Update TextView
-        Toast.makeText(Route.this, ("EDD: " + estimation), Toast.LENGTH_SHORT).show();
-        System.out.println("Estimated driven distance: " + estimation); // TODO
         final TextView kmend = findViewById(R.id.kmtotaal);
-        kmend.setText(String.valueOf(("EDD: " + estimation)));
+        float kmEstimation =  Math.round(((float) estimation) / 100.f) / 10.f;
+        kmend.setText(String.valueOf(kmEstimation));
     }
 
     public void moveToRouteEnd() {
