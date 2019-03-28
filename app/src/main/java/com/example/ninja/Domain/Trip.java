@@ -28,8 +28,9 @@ public class Trip implements Serializable {
     private int businessTrip = 1;
     private String startcity;
     private String endcity;
-    private String afwijking;
+    private String kmAfwijking;
     private String reistijd;
+    private String besAfwijking;
 
     public Trip(Context ctx){
         this.userID = UserUtils.getUserID(ctx);
@@ -40,6 +41,7 @@ public class Trip implements Serializable {
         this.date = dateFormat.format(date);
 
         this.tripStarted = dateFormat.format(date);
+        this.besAfwijking = "lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsumlorum ipsum lorum ipsum lorum ipsum lorum ipsumlorum ipsumlorum ipsum lorum ipsumlorum ipsumlorum ipsumlorum ipsum lorum ipsum lorum ipsum lorum ipsumlorum ipsumlorum ipsum lorum ipsum lorum ipsum";
     }
 
     public Trip(String tripID, String userID, String carID, int mileageStarted, int mileageEnded, String date, String tripStarted, String tripEnded, int businessTrip) {
@@ -123,5 +125,7 @@ public class Trip implements Serializable {
     }
 
 
-
+    public void setBesAfwijking(String besAfwijking){
+        this.besAfwijking = besAfwijking;
+    }
 }

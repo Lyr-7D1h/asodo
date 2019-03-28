@@ -82,7 +82,8 @@ public class StatFiller {
 
         StringBuilder builder = new StringBuilder();
         builder.append( "kilometers: \t" + jtrip.get("mileageStarted") + " - " + jtrip.get("mileageEnded") + "\n" +
-                        "start/eindtijd: \t" + jtrip.get("tripStarted") + " - " + jtrip.get("tripEnded") + "\n");
+                        "start/eindtijd: \t" + jtrip.get("tripStarted") + " - " + jtrip.get("tripEnded") + "\n\n\n" +
+                jtrip.get("besAfwijking"));
 
         return builder.toString();
     }
