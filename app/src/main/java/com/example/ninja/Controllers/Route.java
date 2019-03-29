@@ -42,7 +42,7 @@ public class Route extends PermissionActivity {
 
             // Estimation update
             if(intent.hasExtra("estimatedDistance")) {
-                int estimatedDistance = intent.getIntExtra("estimatedDistance", 0);
+                float estimatedDistance = intent.getFloatExtra("estimatedDistance", 0.f);
                 updateEstimatedDistance(estimatedDistance);
             }
 
@@ -172,7 +172,7 @@ public class Route extends PermissionActivity {
         show.setVisibility(View.VISIBLE);
     }
 
-    public void updateEstimatedDistance(int estimation) {
+    public void updateEstimatedDistance(float estimation) {
         // Update layouts
         if(this.routeLoader.getVisibility() == View.VISIBLE) {
             updateLayouts(routeLoader, routeInformation);
@@ -180,8 +180,7 @@ public class Route extends PermissionActivity {
 
         // Update TextView
         final TextView kmend = findViewById(R.id.kmtotaal);
-        float kmEstimation =  Math.round(((float) estimation) / 100.f) / 10.f;
-        kmend.setText(String.valueOf(kmEstimation));
+        kmend.setText(String.valueOf(estimation));
     }
 
     public void moveToRouteEnd() {

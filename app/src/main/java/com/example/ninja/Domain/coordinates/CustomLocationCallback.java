@@ -12,10 +12,12 @@ public class CustomLocationCallback extends LocationCallback {
 
     private LocationService locationService;
     private Trip currentTrip;
+    private float lastEstimation;
 
     public CustomLocationCallback(LocationService locationService, Trip currentTrip) {
         this.locationService = locationService;
         this.currentTrip = currentTrip;
+        this.lastEstimation = 0.f;
     }
 
     @Override
@@ -26,7 +28,14 @@ public class CustomLocationCallback extends LocationCallback {
 
         for (Location location : locationResult.getLocations()) {
             this.currentTrip.addLocation(location);
-            this.locationService.broadcastEstimation();
+
+            // Update if estimation changed
+            if(this.lastEstimation < this.currentTrip.getEstimatedKMDrivenf()) {
+                this.lastEstimation = this.currentTrip.getEstimatedKMDrivenf();
+
+                this.locationService.broadcastEstimation();
+                this.locationService.updateNotification();
+            }
 
             System.out.println(location);
             System.out.println(location.getAccuracy());

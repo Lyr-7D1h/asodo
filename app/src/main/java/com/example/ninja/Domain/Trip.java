@@ -77,12 +77,12 @@ public class Trip implements Serializable {
         this.locationEnded = locationEnded;
     }
 
-    public float getEstimatedMetersDriven() {
-        return estimatedDistanceDriven;
+    public float getEstimatedKMDrivenf() {
+        return Math.round((estimatedDistanceDriven) / 100.f) / 10.f;
     }
 
     public int getEstimatedKMDriven() {
-        return Math.round(getEstimatedMetersDriven() / 1000);
+        return Math.round(estimatedDistanceDriven / 1000);
     }
 
     public LocationList getLocationList() {

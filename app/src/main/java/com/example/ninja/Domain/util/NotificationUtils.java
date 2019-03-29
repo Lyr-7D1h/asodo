@@ -18,7 +18,7 @@ public class NotificationUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = ctx.getString(R.string.channel_name);
             String description = ctx.getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_HIGH;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("Asodo", name, importance);
             channel.setDescription(description);
 
@@ -28,7 +28,7 @@ public class NotificationUtils {
         }
     }
 
-    public static Notification buildNotification(Context ctx) {
+    public static Notification buildNotification(Context ctx, NotificationCompat.Builder builder) {
         // Create notification channel
         createNotificationChannel(ctx);
 
@@ -38,14 +38,17 @@ public class NotificationUtils {
         PendingIntent pendingIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
 
         // Build notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx, "Asodo")
-                .setSmallIcon(R.drawable.logo)
+        builder = builder.setSmallIcon(R.drawable.logo)
                 .setContentTitle(ctx.getString(R.string.notification_title))
                 .setContentText(ctx.getString(R.string.notification_text))
-                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent);
 
         // Return notification
         return builder.build();
+    }
+
+    public static Notification buildNotification(Context ctx) {
+        return buildNotification(ctx, new NotificationCompat.Builder(ctx, "Asodo"));
     }
 }

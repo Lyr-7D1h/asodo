@@ -104,7 +104,7 @@
                         android:id="@+id/textView8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gereden afstand:"
+                        android:text="Afgelegde afstand:"
                         android:textAlignment="center"
                         tools:layout_editor_absoluteX="378dp" />
 

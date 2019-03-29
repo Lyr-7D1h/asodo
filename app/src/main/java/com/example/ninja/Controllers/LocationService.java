@@ -2,6 +2,7 @@ package com.example.ninja.Controllers;
 
 import android.Manifest;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.example.ninja.Domain.Global;
@@ -34,6 +36,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     private CustomLocationCallback locationCallback;
+    private NotificationCompat.Builder notificationBuilder;
     private Trip currentTrip;
     private int trackingSetting = 0;
 
@@ -83,7 +86,8 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Start foreground service
-        Notification notification = NotificationUtils.buildNotification(this);
+        notificationBuilder = new NotificationCompat.Builder(this, "Asodo");
+        Notification notification = NotificationUtils.buildNotification(this, notificationBuilder);
         this.startForeground(1, notification);
 
         // Initiating GoogleApiClient connection
@@ -150,6 +154,18 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         mFusedLocationClient.removeLocationUpdates(locationCallback);
     }
 
+    public void updateNotification() {
+        if(notificationBuilder != null) {
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+            float estimation = currentTrip.getEstimatedKMDrivenf();
+            notificationBuilder.setContentText(String.valueOf("Afgelegde afstand: " + estimation + " km"));
+
+            notificationManager.notify(1, notificationBuilder.build());
+        }
+    }
+
     public void broadcastNudes() {
         Intent intent = new Intent("locationBroadcaster");
         intent.putExtra("firstUpdate", 1);
@@ -158,7 +174,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
 
     public void broadcastEstimation() {
         Intent intent = new Intent("locationBroadcaster");
-        intent.putExtra("estimatedDistance", (int) currentTrip.getEstimatedMetersDriven());
+        intent.putExtra("estimatedDistance", currentTrip.getEstimatedKMDrivenf());
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
