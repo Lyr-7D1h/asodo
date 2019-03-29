@@ -11,9 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ninja.Domain.Trip;
+import com.example.ninja.Domain.Global;
+import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
+import com.example.ninja.Domain.util.ActivityUtils;
 import com.example.ninja.Domain.util.UserUtils;
 import com.example.ninja.R;
 import com.google.gson.JsonArray;
@@ -31,8 +33,11 @@ public class Startroute extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_route);
 
+        checkActiveTrip();
+
         // Init
         currentTrip = new Trip(context);
+        ((Global) this.getApplication()).setTrip(currentTrip);
 
         // Set disabled
         findViewById(R.id.startkm).setEnabled(false);
@@ -77,6 +82,9 @@ public class Startroute extends AppCompatActivity {
         // Init start mileage
         currentTrip.setMileageStarted(lastMileage);
         ((TextView) findViewById(R.id.startkm)).setText(String.valueOf(lastMileage));
+        if(lastMileage == 0) {
+            ((TextView) findViewById(R.id.confirmTV)).setText(String.valueOf("Vul kilometerstand in"));
+        }
         findViewById(R.id.startkm).setEnabled(true);
 
         // Start button
@@ -94,15 +102,25 @@ public class Startroute extends AppCompatActivity {
                     return;
                 }
 
-                //TODO validate
-                currentTrip.setMileageStarted(Integer.parseInt(((TextView) findViewById(R.id.startkm)).getText().toString()));
+                // Update trip
+                currentTrip.setTripStarted();
+                // TODO set businessTrip, bbComuting
+                currentTrip.setTrackingSetting(2); // TODO
+                currentTrip.setMileageStarted(Integer.parseInt(((TextView) findViewById(R.id.startkm)).getText().toString())); //TODO validate
 
                 // Move to next activity
                 Intent intent = new Intent(v.getContext(), Route.class);
-                intent.putExtra("km", currentTrip);
                 startActivity(intent);
+                finish();
             }
         });
+    }
+
+    public void checkActiveTrip() {
+        if(((Global) this.getApplication()).isActiveTrip()) {
+            ActivityUtils.changeActivity(this, Startroute.this, Route.class);
+            finish();
+        }
     }
 }
 

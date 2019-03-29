@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.MalformedJsonException;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -47,7 +48,7 @@ public class CacheUtils {
         cacheJsonObject(ctx, Context.MODE_APPEND, jsonObject, name);
     }
 
-    public static JsonObject readCache(Context ctx, String name) {
+    public static JsonObject readCache(Context ctx, String name) throws MalformedJsonException {
         JsonObject res = null;
 
         try {

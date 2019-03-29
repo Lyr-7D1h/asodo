@@ -2,6 +2,7 @@ package com.example.ninja.Controllers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,13 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.ninja.Controllers.Routetracking.Route;
 import com.example.ninja.Controllers.Routetracking.Startroute;
 import com.example.ninja.Controllers.Stats.ItemListActivity;
 import com.example.ninja.Controllers.loginscreen.LogActivity;
+import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.util.ActivityUtils;
+import com.example.ninja.Domain.util.AlertUtils;
 import com.example.ninja.Domain.util.CacheUtils;
+import com.example.ninja.Domain.util.ServiceUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -29,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkRedirectExtra();
+
+        System.out.println(((Global) this.getApplication()).isActiveTrip());
 
         // Functionality of start button
         Button start = (Button) findViewById(R.id.start);
@@ -81,12 +90,46 @@ public class MainActivity extends AppCompatActivity {
         Button logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Delete user data
-                CacheUtils.deleteCache(context, "user.cache");
+                // Check for active trip
+                if(((Global) self.getApplication()).isActiveTrip()) {
+                    AlertUtils.showAlert("Doorgaan", "U heeft een actieve rit!\n\nAls u uitlogt zal deze rit verloren gaan.", self, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Kill service
+                            ServiceUtils.killLocationService(self);
 
-                // Move user to login
-                ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);
+                            // Delete user data
+                            CacheUtils.deleteCache(context, "user.cache");
+
+                            // Move user to login
+                            ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);
+                        }
+                    }, true);
+                } else {
+                    // Delete user data
+                    CacheUtils.deleteCache(context, "user.cache");
+
+                    // Move user to login
+                    ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);
+                }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Reset start button text if active trip
+        Button start = (Button) findViewById(R.id.start);
+        if(((Global) this.getApplication()).isActiveTrip()) {
+            start.setText(String.valueOf("Open actieve rit"));
+        }
+    }
+
+    public void checkRedirectExtra() {
+        if(getIntent().hasExtra("redirect")) {
+            ActivityUtils.changeActivity(this, MainActivity.this, Route.class);
+        }
     }
 }
