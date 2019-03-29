@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
                             // Delete user data
                             CacheUtils.deleteCache(context, "user.cache");
+                            CacheUtils.deleteCache(context, "trips.cache");
 
                             // Set data to unsynced
                             ((Global) self.getApplication()).setUnSynced();
@@ -110,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // Delete user data
                     CacheUtils.deleteCache(context, "user.cache");
+                    CacheUtils.deleteCache(context, "trips.cache");
+
+                    // Set data to unsynced
+                    ((Global) self.getApplication()).setUnSynced();
 
                     // Move user to login
                     ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);
