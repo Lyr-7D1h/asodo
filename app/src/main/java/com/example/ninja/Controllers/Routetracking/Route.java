@@ -111,8 +111,6 @@ public class Route extends PermissionActivity {
             // Check location permission
             if(PermissionUtils.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, this.get_REQUEST_CODE_FINE_LOCATION())) {
                 permissionAccepted(this.get_REQUEST_CODE_FINE_LOCATION());
-            } else {
-                permissionDeclined(this.get_REQUEST_CODE_FINE_LOCATION());
             }
         }
     }
@@ -132,6 +130,7 @@ public class Route extends PermissionActivity {
     public void startLocationService() {
         // Get tracking setting
         int trackingSetting = currentTrip.getTrackingSetting();
+        System.out.println(trackingSetting);
 
         // Start up service
         Intent locationIntent = new Intent(Route.this, LocationService.class);
@@ -218,6 +217,7 @@ public class Route extends PermissionActivity {
     public void permissionDeclined(int requestCode) {
         // Change tracking setting
         //TODO to 0
+        System.out.println("????");
         currentTrip.setTrackingSetting(0);
 
         // Start service
