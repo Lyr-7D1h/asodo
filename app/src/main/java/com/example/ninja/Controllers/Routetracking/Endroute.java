@@ -26,15 +26,19 @@ public class Endroute extends AppCompatActivity {
         setContentView(R.layout.end_route);
         final TextView kmend = findViewById(R.id.kmend);
 
+        // Fill field
         kmend.setText(String.valueOf(currentTrip.getMileageStarted() + currentTrip.getEstimatedKMDriven()));
 
         final Activity self = this;
         final Button button = findViewById(R.id.checked);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                // Update trip
+                // TODO set desdeviation
+                currentTrip.setMileageEnded(Integer.parseInt(kmend.getText().toString())); // TODO validate
 
-                currentTrip.setMileageEnded(Integer.parseInt(kmend.getText().toString()));
-                currentTrip.registerToDB(Endroute.this);
+                // Register trip to db
+                currentTrip.registerToDB(Endroute.this); // TODO check for internet
 
                 // Cache
                 TripList tripList = TripList.build(context);
@@ -44,6 +48,7 @@ public class Endroute extends AppCompatActivity {
                 // Reset trip
                 ((Global) self.getApplication()).setTrip(null);
 
+                // Move activity
                 Intent intent = new Intent(v.getContext(), MainActivity.class);
                 startActivity(intent);
                 finish();

@@ -21,7 +21,7 @@ public class TripList {
     }
 
     public void addTrip(Trip trip) {
-        this.trips.getAsJsonArray("trips").add(trip.getVals());
+        this.trips.getAsJsonArray("trips").add(trip.toJsonObject());
     }
 
     public void cache(Context ctx) {
@@ -35,7 +35,7 @@ public class TripList {
             TripList res = new TripList();
 
             if (tripsJson == null) {
-                return res;
+                throw new MalformedJsonException("Missing trips argument");
             }
 
             JsonArray tripsArray = tripsJson.getAsJsonArray("trips");

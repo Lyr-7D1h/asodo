@@ -61,7 +61,7 @@ public class StatFiller {
         JsonArray trips = tripList.getTrips();
 
         Trip trip = Trip.build(trips.get(position).getAsJsonObject());
-        JsonObject jtrip = trip.getVals();
+        JsonObject jtrip = trip.toJsonObject();
 
 
         return new StatItem(String.valueOf(position + 1), jtrip.get("mileageStarted").getAsString() + " - " + jtrip.get("mileageEnded").getAsString(), makeDetails(position));
@@ -74,7 +74,7 @@ public class StatFiller {
         TripList tripList = TripList.build(Global.getContext());
         JsonArray trips = tripList.getTrips();
         Trip trip = Trip.build(trips.get(position).getAsJsonObject());
-        JsonObject jtrip = trip.getVals();
+        JsonObject jtrip = trip.toJsonObject();
 
         StringBuilder builder = new StringBuilder();
         builder.append( "kilometers: \t" + jtrip.get("mileageStarted") + " - " + jtrip.get("mileageEnded") + "\n" +

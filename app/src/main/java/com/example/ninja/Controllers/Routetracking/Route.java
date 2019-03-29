@@ -49,6 +49,7 @@ public class Route extends PermissionActivity {
             // Final update
             if(intent.hasExtra("finalUpdate")) {
                 // Update current Trip
+                // TODO calculate polyline, cityStarted, cityEnded, optimalDistance, kmDeviation
                 currentTrip.setTripEnded();
 
                 // Stop location service
@@ -130,7 +131,7 @@ public class Route extends PermissionActivity {
 
     public void startLocationService() {
         // Get tracking setting
-        int trackingSetting = 2; // TODO
+        int trackingSetting = currentTrip.getTrackingSetting();
 
         // Start up service
         Intent locationIntent = new Intent(Route.this, LocationService.class);
@@ -217,6 +218,7 @@ public class Route extends PermissionActivity {
     public void permissionDeclined(int requestCode) {
         // Change tracking setting
         //TODO to 0
+        currentTrip.setTrackingSetting(0);
 
         // Start service
         startLocationService();

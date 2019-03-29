@@ -50,7 +50,6 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                         @Override
                         public void onSuccess(Location location) {
                             // Add location
-                            currentTrip.setLocationEnded(location);
                             currentTrip.addLocation(location);
 
                             // Update activity
@@ -115,7 +114,6 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                 @Override
                 public void onSuccess(Location location) {
                     // Add location
-                    currentTrip.setLocationStarted(location);
                     currentTrip.addLocation(location);
 
                     // Update activity
