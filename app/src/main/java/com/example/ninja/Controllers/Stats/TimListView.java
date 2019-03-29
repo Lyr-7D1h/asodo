@@ -60,7 +60,6 @@ public class TimListView extends BackButtonActivity {
         tripsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(parent);
                 Intent intent = new Intent(TimListView.this, TimListViewDetail.class);
                 intent.putExtra("position", position);
                 startActivity(intent);
@@ -72,15 +71,12 @@ public class TimListView extends BackButtonActivity {
         ((Global) this.getApplication()).getTripCache(new AsodoRequesterCallback() {
             @Override
             public void callback(JsonObject jsonResponse) {
-                System.out.println(jsonResponse);
                 JsonArray cachedTrips = new TripList(jsonResponse).getTrips();
 
-                System.out.println(cachedTrips);
                 // Add values
                 for (int i = 0; i < cachedTrips.size(); i++) {
                     // Get trip
                     Trip trip = Trip.build(cachedTrips.get(i).getAsJsonObject());
-                    System.out.println(trip);
 
                     // Set text
                     //TODO EXAMPLE - Doe hier wat je wilt
