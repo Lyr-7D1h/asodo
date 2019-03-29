@@ -138,6 +138,9 @@ public class LogActivity extends AppCompatActivity {
         // Store response to file
         CacheUtils.cacheJsonObject(context, 0, response, "user.cache");
 
+        // Sync routes
+        ((Global) this.getApplication()).sync();
+
         // Move to home
         ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);
     }

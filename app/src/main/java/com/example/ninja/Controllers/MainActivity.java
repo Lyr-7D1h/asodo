@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         checkRedirectExtra();
 
-        System.out.println(((Global) this.getApplication()).isActiveTrip());
-
         // Functionality of start button
         Button start = (Button) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
 
                             // Delete user data
                             CacheUtils.deleteCache(context, "user.cache");
+
+                            // Set data to unsynced
+                            ((Global) self.getApplication()).setUnSynced();
 
                             // Move user to login
                             ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);
