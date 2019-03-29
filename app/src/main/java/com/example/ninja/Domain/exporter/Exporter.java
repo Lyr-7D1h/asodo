@@ -54,7 +54,6 @@ public class Exporter {
         createPath();
     }
 
-
     public void createPath() {
         String fileName = "ASODO_"+new SimpleDateFormat("yyyy-MM-dd-hh.mm.ss").format(new Date())+".pdf";
         System.out.println("Writing to " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/" + fileName);

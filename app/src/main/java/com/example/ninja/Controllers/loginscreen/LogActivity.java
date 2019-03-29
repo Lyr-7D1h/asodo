@@ -20,6 +20,7 @@ import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.util.ActivityUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.MalformedJsonException;
 
 public class LogActivity extends AppCompatActivity {
 
@@ -39,14 +40,20 @@ public class LogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log);
 
         // Check if user is logged in
-        if(CacheUtils.readCache(context, "user.cache") != null) {
-            if(((Global) this.getApplication()).isActiveTrip()) {
-                Intent intent = new Intent(LogActivity.this, MainActivity.class);
-                intent.putExtra("redirect", 1);
-                startActivity(intent);
-            } else {
-                ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);
+        try {
+            if(CacheUtils.readCache(context, "user.cache") != null) {
+                if(((Global) this.getApplication()).isActiveTrip()) {
+                    Intent intent = new Intent(LogActivity.this, MainActivity.class);
+                    intent.putExtra("redirect", 1);
+                    startActivity(intent);
+                } else {
+                    ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);
+                }
+
+                finish();
             }
+        } catch (MalformedJsonException e) {
+            CacheUtils.deleteCache(context, "user.cache");
         }
 
         awaitingResponse = false;

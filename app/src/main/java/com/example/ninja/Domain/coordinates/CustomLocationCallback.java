@@ -4,7 +4,7 @@ import android.location.Location;
 
 import com.example.ninja.Controllers.LocationService;
 import com.example.ninja.Domain.Global;
-import com.example.ninja.Domain.Trip;
+import com.example.ninja.Domain.trips.Trip;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 

@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Controllers.MainActivity;
-import com.example.ninja.Domain.Trip;
-import com.example.ninja.Domain.util.TripList;
+import com.example.ninja.Domain.trips.Trip;
+import com.example.ninja.Domain.trips.TripList;
 import com.example.ninja.R;
 
 public class Endroute extends AppCompatActivity {

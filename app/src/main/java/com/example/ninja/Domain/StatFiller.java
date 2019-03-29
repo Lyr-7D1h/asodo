@@ -1,12 +1,8 @@
 package com.example.ninja.Domain;
 
 
-import android.content.Context;
-
-import com.example.ninja.Controllers.Stats.ItemListActivity;
-import com.example.ninja.Domain.util.CacheUtils;
-import com.example.ninja.Domain.util.ContextProvider;
-import com.example.ninja.Domain.util.TripList;
+import com.example.ninja.Domain.trips.Trip;
+import com.example.ninja.Domain.trips.TripList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -61,7 +57,7 @@ public class StatFiller {
 
     private static StatItem createStatItem(int position) {
 
-        TripList tripList = TripList.build(ContextProvider.getContext());
+        TripList tripList = TripList.build(Global.getContext());
         JsonArray trips = tripList.getTrips();
 
         Trip trip = Trip.build(trips.get(position).getAsJsonObject());
@@ -75,7 +71,7 @@ public class StatFiller {
     private static String makeDetails(int position) {
         //subdata cache JSONS naar list [1 Json per entry], loop door List [i<count
 
-        TripList tripList = TripList.build(ContextProvider.getContext());
+        TripList tripList = TripList.build(Global.getContext());
         JsonArray trips = tripList.getTrips();
         Trip trip = Trip.build(trips.get(position).getAsJsonObject());
         JsonObject jtrip = trip.getVals();

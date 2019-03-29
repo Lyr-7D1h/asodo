@@ -10,7 +10,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
-import com.example.ninja.Controllers.Route;
+import com.example.ninja.Controllers.Routetracking.Route;
 import com.example.ninja.R;
 
 public class NotificationUtils {

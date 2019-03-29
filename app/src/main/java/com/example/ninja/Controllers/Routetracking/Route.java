@@ -12,11 +12,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.ninja.Controllers.LocationService;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.PermissionActivity;
-import com.example.ninja.Domain.Trip;
+import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.util.PermissionUtils;
 import com.example.ninja.R;
 

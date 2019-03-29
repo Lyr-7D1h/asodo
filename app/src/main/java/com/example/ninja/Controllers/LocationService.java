@@ -19,7 +19,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.example.ninja.Domain.Global;
-import com.example.ninja.Domain.Trip;
+import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.coordinates.CustomLocationCallback;
 import com.example.ninja.Domain.coordinates.CustomLocationRequest;
 import com.example.ninja.Domain.util.NotificationUtils;

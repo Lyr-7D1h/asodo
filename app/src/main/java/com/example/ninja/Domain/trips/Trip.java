@@ -1,9 +1,8 @@
-package com.example.ninja.Domain;
+package com.example.ninja.Domain.trips;
 
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
-import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.text.DateFormat;
