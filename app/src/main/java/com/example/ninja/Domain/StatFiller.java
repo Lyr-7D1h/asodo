@@ -1,6 +1,10 @@
 package com.example.ninja.Domain;
 
 
+import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
+
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.trips.TripList;
 import com.google.gson.JsonArray;
@@ -34,14 +38,10 @@ public class StatFiller {
 
     private static final int COUNT = 10;
 
-
-
-    static {
-
-
+    public StatFiller(Activity activity) {
         for (int i = 0; i < COUNT; i++) {
             try {
-                addItem(createStatItem(i));
+                addItem(createStatItem(activity, i));
             }
             catch(IndexOutOfBoundsException ex){
                 //doe de huts
@@ -55,33 +55,38 @@ public class StatFiller {
         ITEM_MAP.put(item.id, item);
     }
 
-    private static StatItem createStatItem(int position) {
+    private static StatItem createStatItem(Activity activity, int position) {
 
-        TripList tripList = TripList.build(Global.getContext());
-        JsonArray trips = tripList.getTrips();
-
-        Trip trip = Trip.build(trips.get(position).getAsJsonObject());
-        JsonObject jtrip = trip.toJsonObject();
-
-
-        return new StatItem(String.valueOf(position + 1), jtrip.get("mileageStarted").getAsString() + " - " + jtrip.get("mileageEnded").getAsString(), makeDetails(position));
+        // Commented because incompatible
+//        TripList tripList = ((Global) activity.getApplication()).getTripCache();
+//        JsonArray trips = tripList.getTrips();
+//
+//        Trip trip = Trip.build(trips.get(position).getAsJsonObject());
+//        JsonObject jtrip = trip.toJsonObject();
+//
+//
+//        return new StatItem(String.valueOf(position + 1), jtrip.get("mileageStarted").getAsString() + " - " + jtrip.get("mileageEnded").getAsString(), makeDetails(activity, position));
+        return null;
     }
 
 
-    private static String makeDetails(int position) {
+    private static String makeDetails(Activity activity, int position) {
         //subdata cache JSONS naar list [1 Json per entry], loop door List [i<count
 
-        TripList tripList = TripList.build(Global.getContext());
-        JsonArray trips = tripList.getTrips();
-        Trip trip = Trip.build(trips.get(position).getAsJsonObject());
-        JsonObject jtrip = trip.toJsonObject();
+        // Commented because incompatible
+//        TripList tripList = ((Global) activity.getApplication()).getTripCache();
+//        JsonArray trips = tripList.getTrips();
+//        Trip trip = Trip.build(trips.get(position).getAsJsonObject());
+//        JsonObject jtrip = trip.toJsonObject();
+//
+//        StringBuilder builder = new StringBuilder();
+//        builder.append( "kilometers: \t" + jtrip.get("mileageStarted") + " - " + jtrip.get("mileageEnded") + "\n" +
+//                        "start/eindtijd: \t" + jtrip.get("tripStarted") + " - " + jtrip.get("tripEnded") + "\n\n\n" +
+//                jtrip.get("besAfwijking"));
+//
+//        return builder.toString();
 
-        StringBuilder builder = new StringBuilder();
-        builder.append( "kilometers: \t" + jtrip.get("mileageStarted") + " - " + jtrip.get("mileageEnded") + "\n" +
-                        "start/eindtijd: \t" + jtrip.get("tripStarted") + " - " + jtrip.get("tripEnded") + "\n\n\n" +
-                jtrip.get("besAfwijking"));
-
-        return builder.toString();
+        return null;
     }
 
 

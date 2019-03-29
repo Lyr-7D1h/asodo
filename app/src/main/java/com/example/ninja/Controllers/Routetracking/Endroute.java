@@ -13,6 +13,7 @@ import com.example.ninja.Domain.Global;
 import com.example.ninja.Controllers.MainActivity;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.trips.TripList;
+import com.example.ninja.Domain.util.ConnectivityUtils;
 import com.example.ninja.R;
 
 public class Endroute extends AppCompatActivity {
@@ -37,13 +38,8 @@ public class Endroute extends AppCompatActivity {
                 // TODO set desdeviation
                 currentTrip.setMileageEnded(Integer.parseInt(kmend.getText().toString())); // TODO validate
 
-                // Register trip to db
-                currentTrip.registerToDB(Endroute.this); // TODO check for internet
-
-                // Cache
-                TripList tripList = TripList.build(context);
-                tripList.addTrip(currentTrip);
-                tripList.cache(context);
+                // Sync and cache trip
+                ((Global) self.getApplication()).addTripToCache(currentTrip);
 
                 // Reset trip
                 ((Global) self.getApplication()).setTrip(null);

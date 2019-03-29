@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import com.example.ninja.Controllers.Routetracking.Route;
 import com.example.ninja.Controllers.Routetracking.Startroute;
 import com.example.ninja.Controllers.Stats.ItemListActivity;
+import com.example.ninja.Controllers.Stats.TimListView;
 import com.example.ninja.Controllers.loginscreen.LogActivity;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.httpRequests.CustomListener;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton statistics = (ImageButton) findViewById(R.id.statistics);
         statistics.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ItemListActivity.class);
+                Intent intent = new Intent(MainActivity.this, TimListView.class);
                 startActivity(intent);
             }
         });

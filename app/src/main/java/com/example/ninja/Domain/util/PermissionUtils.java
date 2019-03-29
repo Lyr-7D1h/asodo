@@ -7,11 +7,12 @@ import android.support.v4.app.ActivityCompat;
 
 public class PermissionUtils {
     public static boolean hasPermission(Activity activity, String permission, int requestCode) {
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, requestCode);
+                    new String[]{permission}, requestCode);
+            return false;
         }
 
-        return false;
+        return true;
     }
 }

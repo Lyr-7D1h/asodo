@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.ninja.Controllers.LocationService;
 import com.example.ninja.Domain.Global;
-import com.example.ninja.Domain.PermissionActivity;
+import com.example.ninja.Controllers.abstractActivities.PermissionActivity;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.util.PermissionUtils;
 import com.example.ninja.R;
@@ -111,8 +111,6 @@ public class Route extends PermissionActivity {
             // Check location permission
             if(PermissionUtils.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, this.get_REQUEST_CODE_FINE_LOCATION())) {
                 permissionAccepted(this.get_REQUEST_CODE_FINE_LOCATION());
-            } else {
-                permissionDeclined(this.get_REQUEST_CODE_FINE_LOCATION());
             }
         }
     }

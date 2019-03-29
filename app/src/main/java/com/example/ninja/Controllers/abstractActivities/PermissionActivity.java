@@ -1,4 +1,4 @@
-package com.example.ninja.Domain;
+package com.example.ninja.Controllers.abstractActivities;
 
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;

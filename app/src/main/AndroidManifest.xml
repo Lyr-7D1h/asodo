@@ -46,6 +46,17 @@
             android:parentActivityName=".Controllers.Stats.ItemListActivity">
         </activity>
 
+        <activity android:name=".Controllers.Stats.TimListView">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ninja.Controllers.MainActivity" />
+        </activity>
+        <activity android:name=".Controllers.Stats.TimListViewDetail">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ninja.Controllers.Stats.TimListView" />
+        </activity>
+
         <service android:name=".Controllers.LocationService" />
     </application>
 

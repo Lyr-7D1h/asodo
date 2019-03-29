@@ -320,7 +320,7 @@ public class Trip implements Serializable {
         return res;
     }
 
-    public void registerToDB(Activity ctx) {
+    public void registerToDB(Context ctx) {
         AsodoRequester.newRequest("registerTrip", toJsonObject(), ctx, new CustomListener() {
             @Override
             public void onResponse(JsonObject jsonResponse) {
@@ -355,6 +355,7 @@ public class Trip implements Serializable {
         }
 
         if(jsonObject.has("tripStarted")) {
+            System.out.println(jsonObject.get("tripStarted"));
             res.setTripStarted(jsonObject.get("tripStarted").getAsString());
         }
 
