@@ -17,6 +17,7 @@ import com.google.gson.JsonPrimitive;
 
 public class Trip implements Serializable {
 
+    private String tripID     = "";
     private String userID     = "";
     private String carID     = "";
     private int mileageStarted = 0;
@@ -25,16 +26,38 @@ public class Trip implements Serializable {
     private String tripStarted = "";
     private String tripEnded = "";
     private int businessTrip = 1;
+    private String startcity;
+    private String endcity;
+    private String kmAfwijking;
+    private String reistijd;
+    private String besAfwijking;
 
     public Trip(Context ctx){
         this.userID = UserUtils.getUserID(ctx);
         this.carID = UserUtils.getFirstCarID(ctx);
 
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         this.date = dateFormat.format(date);
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         this.tripStarted = dateFormat.format(date);
+        this.besAfwijking = "lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsumlorum ipsum lorum ipsum lorum ipsum lorum ipsumlorum ipsumlorum ipsum lorum ipsumlorum ipsumlorum ipsumlorum ipsum lorum ipsum lorum ipsum lorum ipsumlorum ipsumlorum ipsum lorum ipsum lorum ipsum";
+    }
+
+    public Trip(String tripID, String userID, String carID, int mileageStarted, int mileageEnded, String date, String tripStarted, String tripEnded, int businessTrip) {
+        this.tripID = tripID;
+        this.userID = userID;
+        this.carID = carID;
+        this.mileageStarted = mileageStarted;
+        this.mileageEnded = mileageEnded;
+        this.date = date;
+        this.tripStarted = tripStarted;
+        this.tripEnded = tripEnded;
+        this.businessTrip = businessTrip;
+    }
+
+    public void setTripID(String tripID) {
+        this.tripID = tripID;
     }
 
     public String getCarID() {
@@ -58,6 +81,7 @@ public class Trip implements Serializable {
         JsonObject res = new JsonObject();
 
         // Add properties
+        res.add("id", new JsonPrimitive(this.tripID));
         res.add("userID", new JsonPrimitive(this.userID));
         res.add("carID", new JsonPrimitive(this.carID));
         res.add("mileageStarted", new JsonPrimitive(this.mileageStarted));
@@ -75,12 +99,33 @@ public class Trip implements Serializable {
         AsodoRequester.newRequest("registerTrip", getVals(), ctx, new CustomListener() {
             @Override
             public void onResponse(JsonObject jsonResponse) {
-                // Do nothing with response
+                setTripID(jsonResponse.get("tripID").getAsString());
             }
         });
     }
 
+    public static Trip build(JsonObject tripJson) {
+        Trip res = new Trip(
+                tripJson.get("id").getAsString(),
+                tripJson.get("userID").getAsString(),
+                tripJson.get("carID").getAsString(),
+                tripJson.get("mileageStarted").getAsInt(),
+                tripJson.get("mileageEnded").getAsInt(),
+                tripJson.get("tripStarted").getAsString(),
+                tripJson.get("tripEnded").getAsString(),
+                tripJson.get("date").getAsString(),
+                tripJson.get("businessTrip").getAsInt()
+        );
+
+        return res;
+    }
+
     public void builder(Context ctx){
         CacheUtils.cacheObject(ctx, this, "trips.list");
+    }
+
+
+    public void setBesAfwijking(String besAfwijking){
+        this.besAfwijking = besAfwijking;
     }
 }

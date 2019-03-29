@@ -1,4 +1,4 @@
-package com.example.ninja.Controllers;
+package com.example.ninja.Controllers.Routetracking;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -11,11 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ninja.Controllers.loginscreen.LogActivity;
 import com.example.ninja.Domain.Trip;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
-import com.example.ninja.Domain.util.ActivityUtils;
 import com.example.ninja.Domain.util.UserUtils;
 import com.example.ninja.R;
 import com.google.gson.JsonArray;

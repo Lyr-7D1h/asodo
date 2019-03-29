@@ -1,4 +1,4 @@
-package com.example.ninja.Controllers;
+package com.example.ninja.Controllers.Routetracking;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ninja.Controllers.MainActivity;
 import com.example.ninja.Domain.Trip;
+import com.example.ninja.Domain.util.TripList;
 import com.example.ninja.R;
 
 public class Endroute extends AppCompatActivity {
@@ -29,8 +31,12 @@ public class Endroute extends AppCompatActivity {
             public void onClick(View v) {
 
                 currentTrip.setMileageEnded(Integer.parseInt(kmend.getText().toString()));
-                currentTrip.builder(context);
                 currentTrip.registerToDB(Endroute.this);
+
+                // Cache
+                TripList tripList = TripList.build(context);
+                tripList.addTrip(currentTrip);
+                tripList.cache(context);
 
                 Intent intent = new Intent(v.getContext(), MainActivity.class);
                 startActivity(intent);
