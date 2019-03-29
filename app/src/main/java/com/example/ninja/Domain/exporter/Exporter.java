@@ -36,7 +36,6 @@ import java.util.Date;
 public class Exporter {
     private Date start;
     private Date end;
-    private Font font = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, new BaseColor(0, 0, 0));
     private File file = null;
     private Context context;
 
@@ -55,10 +54,22 @@ public class Exporter {
     }
 
     public void createPath() {
+
+        File folder = new File(Environment.getExternalStorageDirectory() +
+                File.separator + "ASODO");
+        boolean success = true;
+        if (!folder.exists()) {
+            success = folder.mkdirs();
+        }
+        if (success) {
+            System.out.println("Folder created at " + folder.getAbsolutePath());
+        } else {
+            Toast.makeText(this.context, "Couldn't create folder", Toast.LENGTH_SHORT);
+        }
         String fileName = "ASODO_"+new SimpleDateFormat("yyyy-MM-dd-hh.mm.ss").format(new Date())+".pdf";
-        System.out.println("Writing to " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/" + fileName);
-        File dir =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        File dir = new File(folder.getAbsolutePath());
         this.file = new File(dir, fileName);
+        System.out.println("Writing to "+dir.getAbsoluteFile() + "/" + fileName);
         if (!file.exists()) {
             try {
                 file.createNewFile();
