@@ -16,7 +16,15 @@ public class TripList {
         this.trips.add("trips", new JsonArray());
     }
 
+    public TripList(JsonObject trips) {
+        this.trips = trips;
+    }
+
     public JsonArray getTrips() {
+        if(trips == null) {
+            this.trips = new JsonObject();
+            this.trips.add("trips", new JsonArray());
+        }
         return trips.getAsJsonArray("trips");
     }
 
@@ -28,6 +36,9 @@ public class TripList {
         CacheUtils.cacheJsonObject(ctx, 0, this.trips, "trips.list");
     }
 
+    public JsonObject toJsonObject() {
+        return trips;
+    }
 
     public static TripList build(Context ctx) {
         try {

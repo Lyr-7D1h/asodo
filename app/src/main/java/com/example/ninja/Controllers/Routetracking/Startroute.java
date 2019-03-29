@@ -16,6 +16,8 @@ import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.util.ActivityUtils;
+import com.example.ninja.Domain.util.CacheUtils;
+import com.example.ninja.Domain.util.ConnectivityUtils;
 import com.example.ninja.Domain.util.UserUtils;
 import com.example.ninja.R;
 import com.google.gson.JsonArray;
@@ -48,22 +50,36 @@ public class Startroute extends AppCompatActivity {
     }
 
     private void getLastMileage() {
-        // Get user ID
-        String userID = UserUtils.getUserID(context);
+        if(ConnectivityUtils.isNetworkAvailable(this)) {
+            // Get user ID
+            String userID = UserUtils.getUserID(context);
 
-        // Make request
-        String jsonString = "{"
-                + "\"userID\":\"" + userID + "\","
-                + "\"limit\":1"
-                + "}";
-        JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
+            // Make request
+            String jsonString = "{"
+                    + "\"userID\":\"" + userID + "\","
+                    + "\"limit\":1"
+                    + "}";
+            JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
 
-        AsodoRequester.newRequest("getTrips", json, Startroute.this, new CustomListener() {
-            @Override
-            public void onResponse(JsonObject jsonResponse) {
-                lastMileageResponseListener(jsonResponse);
+            AsodoRequester.newRequest("getTrips", json, Startroute.this, new CustomListener() {
+                @Override
+                public void onResponse(JsonObject jsonResponse) {
+                    lastMileageResponseListener(jsonResponse);
+                }
+            });
+        } else {
+            JsonArray cachedTrips = ((Global) this.getApplication()).getTripCache().getTrips();
+
+            if(cachedTrips.size() > 0) {
+                Trip lastCachedTrip = Trip.build(cachedTrips.get(cachedTrips.size() - 1).getAsJsonObject());
+                int lastCachedMileage = lastCachedTrip.getMileageEnded();
+
+                initTrip(lastCachedMileage);
+            } else {
+                Toast.makeText(Startroute.this, "Kan laatste kilometerstand niet laden!", Toast.LENGTH_SHORT).show();
+                initTrip(0);
             }
-        });
+        }
     }
 
     private void lastMileageResponseListener(JsonObject jsonResponse) {
