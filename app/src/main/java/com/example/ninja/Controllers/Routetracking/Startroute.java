@@ -12,9 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ninja.Domain.Global;
+import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
+import com.example.ninja.Domain.trips.TripList;
 import com.example.ninja.Domain.util.ActivityUtils;
 import com.example.ninja.Domain.util.CacheUtils;
 import com.example.ninja.Domain.util.ConnectivityUtils;
@@ -50,48 +52,22 @@ public class Startroute extends AppCompatActivity {
     }
 
     private void getLastMileage() {
-        if(ConnectivityUtils.isNetworkAvailable(this)) {
-            // Get user ID
-            String userID = UserUtils.getUserID(context);
+        ((Global) this.getApplication()).getTripCache(new AsodoRequesterCallback() {
+            @Override
+            public void callback(JsonObject jsonResponse) {
+                JsonArray cachedTrips = new TripList(jsonResponse).getTrips();
 
-            // Make request
-            String jsonString = "{"
-                    + "\"userID\":\"" + userID + "\","
-                    + "\"limit\":1"
-                    + "}";
-            JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
+                if(cachedTrips.size() > 0) {
+                    Trip lastCachedTrip = Trip.build(cachedTrips.get(cachedTrips.size() - 1).getAsJsonObject());
+                    int lastCachedMileage = lastCachedTrip.getMileageEnded();
 
-            AsodoRequester.newRequest("getTrips", json, Startroute.this, new CustomListener() {
-                @Override
-                public void onResponse(JsonObject jsonResponse) {
-                    lastMileageResponseListener(jsonResponse);
+                    initTrip(lastCachedMileage);
+                } else {
+                    Toast.makeText(Startroute.this, "Kan laatste kilometerstand niet laden!", Toast.LENGTH_SHORT).show();
+                    initTrip(0);
                 }
-            });
-        } else {
-            JsonArray cachedTrips = ((Global) this.getApplication()).getTripCache().getTrips();
-
-            if(cachedTrips.size() > 0) {
-                Trip lastCachedTrip = Trip.build(cachedTrips.get(cachedTrips.size() - 1).getAsJsonObject());
-                int lastCachedMileage = lastCachedTrip.getMileageEnded();
-
-                initTrip(lastCachedMileage);
-            } else {
-                Toast.makeText(Startroute.this, "Kan laatste kilometerstand niet laden!", Toast.LENGTH_SHORT).show();
-                initTrip(0);
             }
-        }
-    }
-
-    private void lastMileageResponseListener(JsonObject jsonResponse) {
-        int res = 0;
-
-        JsonArray trips = jsonResponse.getAsJsonArray("trips");
-        if(trips.size() > 0) {
-            JsonObject lastTrip = trips.get(0).getAsJsonObject();
-            res = lastTrip.get("mileageEnded").getAsInt();
-        }
-
-        initTrip(res);
+        });
     }
 
     private void initTrip(int lastMileage) {

@@ -355,6 +355,7 @@ public class Trip implements Serializable {
         }
 
         if(jsonObject.has("tripStarted")) {
+            System.out.println(jsonObject.get("tripStarted"));
             res.setTripStarted(jsonObject.get("tripStarted").getAsString());
         }
 

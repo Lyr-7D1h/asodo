@@ -29,6 +29,10 @@ public class TripList {
     }
 
     public void addTrip(Trip trip) {
+        if(trips == null) {
+            this.trips = new JsonObject();
+            this.trips.add("trips", new JsonArray());
+        }
         this.trips.getAsJsonArray("trips").add(trip.toJsonObject());
     }
 

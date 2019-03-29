@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.ninja.Controllers.LocationService;
 import com.example.ninja.Domain.Global;
-import com.example.ninja.Domain.PermissionActivity;
+import com.example.ninja.Controllers.abstractActivities.PermissionActivity;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.util.PermissionUtils;
 import com.example.ninja.R;
@@ -130,7 +130,6 @@ public class Route extends PermissionActivity {
     public void startLocationService() {
         // Get tracking setting
         int trackingSetting = currentTrip.getTrackingSetting();
-        System.out.println(trackingSetting);
 
         // Start up service
         Intent locationIntent = new Intent(Route.this, LocationService.class);
@@ -217,7 +216,6 @@ public class Route extends PermissionActivity {
     public void permissionDeclined(int requestCode) {
         // Change tracking setting
         //TODO to 0
-        System.out.println("????");
         currentTrip.setTrackingSetting(0);
 
         // Start service

@@ -22,6 +22,7 @@ public class ItemDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    private StatFiller statFiller;
 
     /**
      * The dummy content this fragment is presenting.
@@ -33,6 +34,7 @@ public class ItemDetailFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public ItemDetailFragment() {
+        statFiller = new StatFiller(this.getActivity());
     }
 
     @Override

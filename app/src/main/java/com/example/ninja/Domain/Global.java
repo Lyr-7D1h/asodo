@@ -1,17 +1,23 @@
 package com.example.ninja.Domain;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.example.ninja.Domain.httpRequests.AsodoRequester;
+import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
+import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.network.NetworkStateReceiver;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.trips.TripList;
 import com.example.ninja.Domain.util.CacheUtils;
 import com.example.ninja.Domain.util.ConnectivityUtils;
+import com.example.ninja.Domain.util.UserUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.MalformedJsonException;
 
 public class Global extends Application implements NetworkStateReceiver.NetworkStateReceiverListener {
@@ -97,17 +103,11 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
         syncTripRegistrationQueue();
         syncTripList();
 
-        // Cache
-        CacheUtils.cacheJsonObject(this, 0, tripCache.toJsonObject(), "trips.cache");
-        CacheUtils.cacheJsonObject(this, 0, tripRegistrationQueue.toJsonObject(), "tripRegistrationQueue.cache");
-
         // Update sync status
         synced = true;
     }
 
     private void syncTripRegistrationQueue() {
-        System.out.println("Syncing Trip Registration Queue");
-
         // Register trips
         JsonArray trips = tripRegistrationQueue.getTrips();
         for (int i = 0; i < trips.size(); i++) {
@@ -115,15 +115,47 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
             trip.registerToDB(this);
         }
 
+        // Update local variable
         tripRegistrationQueue = new TripList();
+
+        // Cache
+        CacheUtils.cacheJsonObject(this, 0, tripRegistrationQueue.toJsonObject(), "tripRegistrationQueue.cache");
     }
 
     private void syncTripList() {
-        System.out.println("Syncing Trip List");
+        if(ConnectivityUtils.isNetworkAvailable(this)) {
+            JsonObject json = new JsonObject();
+            json.add("userID", new JsonPrimitive(UserUtils.getUserID(this)));
+            json.add("limit", new JsonPrimitive(10)); //TODO from settings
+
+            Context self = this;
+            AsodoRequester.newRequest("getTrips", json, this, new CustomListener() {
+                @Override
+                public void onResponse(JsonObject jsonResponse) {
+                    // Set local variable
+                    tripCache = new TripList(jsonResponse);
+
+                    // Cache
+                    CacheUtils.cacheJsonObject(self, 0, tripCache.toJsonObject(), "trips.cache");
+                }
+            });
+        }
     }
 
-    public TripList getTripCache() {
-        return tripCache;
+    public void getTripCache(AsodoRequesterCallback callback) {
+        if(ConnectivityUtils.isNetworkAvailable(this)) {
+            JsonObject json = new JsonObject();
+            json.add("userID", new JsonPrimitive(UserUtils.getUserID(this)));
+
+            AsodoRequester.newRequest("getTrips", json, this, new CustomListener() {
+                @Override
+                public void onResponse(JsonObject jsonResponse) {
+                    callback.callback(jsonResponse);
+                }
+            });
+        }
+
+        callback.callback(tripCache.toJsonObject());
     }
 
     public void addTripToCache(Trip trip) {
