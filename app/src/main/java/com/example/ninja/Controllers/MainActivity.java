@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.ninja.Controllers.Routetracking.Startroute;
+import com.example.ninja.Controllers.Stats.ItemListActivity;
 import com.example.ninja.Controllers.loginscreen.LogActivity;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.httpRequests.CustomListener;
@@ -49,15 +51,17 @@ public class MainActivity extends AppCompatActivity {
         ImageButton statistics = (ImageButton) findViewById(R.id.statistics);
         statistics.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("statistics"); // Placeholder
+                Intent intent = new Intent(v.getContext(), ItemListActivity.class);
+                startActivity(intent);
             }
         });
 
-        // Functionality of export button
+        // Functionality of activity_export button
+        Activity self = this;
         ImageButton export = (ImageButton) findViewById(R.id.export);
         export.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("export"); // Placeholder
+                ActivityUtils.changeActivity(self, MainActivity.this, ExportActivity.class);
             }
         });
 
@@ -67,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println("options"); // Placeholder
 
+                CacheUtils.deleteCache(context, "trips.list");
                 // Example Request
                 String jsonString = "{\"username\":\"huts\",\"password\":\"huts\"}";
                 JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
@@ -81,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Functionality of logout button
-        Activity self = this;
         Button logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
