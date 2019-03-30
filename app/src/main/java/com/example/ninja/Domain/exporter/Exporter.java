@@ -114,8 +114,7 @@ public class Exporter {
             for (int i=0; i<trips.size(); i++) {
                 JsonObject obj = trips.get(i).getAsJsonObject();
                 int distanceDriven = obj.get("distanceDriven").getAsInt();
-                String startDate = obj.get("tripStarted").getAsJsonObject().get("date").getAsString();
-                startDate = startDate.split("\\.")[0];
+                String startDate = obj.get("tripStarted").getAsString();
 
                 String output = String.format("\n%s\nKilometers gereden:      %d", startDate, distanceDriven);
                 document.add(new Paragraph(output));
