@@ -24,6 +24,7 @@ public class Trip implements Serializable {
     private String carID;
     private int mileageStarted;
     private int mileageEnded;
+    private int distanceDriven;
     private String tripStarted;
     private String tripEnded;
     private long tripDuration;
@@ -89,6 +90,16 @@ public class Trip implements Serializable {
 
     public void setMileageEnded(int mileageEnded) {
         this.mileageEnded = mileageEnded;
+
+        setDistanceDriven(this.mileageEnded-this.mileageStarted);
+    }
+
+    public int getDistanceDriven() {
+        return distanceDriven;
+    }
+
+    public void setDistanceDriven(int distanceDriven) {
+        this.distanceDriven = distanceDriven;
     }
 
     public String getTripStarted() {
@@ -269,6 +280,7 @@ public class Trip implements Serializable {
         }
         res.add("mileageStarted", new JsonPrimitive(this.mileageStarted));
         res.add("mileageEnded", new JsonPrimitive(this.mileageEnded));
+        res.add("distanceDriven", new JsonPrimitive(this.distanceDriven));
 
         if(this.tripStarted != null) {
             res.add("tripStarted", new JsonPrimitive(this.tripStarted));
@@ -334,75 +346,79 @@ public class Trip implements Serializable {
         Trip res = new Trip();
 
         // Fill object
-        if(jsonObject.has("tripID")) {
+        if(jsonObject.has("tripID") && jsonObject.get("tripID") != null) {
             res.setTripID(jsonObject.get("tripID").getAsString());
         }
 
-        if(jsonObject.has("userID")) {
+        if(jsonObject.has("userID") && jsonObject.get("userID") != null) {
             res.setUserID(jsonObject.get("userID").getAsString());
         }
 
-        if(jsonObject.has("carID")) {
+        if(jsonObject.has("carID") && jsonObject.get("carID") != null) {
             res.setCarID(jsonObject.get("carID").getAsString());
         }
 
-        if(jsonObject.has("mileageStarted")) {
+        if(jsonObject.has("mileageStarted") && jsonObject.get("mileageStarted") != null) {
             res.setMileageStarted(jsonObject.get("mileageStarted").getAsInt());
         }
 
-        if(jsonObject.has("mileageEnded")) {
+        if(jsonObject.has("mileageEnded") && jsonObject.get("mileageEnded") != null) {
             res.setMileageEnded(jsonObject.get("mileageEnded").getAsInt());
         }
 
-        if(jsonObject.has("tripStarted")) {
+        if(jsonObject.has("distanceDriven") && jsonObject.get("distanceDriven") != null) {
+            res.setDistanceDriven(jsonObject.get("distanceDriven").getAsInt());
+        }
+
+        if(jsonObject.has("tripStarted") && jsonObject.get("tripStarted") != null) {
             res.setTripStarted(jsonObject.get("tripStarted").getAsString());
         }
 
-        if(jsonObject.has("tripEnded")) {
+        if(jsonObject.has("tripEnded") && jsonObject.get("tripEnded") != null) {
             res.setTripEnded(jsonObject.get("tripEnded").getAsString());
         }
 
-        if(jsonObject.has("tripDuration")) {
+        if(jsonObject.has("tripDuration") && jsonObject.get("tripDuration") != null) {
             res.setTripDuration(jsonObject.get("tripDuration").getAsLong());
         }
 
-        if(jsonObject.has("cityStarted")) {
+        if(jsonObject.has("cityStarted") && jsonObject.get("cityStarted") != null) {
             res.setCityStarted(jsonObject.get("cityStarted").getAsString());
         }
 
-        if(jsonObject.has("cityEnded")) {
+        if(jsonObject.has("cityEnded") && jsonObject.get("cityEnded") != null) {
             res.setCityEnded(jsonObject.get("cityEnded").getAsString());
         }
 
-        if(jsonObject.has("routePolyline")) {
+        if(jsonObject.has("routePolyline") && jsonObject.get("routePolyline") != null) {
             res.setRoutePolyline(jsonObject.get("routePolyline").getAsString());
         }
 
-        if(jsonObject.has("businessTrip")) {
+        if(jsonObject.has("businessTrip") && jsonObject.get("businessTrip") != null) {
             res.setBusinessTrip(jsonObject.get("businessTrip").getAsInt());
         }
 
-        if(jsonObject.has("bbCommuting")) {
+        if(jsonObject.has("bbCommuting") && jsonObject.get("bbCommuting") != null) {
             res.setBbCommuting(jsonObject.get("bbCommuting").getAsInt());
         }
 
-        if(jsonObject.has("desDeviation")) {
+        if(jsonObject.has("desDeviation") && jsonObject.get("desDeviation") != null) {
             res.setDesDeviation(jsonObject.get("desDeviation").getAsString());
         }
 
-        if(jsonObject.has("trackingSetting")) {
+        if(jsonObject.has("trackingSetting") && jsonObject.get("trackingSetting") != null) {
             res.setTrackingSetting(jsonObject.get("trackingSetting").getAsInt());
         }
 
-        if(jsonObject.has("estimatedDistanceDriven")) {
+        if(jsonObject.has("estimatedDistanceDriven") && jsonObject.get("estimatedDistanceDriven") != null) {
             res.setEstimatedDistanceDriven(jsonObject.get("estimatedDistanceDriven").getAsFloat());
         }
 
-        if(jsonObject.has("optimalDistance")) {
+        if(jsonObject.has("optimalDistance") && jsonObject.get("optimalDistance") != null) {
             res.setOptimalDistance(jsonObject.get("optimalDistance").getAsFloat());
         }
 
-        if(jsonObject.has("kmDeviation")) {
+        if(jsonObject.has("kmDeviation") && jsonObject.get("kmDeviation") != null) {
             res.setKmDeviation(jsonObject.get("kmDeviation").getAsFloat());
         }
 

@@ -119,6 +119,7 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
         // Sync
         syncTripRegistrationQueue();
         syncTripList();
+        delayedSyncTripList();
 
         // Update sync status
         synced = true;
@@ -137,6 +138,18 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
 
         // Cache
         CacheUtils.cacheJsonObject(this, 0, tripRegistrationQueue.toJsonObject(), "tripRegistrationQueue.cache");
+    }
+
+    private void delayedSyncTripList() {
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+                syncTripList();
+            }
+            catch (Exception e){
+                // Do nothing
+            }
+        }).start();
     }
 
     private void syncTripList() {
@@ -202,6 +215,7 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
 
     @Override
     public void networkUnavailable() {
-        // Do nothing
+        // Force unsync on network lost
+        synced = false;
     }
 }
