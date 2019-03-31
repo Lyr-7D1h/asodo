@@ -5,12 +5,14 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.LocationManager;
 
 import com.example.ninja.Controllers.MainActivity;
 import com.example.ninja.Controllers.loginscreen.LogActivity;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
 import com.example.ninja.Domain.httpRequests.CustomListener;
+import com.example.ninja.Domain.network.LocationStateReceiver;
 import com.example.ninja.Domain.network.NetworkStateReceiver;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.trips.TripList;
@@ -30,8 +32,11 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
     private Trip trip;
     private Intent locationIntent;
 
-    // Cache
+    // State receivers
     private NetworkStateReceiver networkStateReceiver;
+    private LocationStateReceiver locationStateReceiver;
+
+    // Cache
     private TripList tripCache;
     private TripList tripRegistrationQueue;
     private boolean synced;
@@ -47,6 +52,10 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
         this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+
+        // Init locationStateReceiver
+        locationStateReceiver = new LocationStateReceiver(getContext());
+        this.registerReceiver(locationStateReceiver, new IntentFilter(LocationManager.MODE_CHANGED_ACTION));
 
         // Set trip cache
         try {
@@ -95,6 +104,10 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
 
     public void setLocationIntent(Intent locationIntent) {
         this.locationIntent = locationIntent;
+    }
+
+    public LocationStateReceiver getLocationStateReceiver() {
+        return locationStateReceiver;
     }
 
     public void setUnSynced() {

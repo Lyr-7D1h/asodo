@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Check for active trip
                 if(((Global) self.getApplication()).isActiveTrip()) {
-                    AlertUtils.showAlert("Doorgaan", "U heeft een actieve rit!\n\nAls u uitlogt zal deze rit verloren gaan.", self, new DialogInterface.OnClickListener() {
+                    AlertUtils.showAlert("Doorgaan", "Annuleren", "U heeft een actieve rit!\n\nAls u uitlogt zal deze rit verloren gaan.", self, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // Kill service
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                             // Move user to login
                             ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);
                         }
-                    }, true);
+                    });
                 } else {
                     // Delete user data
                     CacheUtils.deleteCache(context, "user.cache");

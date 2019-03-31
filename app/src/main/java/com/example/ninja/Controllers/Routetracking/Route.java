@@ -4,25 +4,34 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.LocationManager;
+import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ninja.Controllers.LocationService;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Controllers.abstractActivities.PermissionActivity;
+import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
+import com.example.ninja.Domain.network.LocationStateReceiver;
 import com.example.ninja.Domain.trips.Trip;
+import com.example.ninja.Domain.util.AlertUtils;
 import com.example.ninja.Domain.util.PermissionUtils;
 import com.example.ninja.R;
+import com.google.gson.JsonObject;
 
-public class Route extends PermissionActivity {
+public class Route extends PermissionActivity implements LocationStateReceiver.LocationStateReceiverListener {
 
     private Trip currentTrip;
+    private boolean shownGpsPrompt;
 
     // Layouts
     private ConstraintLayout routeInformation;
@@ -67,6 +76,9 @@ public class Route extends PermissionActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.route);
 
+        // Init
+        this.shownGpsPrompt = false;
+
         // Init layouts
         initLayouts();
 
@@ -75,10 +87,6 @@ public class Route extends PermissionActivity {
         final Button button = findViewById(R.id.endtrip);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(button.getRootView().equals(v)) {
-                    System.out.println("HUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUTTTTTTTTTTTTTTTTTTTSSSSSSS");
-                }
-
                 requestFinalUpdate();
             }
         });
@@ -125,6 +133,9 @@ public class Route extends PermissionActivity {
                 .registerReceiver(mMessageReceiver,
                         new IntentFilter("locationBroadcaster"));
         requestUpdate();
+
+        // Listen to location changes
+        ((Global) getApplication()).getLocationStateReceiver().addListener(this);
     }
 
     public void startLocationService() {
@@ -195,6 +206,9 @@ public class Route extends PermissionActivity {
         LocalBroadcastManager.getInstance(this)
                 .unregisterReceiver(mMessageReceiver);
 
+        // Stop listening to location changes
+        ((Global) getApplication()).getLocationStateReceiver().removeListener(this);
+
         System.out.println("FF Pauze");
         super.onPause();
     }
@@ -220,6 +234,38 @@ public class Route extends PermissionActivity {
 
         // Start service
         startLocationService();
+    }
+
+    @Override
+    public void locationAvailable() {
+        findViewById(R.id.gpsDisabledInfo).setVisibility(View.GONE);
+
+        // Update status
+        shownGpsPrompt = true;
+    }
+
+    @Override
+    public void locationUnavailable() {
+        findViewById(R.id.enableLocationServices).setOnClickListener(v -> showGpsPrompt());
+        findViewById(R.id.gpsDisabledInfo).setVisibility(View.VISIBLE);
+
+        if(!shownGpsPrompt) {
+            // Update status
+            shownGpsPrompt = true;
+
+            // Show alert
+            AlertUtils.showAlert("Inschakelen", "Annuleren", "GPS uitgeschakeld.\nKan locatie niet bepalen.", this, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    showGpsPrompt();
+                }
+            });
+        }
+    }
+
+    public void showGpsPrompt() {
+        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(intent);
     }
 }
 
