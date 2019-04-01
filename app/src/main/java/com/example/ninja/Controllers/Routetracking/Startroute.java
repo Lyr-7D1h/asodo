@@ -1,4 +1,4 @@
-package com.example.ninja.Controllers;
+package com.example.ninja.Controllers.Routetracking;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -11,11 +11,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ninja.Controllers.loginscreen.LogActivity;
-import com.example.ninja.Domain.Trip;
+import com.example.ninja.Domain.Global;
+import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
+import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
+import com.example.ninja.Domain.trips.TripList;
 import com.example.ninja.Domain.util.ActivityUtils;
+import com.example.ninja.Domain.util.CacheUtils;
+import com.example.ninja.Domain.util.ConnectivityUtils;
 import com.example.ninja.Domain.util.UserUtils;
 import com.example.ninja.R;
 import com.google.gson.JsonArray;
@@ -33,8 +37,11 @@ public class Startroute extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_route);
 
+        checkActiveTrip();
+
         // Init
         currentTrip = new Trip(context);
+        ((Global) this.getApplication()).setTrip(currentTrip);
 
         // Set disabled
         findViewById(R.id.startkm).setEnabled(false);
@@ -45,40 +52,31 @@ public class Startroute extends AppCompatActivity {
     }
 
     private void getLastMileage() {
-        // Get user ID
-        String userID = UserUtils.getUserID(context);
-
-        // Make request
-        String jsonString = "{"
-                + "\"userID\":\"" + userID + "\","
-                + "\"limit\":1"
-                + "}";
-        JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
-
-        AsodoRequester.newRequest("getTrips", json, Startroute.this, new CustomListener() {
+        ((Global) this.getApplication()).getTripCache(new AsodoRequesterCallback() {
             @Override
-            public void onResponse(JsonObject jsonResponse) {
-                lastMileageResponseListener(jsonResponse);
+            public void callback(JsonObject jsonResponse) {
+                JsonArray cachedTrips = new TripList(jsonResponse).getTrips();
+
+                if(cachedTrips.size() > 0) {
+                    Trip lastCachedTrip = Trip.build(cachedTrips.get(cachedTrips.size() - 1).getAsJsonObject());
+                    int lastCachedMileage = lastCachedTrip.getMileageEnded();
+
+                    initTrip(lastCachedMileage);
+                } else {
+                    Toast.makeText(Startroute.this, "Kan laatste kilometerstand niet laden!", Toast.LENGTH_SHORT).show();
+                    initTrip(0);
+                }
             }
         });
-    }
-
-    private void lastMileageResponseListener(JsonObject jsonResponse) {
-        int res = 0;
-
-        JsonArray trips = jsonResponse.getAsJsonArray("trips");
-        if(trips.size() > 0) {
-            JsonObject lastTrip = trips.get(0).getAsJsonObject();
-            res = lastTrip.get("mileageEnded").getAsInt();
-        }
-
-        initTrip(res);
     }
 
     private void initTrip(int lastMileage) {
         // Init start mileage
         currentTrip.setMileageStarted(lastMileage);
         ((TextView) findViewById(R.id.startkm)).setText(String.valueOf(lastMileage));
+        if(lastMileage == 0) {
+            ((TextView) findViewById(R.id.confirmTV)).setText(String.valueOf("Vul kilometerstand in"));
+        }
         findViewById(R.id.startkm).setEnabled(true);
 
         // Start button
@@ -96,15 +94,25 @@ public class Startroute extends AppCompatActivity {
                     return;
                 }
 
-                //TODO validate
-                currentTrip.setMileageStarted(Integer.parseInt(((TextView) findViewById(R.id.startkm)).getText().toString()));
+                // Update trip
+                currentTrip.setTripStarted();
+                // TODO set businessTrip, bbComuting
+                currentTrip.setTrackingSetting(2); // TODO
+                currentTrip.setMileageStarted(Integer.parseInt(((TextView) findViewById(R.id.startkm)).getText().toString())); //TODO validate
 
                 // Move to next activity
                 Intent intent = new Intent(v.getContext(), Route.class);
-                intent.putExtra("km", currentTrip);
                 startActivity(intent);
+                finish();
             }
         });
+    }
+
+    public void checkActiveTrip() {
+        if(((Global) this.getApplication()).isActiveTrip()) {
+            ActivityUtils.changeActivity(this, Startroute.this, Route.class);
+            finish();
+        }
     }
 }
 

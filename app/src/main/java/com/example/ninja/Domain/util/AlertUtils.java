@@ -14,14 +14,16 @@ public class AlertUtils {
     }
 
     public static void showAlert(String button, String message, Activity context, DialogInterface.OnClickListener clickListener) {
+        showAlert(button, message, context, clickListener, false);
+    }
+
+    public static void showAlert(String button, String message, Activity context, DialogInterface.OnClickListener clickListener, boolean showNegative) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         builder.setMessage(message).setCancelable(false).setPositiveButton(button, clickListener);
-
-        try {
-            builder.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(showNegative) {
+            builder.setNegativeButton("Cancel", null);
         }
+        builder.show();
     }
 }
