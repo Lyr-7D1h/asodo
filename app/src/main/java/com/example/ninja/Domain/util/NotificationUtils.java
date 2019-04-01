@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
+import com.example.ninja.Controllers.MainActivity;
 import com.example.ninja.Controllers.Routetracking.Route;
 import com.example.ninja.R;
 
@@ -33,8 +34,9 @@ public class NotificationUtils {
         createNotificationChannel(ctx);
 
         // Create Intent
-        Intent intent = new Intent(ctx, Route.class);
+        Intent intent = new Intent(ctx, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("redirect", 1);
         PendingIntent pendingIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
 
         // Build notification
