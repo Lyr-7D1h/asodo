@@ -43,7 +43,9 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
             if(intent.hasExtra("firstUpdate")) {
                 // Update layouts
                 updateLayouts(startLoader, routeInformation);
-                ((Global) getApplication()).updateTripStatus();
+                if(((Global) getApplication()).getTrip().getTrackingSetting() == 2) {
+                    findViewById(R.id.kmtotaalCont).setVisibility(View.VISIBLE);
+                }
             }
 
             // Estimation update
@@ -54,16 +56,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
 
             // Final update
             if(intent.hasExtra("finalUpdate")) {
-                // Update current Trip
-                currentTrip = ((Global) getApplication()).getTrip();
-                // TODO calculate polyline, cityStarted, cityEnded, optimalDistance, kmDeviation
-                currentTrip.setTripEnded();
-
-                // Stop location service
-                stopLocationService();
-
-                // Move to next screen
-                moveToRouteEnd();
+                lastUpdateReceived();
             }
         }
     };
@@ -114,11 +107,17 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
                     this.startLoader.setVisibility(View.VISIBLE);
                     break;
                 case 2:
+                    if(((Global) getApplication()).getTrip().getTrackingSetting() == 2) {
+                        findViewById(R.id.kmtotaalCont).setVisibility(View.VISIBLE);
+                    }
                     this.routeLoader.setVisibility(View.VISIBLE);
                     requestUpdate();
                     break;
                 case 3:
                     this.endLoader.setVisibility(View.VISIBLE);
+                    break;
+                case 4:
+                    lastUpdateReceived();
                     break;
             }
         } else {
@@ -173,7 +172,6 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     public void requestFinalUpdate() {
         // Update layouts
         updateLayouts(routeInformation, endLoader);
-        ((Global) getApplication()).updateTripStatus();
 
         // Send intent
         Intent intent = new Intent("routeBroadcaster");
@@ -204,6 +202,19 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
         // Update TextView
         final TextView kmend = findViewById(R.id.kmtotaal);
         kmend.setText(String.valueOf(estimation));
+    }
+
+    public void lastUpdateReceived() {
+        // Update current Trip
+        currentTrip = ((Global) getApplication()).getTrip();
+        // TODO calculate polyline, cityStarted, cityEnded, optimalDistance, kmDeviation
+        currentTrip.setTripEnded();
+
+        // Stop location service
+        stopLocationService();
+
+        // Move to next screen
+        moveToRouteEnd();
     }
 
     public void moveToRouteEnd() {
@@ -251,34 +262,48 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
 
     @Override
     public void locationAvailable() {
-        findViewById(R.id.gpsDisabledInfo1).setVisibility(View.GONE);
-        findViewById(R.id.gpsDisabledInfo2).setVisibility(View.GONE);
-        findViewById(R.id.gpsDisabledInfo3).setVisibility(View.GONE);
+        int trackingSetting = ((Global) getApplication()).getTrip().getTrackingSetting();
 
-        // Update status
-        shownGpsPrompt = true;
+        if(trackingSetting > 0) {
+            findViewById(R.id.gpsDisabledInfo1).setVisibility(View.GONE);
+            findViewById(R.id.gpsDisabledInfo2).setVisibility(View.GONE);
+
+            if(trackingSetting == 2) {
+                findViewById(R.id.gpsDisabledInfo3).setVisibility(View.GONE);
+            }
+
+            // Update status
+            shownGpsPrompt = true;
+        }
     }
 
     @Override
     public void locationUnavailable() {
-        findViewById(R.id.enableLocationServices1).setOnClickListener(v -> showGpsPrompt());
-        findViewById(R.id.enableLocationServices2).setOnClickListener(v -> showGpsPrompt());
-        findViewById(R.id.enableLocationServices3).setOnClickListener(v -> showGpsPrompt());
-        findViewById(R.id.gpsDisabledInfo1).setVisibility(View.VISIBLE);
-        findViewById(R.id.gpsDisabledInfo2).setVisibility(View.VISIBLE);
-        findViewById(R.id.gpsDisabledInfo3).setVisibility(View.VISIBLE);
+        int trackingSetting = ((Global) getApplication()).getTrip().getTrackingSetting();
 
-        if(!shownGpsPrompt) {
-            // Update status
-            shownGpsPrompt = true;
+        if(trackingSetting > 0) {
+            findViewById(R.id.enableLocationServices1).setOnClickListener(v -> showGpsPrompt());
+            findViewById(R.id.enableLocationServices2).setOnClickListener(v -> showGpsPrompt());
+            findViewById(R.id.gpsDisabledInfo1).setVisibility(View.VISIBLE);
+            findViewById(R.id.gpsDisabledInfo2).setVisibility(View.VISIBLE);
 
-            // Show alert
-            AlertUtils.showAlert("Inschakelen", "Annuleren", "GPS uitgeschakeld.\nKan locatie niet bepalen.", this, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    showGpsPrompt();
-                }
-            });
+            if(trackingSetting == 2) {
+                findViewById(R.id.enableLocationServices3).setOnClickListener(v -> showGpsPrompt());
+                findViewById(R.id.gpsDisabledInfo3).setVisibility(View.VISIBLE);
+            }
+
+            if (!shownGpsPrompt) {
+                // Update status
+                shownGpsPrompt = true;
+
+                // Show alert
+                AlertUtils.showAlert("Inschakelen", "Annuleren", "GPS uitgeschakeld.\nKan locatie niet bepalen.", this, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showGpsPrompt();
+                    }
+                });
+            }
         }
     }
 

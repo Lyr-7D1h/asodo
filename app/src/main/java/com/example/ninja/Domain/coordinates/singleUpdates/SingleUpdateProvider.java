@@ -33,7 +33,7 @@ public class SingleUpdateProvider {
             return;
         }
 
-        LocationRequest locationRequest = new CustomLocationRequest(0,0).getLocationRequest();
+        LocationRequest locationRequest = new CustomLocationRequest(500,0).getLocationRequest();
         mFusedLocationClient.requestLocationUpdates(locationRequest, singleLocationCallback, null);
     }
 }

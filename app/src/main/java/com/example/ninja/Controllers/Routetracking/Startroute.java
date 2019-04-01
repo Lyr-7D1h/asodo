@@ -98,7 +98,7 @@ public class Startroute extends AppCompatActivity {
                 currentTrip = ((Global) getApplication()).getTrip();
                 currentTrip.setTripStarted();
                 // TODO set businessTrip, bbComuting
-                currentTrip.setTrackingSetting(1); // TODO
+                currentTrip.setTrackingSetting(2); // TODO
                 currentTrip.setMileageStarted(Integer.parseInt(((TextView) findViewById(R.id.startkm)).getText().toString())); //TODO validate
 
                 // Move to next activity

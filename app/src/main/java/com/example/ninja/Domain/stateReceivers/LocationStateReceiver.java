@@ -30,6 +30,10 @@ public class LocationStateReceiver extends BroadcastReceiver {
         notifyStateToAll();
     }
 
+    public void requestUpdate(LocationStateReceiverListener listener) {
+        notifyState(listener);
+    }
+
     private void notifyStateToAll() {
         for(LocationStateReceiverListener listener : listeners)
             notifyState(listener);

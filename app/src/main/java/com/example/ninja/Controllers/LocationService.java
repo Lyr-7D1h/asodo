@@ -51,20 +51,26 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.hasExtra("finalUpdate")) {
+                // Update status
+                ((Global) getApplication()).updateTripStatus();
+
                 if (trackingSetting > 0) {
                     // Stop tracking
                     if (trackingSetting == 2) {
                         stopTripTracking();
                     }
 
-                    // Get final location
+                    // Update status
                     isRequestingSingleUpdate = true;
+                    ((Global) getApplication()).getLocationStateReceiver().requestUpdate(self);
+
+                    // Request final location
                     singleUpdateProvider.requestSingleUpdate(new SingleUpdateReceiver() {
                         @Override
                         public void onLocation(Location location) {
                             // Update status
                             isRequestingSingleUpdate = false;
-                            updateNotification(null);
+                            updateNotification("Bevestig kilometerstand");
 
                             // Broadcast update
                             broadcastFinalUpdate(location);
@@ -130,6 +136,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         if(trackingSetting > 0) {
             // Update status
             isRequestingSingleUpdate = true;
+            ((Global) getApplication()).getLocationStateReceiver().requestUpdate(self);
 
             // Request update
             singleUpdateProvider.requestSingleUpdate(new SingleUpdateReceiver() {
@@ -137,7 +144,11 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                 public void onLocation(Location location) {
                     // Update status
                     isRequestingSingleUpdate = false;
-                    updateNotification(null);
+                    if(trackingSetting == 1) {
+                        updateNotification("Beëindig rit");
+                    } else {
+                        updateNotification();
+                    }
 
                     // Add location
                     currentTrip.addLocation(location);
@@ -152,6 +163,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                 }
             });
         } else {
+            updateNotification("Beëindig rit");
             broadcastNudes();
         }
     }
@@ -194,6 +206,10 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     }
 
     public void broadcastNudes() {
+        // Update status
+        ((Global) getApplication()).updateTripStatus();
+
+        // Send intent
         Intent intent = new Intent("locationBroadcaster");
         intent.putExtra("firstUpdate", 1);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
@@ -211,6 +227,10 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     }
 
     public void broadcastFinalUpdate() {
+        // Update status
+        ((Global) getApplication()).updateTripStatus();
+
+        // Send intent
         Intent intent = new Intent("locationBroadcaster");
         intent.putExtra("finalUpdate", 1);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
@@ -262,7 +282,19 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     @Override
     public void locationAvailable() {
         if((trackingSetting == 1 && isRequestingSingleUpdate) || trackingSetting == 2) {
-            updateNotification("Locatie wordt bepaald");
+            int tripStatus = ((Global) getApplication()).getTripStatus();
+
+            switch (tripStatus) {
+                case 1:
+                    updateNotification("Startlocatie wordt bepaald");
+                    break;
+                case 2:
+                    updateNotification();
+                    break;
+                case 3:
+                    updateNotification("Eindlocatie wordt bepaald");
+                    break;
+            }
         }
     }
 
