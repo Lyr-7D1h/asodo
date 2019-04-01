@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Functionality of statistics button
-        ImageButton statistics = (ImageButton) findViewById(R.id.statistics);
+        Button statistics = (Button) findViewById(R.id.statistics);
         statistics.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("statistics"); // Placeholder
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Functionality of activity_export button
         Activity self = this;
-        ImageButton export = (ImageButton) findViewById(R.id.export);
+        Button export = (Button) findViewById(R.id.export);
         export.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ActivityUtils.changeActivity(self, MainActivity.this, ExportActivity.class);
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Functionality of options button
-        ImageButton options = (ImageButton) findViewById(R.id.options);
+        Button options = (Button) findViewById(R.id.options);
         options.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("options"); // Placeholder
