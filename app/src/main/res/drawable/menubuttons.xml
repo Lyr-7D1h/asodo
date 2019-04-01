@@ -4,13 +4,6 @@
 
     <item>
         <shape>
-            <corners android:radius="7dp" />
-            <solid android:color="@android:color/white"/>
-
-        </shape>
-    </item>
-    <item>
-        <shape>
             <gradient
                 android:angle="225"
                 android:centerX="75%"
@@ -18,12 +11,6 @@
                 android:startColor="#98ff98"
                 android:endColor="#98ff98"
                 android:type="linear"
-                />
-            <corners
-                android:topLeftRadius="7dp"
-                android:topRightRadius="7dp"
-                android:bottomLeftRadius="7dp"
-                android:bottomRightRadius="7dp"
                 />
             <padding
                 android:left="32dp"
@@ -35,12 +22,6 @@
         android:left="65dp">
         <shape>
             <solid android:color="@android:color/white" />
-            <corners
-                android:topRightRadius="7dp"
-                android:topLeftRadius="0dp"
-                android:bottomRightRadius="7dp"
-                android:bottomLeftRadius="0dp"/>
-
         </shape>
     </item>
 
