@@ -1,10 +1,9 @@
-package com.example.ninja.Domain.network;
+package com.example.ninja.Domain.stateReceivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
 
 import java.util.HashSet;
 import java.util.Set;

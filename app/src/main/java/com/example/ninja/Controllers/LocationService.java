@@ -19,6 +19,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.example.ninja.Domain.Global;
+import com.example.ninja.Domain.coordinates.singleUpdates.SingleUpdateProvider;
+import com.example.ninja.Domain.coordinates.singleUpdates.SingleUpdateReceiver;
+import com.example.ninja.Domain.stateReceivers.LocationStateReceiver;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.coordinates.CustomLocationCallback;
 import com.example.ninja.Domain.coordinates.CustomLocationRequest;
@@ -30,34 +33,45 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-public class LocationService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class LocationService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationStateReceiver.LocationStateReceiverListener {
 
+    private LocationService self = this;
     private GoogleApiClient googleApiClient;
     private FusedLocationProviderClient mFusedLocationClient;
+    private SingleUpdateProvider singleUpdateProvider;
     private LocationRequest locationRequest;
     private CustomLocationCallback locationCallback;
     private NotificationCompat.Builder notificationBuilder;
     private Trip currentTrip;
     private int trackingSetting = 0;
+    private boolean isRequestingSingleUpdate = false;
 
     //BroadcastReceiver
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.hasExtra("finalUpdate")) {
-                if(trackingSetting > 0) {
-                    requestSingleLocation(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Add location
-                            currentTrip.addLocation(location);
+                if (trackingSetting > 0) {
+                    // Stop tracking
+                    if (trackingSetting == 2) {
+                        stopTripTracking();
+                    }
 
-                            // Update activity
-                            broadcastTrip();
+                    // Get final location
+                    isRequestingSingleUpdate = true;
+                    singleUpdateProvider.requestSingleUpdate(new SingleUpdateReceiver() {
+                        @Override
+                        public void onLocation(Location location) {
+                            // Update status
+                            isRequestingSingleUpdate = false;
+                            updateNotification(null);
+
+                            // Broadcast update
+                            broadcastFinalUpdate(location);
                         }
                     });
                 } else {
-                    broadcastTrip();
+                    broadcastFinalUpdate();
                 }
             } else {
                 broadcastEstimation();
@@ -80,6 +94,9 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         LocalBroadcastManager.getInstance(this)
                 .registerReceiver(mMessageReceiver,
                         new IntentFilter("routeBroadcaster"));
+
+        // Listen to location changes
+        ((Global) getApplication()).getLocationStateReceiver().addListener(this);
     }
 
     @Override
@@ -98,6 +115,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
 
         // Init location variables
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        singleUpdateProvider = new SingleUpdateProvider(this, mFusedLocationClient);
         locationRequest = new CustomLocationRequest(1000, 5).getLocationRequest();
         locationCallback = new CustomLocationCallback(this, currentTrip);
 
@@ -110,9 +128,17 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
 
     public void initService() {
         if(trackingSetting > 0) {
-            requestSingleLocation(new OnSuccessListener<Location>() {
+            // Update status
+            isRequestingSingleUpdate = true;
+
+            // Request update
+            singleUpdateProvider.requestSingleUpdate(new SingleUpdateReceiver() {
                 @Override
-                public void onSuccess(Location location) {
+                public void onLocation(Location location) {
+                    // Update status
+                    isRequestingSingleUpdate = false;
+                    updateNotification(null);
+
                     // Add location
                     currentTrip.addLocation(location);
 
@@ -153,13 +179,16 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     }
 
     public void updateNotification() {
+        float estimation = currentTrip.getEstimatedKMDrivenf();
+        updateNotification(String.valueOf("Afgelegde afstand: " + estimation + " km"));
+    }
+
+    public void updateNotification(String message) {
         if(notificationBuilder != null) {
             NotificationManager notificationManager =
                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-            float estimation = currentTrip.getEstimatedKMDrivenf();
-            notificationBuilder.setContentText(String.valueOf("Afgelegde afstand: " + estimation + " km"));
-
+            notificationBuilder.setContentText(message);
             notificationManager.notify(1, notificationBuilder.build());
         }
     }
@@ -176,10 +205,14 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
-    public void broadcastTrip() {
+    public void broadcastFinalUpdate(Location location) {
+        currentTrip.addLocation(location);
+        broadcastFinalUpdate();
+    }
+
+    public void broadcastFinalUpdate() {
         Intent intent = new Intent("locationBroadcaster");
         intent.putExtra("finalUpdate", 1);
-        intent.putExtra("currentTrip", currentTrip);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
@@ -187,6 +220,9 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     public void onDestroy() {
         System.out.println("Destroying!");
         super.onDestroy();
+
+        // Stop listening to location changes
+        ((Global) getApplication()).getLocationStateReceiver().removeListener(this);
 
         // Unregister BroadCastReceiver
         LocalBroadcastManager.getInstance(this)
@@ -221,5 +257,19 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         System.out.println("Connection failed b*tches");
+    }
+
+    @Override
+    public void locationAvailable() {
+        if((trackingSetting == 1 && isRequestingSingleUpdate) || trackingSetting == 2) {
+            updateNotification("Locatie wordt bepaald");
+        }
+    }
+
+    @Override
+    public void locationUnavailable() {
+        if((trackingSetting == 1 && isRequestingSingleUpdate) || trackingSetting == 2) {
+            updateNotification("GPS Uitgeschakeld");
+        }
     }
 }

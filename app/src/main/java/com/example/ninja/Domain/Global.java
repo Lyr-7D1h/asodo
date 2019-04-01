@@ -1,22 +1,18 @@
 package com.example.ninja.Domain;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.LocationManager;
 
-import com.example.ninja.Controllers.MainActivity;
-import com.example.ninja.Controllers.loginscreen.LogActivity;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
 import com.example.ninja.Domain.httpRequests.CustomListener;
-import com.example.ninja.Domain.network.LocationStateReceiver;
-import com.example.ninja.Domain.network.NetworkStateReceiver;
+import com.example.ninja.Domain.stateReceivers.LocationStateReceiver;
+import com.example.ninja.Domain.stateReceivers.NetworkStateReceiver;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.trips.TripList;
-import com.example.ninja.Domain.util.ActivityUtils;
 import com.example.ninja.Domain.util.CacheUtils;
 import com.example.ninja.Domain.util.ConnectivityUtils;
 import com.example.ninja.Domain.util.UserUtils;
@@ -29,6 +25,7 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
     // Global variables
     private static Context sContext;
     private boolean activeTrip;
+    private int tripStatus;
     private Trip trip;
     private Intent locationIntent;
 
@@ -88,6 +85,20 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
 
     public void setActiveTrip(boolean activeTrip) {
         this.activeTrip = activeTrip;
+
+        if(activeTrip) {
+            updateTripStatus();
+        } else {
+            tripStatus = 0;
+        }
+    }
+
+    public int getTripStatus() {
+        return tripStatus;
+    }
+
+    public void updateTripStatus() {
+        tripStatus++;
     }
 
     public Trip getTrip() {

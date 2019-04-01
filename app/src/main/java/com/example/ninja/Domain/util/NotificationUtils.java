@@ -40,7 +40,6 @@ public class NotificationUtils {
         // Build notification
         builder = builder.setSmallIcon(R.drawable.logo)
                 .setContentTitle(ctx.getString(R.string.notification_title))
-                .setContentText(ctx.getString(R.string.notification_text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent);
 

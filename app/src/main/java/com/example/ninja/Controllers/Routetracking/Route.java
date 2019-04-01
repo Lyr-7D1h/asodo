@@ -7,26 +7,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.LocationManager;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ninja.Controllers.LocationService;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Controllers.abstractActivities.PermissionActivity;
-import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
-import com.example.ninja.Domain.network.LocationStateReceiver;
+import com.example.ninja.Domain.stateReceivers.LocationStateReceiver;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.util.AlertUtils;
 import com.example.ninja.Domain.util.PermissionUtils;
 import com.example.ninja.R;
-import com.google.gson.JsonObject;
 
 public class Route extends PermissionActivity implements LocationStateReceiver.LocationStateReceiverListener {
 
@@ -47,6 +43,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
             if(intent.hasExtra("firstUpdate")) {
                 // Update layouts
                 updateLayouts(startLoader, routeInformation);
+                ((Global) getApplication()).updateTripStatus();
             }
 
             // Estimation update
@@ -58,6 +55,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
             // Final update
             if(intent.hasExtra("finalUpdate")) {
                 // Update current Trip
+                currentTrip = ((Global) getApplication()).getTrip();
                 // TODO calculate polyline, cityStarted, cityEnded, optimalDistance, kmDeviation
                 currentTrip.setTripEnded();
 
@@ -75,9 +73,10 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
         // Init
         super.onCreate(savedInstanceState);
         setContentView(R.layout.route);
+        System.out.println("FF create");
 
         // Init
-        this.shownGpsPrompt = false;
+        shownGpsPrompt = false;
 
         // Init layouts
         initLayouts();
@@ -110,8 +109,18 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
         // Set layout
         if(((Global) this.getApplication()).isActiveTrip()) {
             // Trip already active
-            this.routeLoader.setVisibility(View.VISIBLE);
-            requestUpdate();
+            switch (((Global) this.getApplication()).getTripStatus()) {
+                case 1:
+                    this.startLoader.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    this.routeLoader.setVisibility(View.VISIBLE);
+                    requestUpdate();
+                    break;
+                case 3:
+                    this.endLoader.setVisibility(View.VISIBLE);
+                    break;
+            }
         } else {
             // Start new trip
             this.startLoader.setVisibility(View.VISIBLE);
@@ -127,6 +136,9 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     public void onResume() {
         super.onResume();
         System.out.println("FF Door");
+
+        // Init currentTrip
+        this.currentTrip = ((Global) this.getApplication()).getTrip();
 
         // This registers mMessageReceiver to receive messages.
         LocalBroadcastManager.getInstance(this)
@@ -161,6 +173,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     public void requestFinalUpdate() {
         // Update layouts
         updateLayouts(routeInformation, endLoader);
+        ((Global) getApplication()).updateTripStatus();
 
         // Send intent
         Intent intent = new Intent("routeBroadcaster");
@@ -238,7 +251,9 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
 
     @Override
     public void locationAvailable() {
-        findViewById(R.id.gpsDisabledInfo).setVisibility(View.GONE);
+        findViewById(R.id.gpsDisabledInfo1).setVisibility(View.GONE);
+        findViewById(R.id.gpsDisabledInfo2).setVisibility(View.GONE);
+        findViewById(R.id.gpsDisabledInfo3).setVisibility(View.GONE);
 
         // Update status
         shownGpsPrompt = true;
@@ -246,8 +261,12 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
 
     @Override
     public void locationUnavailable() {
-        findViewById(R.id.enableLocationServices).setOnClickListener(v -> showGpsPrompt());
-        findViewById(R.id.gpsDisabledInfo).setVisibility(View.VISIBLE);
+        findViewById(R.id.enableLocationServices1).setOnClickListener(v -> showGpsPrompt());
+        findViewById(R.id.enableLocationServices2).setOnClickListener(v -> showGpsPrompt());
+        findViewById(R.id.enableLocationServices3).setOnClickListener(v -> showGpsPrompt());
+        findViewById(R.id.gpsDisabledInfo1).setVisibility(View.VISIBLE);
+        findViewById(R.id.gpsDisabledInfo2).setVisibility(View.VISIBLE);
+        findViewById(R.id.gpsDisabledInfo3).setVisibility(View.VISIBLE);
 
         if(!shownGpsPrompt) {
             // Update status
