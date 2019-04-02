@@ -48,6 +48,7 @@ public class RegActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ActivityUtils.changeActivity(self, RegActivity.this, LogActivity.class);
+                finish();
             }
         });
 

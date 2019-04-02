@@ -10,4 +10,26 @@
     <string name="login2">Login</string>
     <string name="confirm_password">Bevestig Password</string>
     <string name="welkom_gebruiker">Welkom Gebruiker!</string>
+    <string name="settings">Opties</string>
+    <string name="language">Taal</string>
+    <string name="language_summary">Verander de taal van de app</string>
+    <string name="language_default_value">Nederlands</string>
+    <string-array name="language_entries">
+        <item>Nederlands</item>
+        <item>Engels</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>Nederlands</item>
+        <item>Engels</item>
+    </string-array>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+
+
+
 </resources>

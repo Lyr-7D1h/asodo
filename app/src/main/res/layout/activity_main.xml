@@ -8,6 +8,10 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+<include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
     <ImageButton
         android:id="@+id/export"
         android:layout_width="110dp"

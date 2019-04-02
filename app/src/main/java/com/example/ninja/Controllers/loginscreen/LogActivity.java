@@ -53,6 +53,7 @@ public class LogActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ActivityUtils.changeActivity(self, LogActivity.this, RegActivity.class);
+                finish();
             }
         });
 
@@ -125,6 +126,7 @@ public class LogActivity extends AppCompatActivity {
 
         // Move to home
         ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);
+        finish();
     }
 
     /**
