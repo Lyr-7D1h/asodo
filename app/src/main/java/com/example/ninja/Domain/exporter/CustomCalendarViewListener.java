@@ -54,7 +54,7 @@ public class CustomCalendarViewListener implements CompactCalendarView.CompactCa
             text.setText(new SimpleDateFormat("EEE d MMMM YYY").format(date));
         }
 
-        Event ev = new Event(Color.parseColor("#ff6666"), date.getTime());
+        Event ev = new Event(Color.parseColor("#008577"), date.getTime());
 
         calendar.addEvent(ev); // Reset Calendar
     }
@@ -68,13 +68,13 @@ public class CustomCalendarViewListener implements CompactCalendarView.CompactCa
         long current = start.getTime();
         if (current > end.getTime()) {
             while (current > end.getTime()) {
-                Event ev = new Event(Color.parseColor("#ffb3b3"), current);
+                Event ev = new Event(Color.parseColor("#7fc2bb"), current);
                 calendar.addEvent(ev);
                 current -= 1 * 24 * 60 * 60 * 1000;
             }
         } else if (current < end.getTime()) {
             while (current < end.getTime()) {
-                Event ev = new Event(Color.parseColor("#ffb3b3"), current);
+                Event ev = new Event(Color.parseColor("#7fc2bb"), current);
                 calendar.addEvent(ev);
                 current += 1 * 24 * 60 * 60 * 1000;
             }

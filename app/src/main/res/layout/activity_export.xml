@@ -12,9 +12,9 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
-        app:compactCalendarBackgroundColor="#fff"
-        app:compactCalendarCurrentDayBackgroundColor="#d6d6c2"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="#ff6666"
+        app:compactCalendarBackgroundColor="#FAFAFA"
+        app:compactCalendarCurrentDayBackgroundColor="#999"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="#008577"
         app:compactCalendarCurrentDayIndicatorStyle="no_fill_large_indicator"
         app:compactCalendarMultiEventIndicatorColor="#fff"
         app:compactCalendarEventIndicatorStyle="fill_large_indicator"
@@ -35,11 +35,11 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Download"
+        android:text="@string/calendar_send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendar" />
+        app:layout_constraintTop_toBottomOf="@+id/selected" />
 
     <Button
         android:id="@+id/date"
@@ -47,20 +47,40 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/download"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendar" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <Button
         android:id="@+id/date2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/download"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendar" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="329dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/calendar_tip"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendar"
+        tools:text="@string/calendar_tip" />
+
+    <Spinner
+        android:id="@+id/selected"
+        android:layout_width="298dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date" />
 
 </android.support.constraint.ConstraintLayout>
