@@ -101,7 +101,9 @@
                             android:id="@+id/enableLocationServices1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
                             android:layout_weight="1"
+                            android:background="@drawable/smallbuttons"
                             android:text="Activieer Locatie Services"
                             android:textSize="10sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -196,7 +198,9 @@
                             android:id="@+id/enableLocationServices2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
                             android:layout_weight="1"
+                            android:background="@drawable/smallbuttons"
                             android:text="Activieer Locatie Services"
                             android:textSize="10sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -336,7 +340,9 @@
                             android:id="@+id/enableLocationServices3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
                             android:layout_weight="1"
+                            android:background="@drawable/smallbuttons"
                             android:text="Activieer Locatie Services"
                             android:textSize="10sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -433,6 +439,8 @@
                 android:id="@+id/enterCitySubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/smallbuttons"
                 android:text="Bevestg" />
 
         </LinearLayout>
