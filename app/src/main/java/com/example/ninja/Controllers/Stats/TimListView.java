@@ -74,7 +74,7 @@ public class TimListView extends BackButtonActivity {
                 JsonArray cachedTrips = new TripList(jsonResponse).getTrips();
 
                 // Add values
-                for (int i = 0; i < cachedTrips.size(); i++) {
+                for (int i = cachedTrips.size() - 1; i >= 0; i--) {
                     // Get trip
                     Trip trip = Trip.build(cachedTrips.get(i).getAsJsonObject());
 

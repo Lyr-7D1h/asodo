@@ -13,7 +13,7 @@
     <application
         android:name=".Domain.Global"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -32,7 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controllers.Routetracking.Startroute"></activity>
+        <activity
+            android:name=".Controllers.Routetracking.Startroute"
+            android:parentActivityName=".Controllers.MainActivity"></activity>
         <activity android:name=".Controllers.Routetracking.Route"></activity>
         <activity android:name=".Controllers.Routetracking.Endroute"></activity>
         <activity android:name=".Controllers.Stats.Stats"></activity>

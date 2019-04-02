@@ -41,7 +41,7 @@ public class TimListViewDetail extends BackButtonActivity implements OnMapReadyC
                 try {
                     // Set trip
                     JsonArray cachedTrips = new TripList(jsonResponse).getTrips();
-                    detailTrip = Trip.build(cachedTrips.get(position).getAsJsonObject());
+                    detailTrip = Trip.build(cachedTrips.get(cachedTrips.size() - (position + 1)).getAsJsonObject());
 
                     // Add details
                     addDetails();
