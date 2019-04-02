@@ -124,7 +124,7 @@ public class Startroute extends BackButtonActivity {
         currentTrip.setTripStarted();
         currentTrip.setTrackingSetting(2); // TODO
         currentTrip.setBusinessTrip(((Switch) findViewById(R.id.businessTrip)).isChecked() ?1:0);
-        currentTrip.setBusinessTrip(((Switch) findViewById(R.id.bbCommuting)).isChecked() ?1:0);
+        currentTrip.setBbCommuting(((Switch) findViewById(R.id.bbCommuting)).isChecked() ?0:1);
 
         // Validate start mileage
         String startMileage = ((EditText) findViewById(R.id.startkm)).getText().toString();
