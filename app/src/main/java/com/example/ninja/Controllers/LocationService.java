@@ -163,7 +163,6 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                 }
             });
         } else {
-            updateNotification("Beëindig rit");
             broadcastNudes();
         }
     }
@@ -208,6 +207,11 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     public void broadcastNudes() {
         // Update status
         ((Global) getApplication()).updateTripStatus();
+        if(((Global) getApplication()).getTrip().getTrackingSetting() > 0) {
+            ((Global) getApplication()).updateTripStatus();
+        } else {
+            updateNotification("Vul beginstad in");
+        }
 
         // Send intent
         Intent intent = new Intent("locationBroadcaster");
@@ -216,9 +220,13 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     }
 
     public void broadcastEstimation() {
-        Intent intent = new Intent("locationBroadcaster");
-        intent.putExtra("estimatedDistance", currentTrip.getEstimatedKMDrivenf());
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        if(((Global) getApplication()).getTrip().getTrackingSetting() > 0) {
+            Intent intent = new Intent("locationBroadcaster");
+            intent.putExtra("estimatedDistance", currentTrip.getEstimatedKMDrivenf());
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        } else {
+            updateNotification("Beëndig rit");
+        }
     }
 
     public void broadcastFinalUpdate(Location location) {
@@ -229,6 +237,11 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     public void broadcastFinalUpdate() {
         // Update status
         ((Global) getApplication()).updateTripStatus();
+        if(((Global) getApplication()).getTrip().getTrackingSetting() > 0) {
+            ((Global) getApplication()).updateTripStatus();
+        } else {
+            updateNotification("Vul eindstad in");
+        }
 
         // Send intent
         Intent intent = new Intent("locationBroadcaster");
@@ -288,10 +301,10 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                 case 1:
                     updateNotification("Startlocatie wordt bepaald");
                     break;
-                case 2:
+                case 3:
                     updateNotification();
                     break;
-                case 3:
+                case 5:
                     updateNotification("Eindlocatie wordt bepaald");
                     break;
             }
