@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
@@ -40,7 +41,9 @@ public class NotificationUtils {
         PendingIntent pendingIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
 
         // Build notification
-        builder = builder.setSmallIcon(R.drawable.logo)
+        builder = builder
+                .setSmallIcon(R.drawable.transparentlogo)
+                .setColor(0x2d4c2d)
                 .setContentTitle(ctx.getString(R.string.notification_title))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent);
