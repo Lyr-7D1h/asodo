@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
+import com.example.ninja.Controllers.MainActivity;
 import com.example.ninja.Controllers.Routetracking.Route;
 import com.example.ninja.R;
 
@@ -34,8 +35,9 @@ public class NotificationUtils {
         createNotificationChannel(ctx);
 
         // Create Intent
-        Intent intent = new Intent(ctx, Route.class);
+        Intent intent = new Intent(ctx, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("redirect", 1);
         PendingIntent pendingIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
 
         // Build notification
@@ -43,7 +45,6 @@ public class NotificationUtils {
                 .setSmallIcon(R.drawable.transparentlogo)
                 .setColor(0x2d4c2d)
                 .setContentTitle(ctx.getString(R.string.notification_title))
-                .setContentText(ctx.getString(R.string.notification_text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent);
 

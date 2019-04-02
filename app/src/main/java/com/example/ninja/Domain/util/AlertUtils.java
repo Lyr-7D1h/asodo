@@ -14,15 +14,19 @@ public class AlertUtils {
     }
 
     public static void showAlert(String button, String message, Activity context, DialogInterface.OnClickListener clickListener) {
-        showAlert(button, message, context, clickListener, false);
+        showAlert(button, "NVT", message, context, clickListener, false);
     }
 
-    public static void showAlert(String button, String message, Activity context, DialogInterface.OnClickListener clickListener, boolean showNegative) {
+    public static void showAlert(String okButton, String cancelButton, String message, Activity context, DialogInterface.OnClickListener clickListener) {
+        showAlert(okButton, cancelButton, message, context, clickListener, true);
+    }
+
+    private static void showAlert(String okButton, String cancelButton, String message, Activity context, DialogInterface.OnClickListener clickListener, boolean showNegative) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        builder.setMessage(message).setCancelable(false).setPositiveButton(button, clickListener);
+        builder.setMessage(message).setCancelable(false).setPositiveButton(okButton, clickListener);
         if(showNegative) {
-            builder.setNegativeButton("Cancel", null);
+            builder.setNegativeButton(cancelButton, null);
         }
         builder.show();
     }

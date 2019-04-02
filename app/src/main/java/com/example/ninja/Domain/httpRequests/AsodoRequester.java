@@ -58,7 +58,7 @@ public class AsodoRequester {
         return new CustomStringRequest(Request.Method.POST, apiEndpoint,
                 responseListener, error -> {
             // Show alert
-            AlertUtils.showAlert("Retry", "No internet connection.", context, (dialog, which) -> {
+            AlertUtils.showAlert("Retry", "Cancel","No internet connection.", context, (dialog, which) -> {
                 // New request
                 AsodoRequester.newRequest(view, json, context, responseListener);
             });

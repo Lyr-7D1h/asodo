@@ -4,29 +4,27 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ninja.Controllers.abstractActivities.BackButtonActivity;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
 import com.example.ninja.Domain.trips.Trip;
-import com.example.ninja.Domain.httpRequests.AsodoRequester;
-import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.trips.TripList;
 import com.example.ninja.Domain.util.ActivityUtils;
-import com.example.ninja.Domain.util.CacheUtils;
-import com.example.ninja.Domain.util.ConnectivityUtils;
-import com.example.ninja.Domain.util.UserUtils;
 import com.example.ninja.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-public class Startroute extends AppCompatActivity {
+public class Startroute extends BackButtonActivity {
 
     private final Context context = this;
     private Trip currentTrip;
@@ -70,6 +68,10 @@ public class Startroute extends AppCompatActivity {
         });
     }
 
+    private void initInputs() {
+
+    }
+
     private void initTrip(int lastMileage) {
         // Init start mileage
         currentTrip.setMileageStarted(lastMileage);
@@ -79,33 +81,75 @@ public class Startroute extends AppCompatActivity {
         }
         findViewById(R.id.startkm).setEnabled(true);
 
-        // Start button
-        Activity self = this;
-        final Button button = findViewById(R.id.start);
-        button.setEnabled(true);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Check for corrupt Trip
-                if(currentTrip.getCarID().isEmpty()) {
-                    // Show toast
-                    Toast.makeText(Startroute.this, "Geen auto voor route geselecteerd!", Toast.LENGTH_SHORT).show();
-
-                    // Return
-                    return;
-                }
-
-                // Update trip
-                currentTrip.setTripStarted();
-                // TODO set businessTrip, bbComuting
-                currentTrip.setTrackingSetting(2); // TODO
-                currentTrip.setMileageStarted(Integer.parseInt(((TextView) findViewById(R.id.startkm)).getText().toString())); //TODO validate
-
-                // Move to next activity
-                Intent intent = new Intent(v.getContext(), Route.class);
-                startActivity(intent);
-                finish();
+        // Business switch trip
+        Switch businessTripSwitch = findViewById(R.id.businessTrip);
+        businessTripSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ConstraintLayout bbCommutingCont = findViewById(R.id.bbCommutingCont);
+            if(businessTripSwitch.isChecked()) {
+                ((Switch) findViewById(R.id.bbCommuting)).setChecked(true);
+                bbCommutingCont.setVisibility(View.VISIBLE);
+            } else {
+                bbCommutingCont.setVisibility(View.GONE);
             }
         });
+
+        // Start button
+        final Button startButton = findViewById(R.id.start);
+        startButton.setEnabled(true);
+        startButton.setOnClickListener(v -> onStartButtonClick(v, lastMileage));
+    }
+
+    public void onStartButtonClick(View v, int lastMileage) {
+        // Check for corrupt Trip
+        if(currentTrip.getCarID().isEmpty()) {
+            // Show toast
+            Toast.makeText(Startroute.this, "Geen auto voor route geselecteerd!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Update trip
+        if(updateTrip(lastMileage)) {
+            // Move to next activity
+            Intent intent = new Intent(v.getContext(), Route.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    public boolean updateTrip(int lastMileage) {
+        // Init
+        currentTrip = ((Global) getApplication()).getTrip();
+
+        // Set values
+        currentTrip.setTripStarted();
+        currentTrip.setTrackingSetting(2); // TODO
+        currentTrip.setBusinessTrip(((Switch) findViewById(R.id.businessTrip)).isChecked() ?1:0);
+        currentTrip.setBbCommuting(((Switch) findViewById(R.id.bbCommuting)).isChecked() ?0:1);
+
+        // Validate start mileage
+        String startMileage = ((EditText) findViewById(R.id.startkm)).getText().toString();
+        if(!validMileage(startMileage, lastMileage)) {
+            return false;
+        }
+
+        currentTrip.setMileageStarted(Integer.parseInt(startMileage)); //TODO validate
+        return true;
+    }
+
+    public boolean validMileage(String startMileage, int lastMileage) {
+        try {
+            int res = Integer.parseInt(startMileage);
+
+            if(res < lastMileage) {
+                Toast.makeText(Startroute.this, "Fout: Kilometerstand lager dan laatste eindstand", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(Startroute.this, "Fout: Kilometerstand is geen nummer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     public void checkActiveTrip() {
