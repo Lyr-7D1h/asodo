@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.LocalBroadcastManager;
@@ -23,6 +24,8 @@ import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.util.AlertUtils;
 import com.example.ninja.Domain.util.PermissionUtils;
 import com.example.ninja.R;
+
+import java.util.ArrayList;
 
 public class Route extends PermissionActivity implements LocationStateReceiver.LocationStateReceiverListener {
 
@@ -209,7 +212,15 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
         currentTrip = ((Global) getApplication()).getTrip();
         // TODO calculate polyline, cityStarted, cityEnded, optimalDistance, kmDeviation
         currentTrip.setTripEnded();
+        ArrayList<Location> locList = currentTrip.getLocationList().getLocations();
 
+        if (currentTrip.getTrackingSetting() > 0){
+            Location start = locList.get(0);
+            Location end = locList.get(locList.size()-1);
+
+
+
+        }
         // Stop location service
         stopLocationService();
 
