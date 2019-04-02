@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
     <ListPreference
-        android:key="@string/language"
-        android:title="@string/language"
-        android:entries="@array/language_entries"
-        android:entryValues="@array/language_values"
-        android:defaultValue="@string/language_default_value"
-        android:summary="@string/language_summary"/>
+    app:key="@string/language"
+    app:title="@string/language"
+    app:entries="@array/language_entries"
+    app:entryValues="@array/language_values"
+    app:defaultValue="@string/language_default_value"
+    app:summary="@string/language_summary"/>
 </PreferenceScreen>
