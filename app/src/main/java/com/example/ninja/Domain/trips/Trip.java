@@ -249,10 +249,12 @@ public class Trip implements Serializable {
     }
 
     public void addLocation(Location location) {
-        getLocationList().addLocation(location);
+        if(location != null) {
+            getLocationList().addLocation(location);
 
-        if(getLocationList().getLocationsSize() >= 2) {
-            estimatedDistanceDriven += getLocationList().getLocations().get(getLocationList().getLocationsSize()-2).distanceTo(getLocationList().getLocations().get(getLocationList().getLocationsSize()-1));
+            if (getLocationList().getLocationsSize() >= 2) {
+                estimatedDistanceDriven += getLocationList().getLocations().get(getLocationList().getLocationsSize() - 2).distanceTo(getLocationList().getLocations().get(getLocationList().getLocationsSize() - 1));
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.ninja.Domain.network;
+package com.example.ninja.Domain.stateReceivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

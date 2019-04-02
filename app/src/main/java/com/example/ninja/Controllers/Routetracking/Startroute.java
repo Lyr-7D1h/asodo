@@ -95,6 +95,7 @@ public class Startroute extends AppCompatActivity {
                 }
 
                 // Update trip
+                currentTrip = ((Global) getApplication()).getTrip();
                 currentTrip.setTripStarted();
                 // TODO set businessTrip, bbComuting
                 currentTrip.setTrackingSetting(2); // TODO
