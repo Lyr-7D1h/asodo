@@ -13,6 +13,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.ninja.Controllers.LocationService;
@@ -34,6 +35,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     private ConstraintLayout routeLoader;
     private ConstraintLayout startLoader;
     private ConstraintLayout endLoader;
+    private ConstraintLayout cityFiller;
 
     // BroadcastReceiver
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -42,9 +44,15 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
             // First location receiced
             if(intent.hasExtra("firstUpdate")) {
                 // Update layouts
-                updateLayouts(startLoader, routeInformation);
-                if(((Global) getApplication()).getTrip().getTrackingSetting() == 2) {
-                    findViewById(R.id.kmtotaalCont).setVisibility(View.VISIBLE);
+                switch (((Global) getApplication()).getTrip().getTrackingSetting()) {
+                    case 2:
+                        findViewById(R.id.kmtotaalCont).setVisibility(View.VISIBLE);
+                    case 1:
+                        updateLayouts(startLoader, routeInformation);
+                        break;
+                    case 0:
+                        askCityInput(startLoader);
+                        break;
                 }
             }
 
@@ -56,7 +64,11 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
 
             // Final update
             if(intent.hasExtra("finalUpdate")) {
-                lastUpdateReceived();
+                if(((Global) getApplication()).getTrip().getTrackingSetting() > 0) {
+                    lastUpdateReceived();
+                } else {
+                    askCityInput(routeInformation);
+                }
             }
         }
     };
@@ -89,6 +101,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
         this.routeLoader = findViewById(R.id.routeLoader);
         this.startLoader = findViewById(R.id.startLoader);
         this.endLoader = findViewById(R.id.endLoader);
+        this.cityFiller = findViewById(R.id.enterCity);
     }
 
     @Override
@@ -102,31 +115,43 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
         // Set layout
         if(((Global) this.getApplication()).isActiveTrip()) {
             // Trip already active
+            System.out.println(((Global) this.getApplication()).getTripStatus());
             switch (((Global) this.getApplication()).getTripStatus()) {
                 case 1:
                     this.startLoader.setVisibility(View.VISIBLE);
                     break;
                 case 2:
-                    if(((Global) getApplication()).getTrip().getTrackingSetting() == 2) {
+                    askCityInput(startLoader);
+                    break;
+                case 3:
+                    if(currentTrip.getTrackingSetting() == 2) {
                         findViewById(R.id.kmtotaalCont).setVisibility(View.VISIBLE);
                     }
                     this.routeLoader.setVisibility(View.VISIBLE);
                     requestUpdate();
                     break;
-                case 3:
+                case 4:
                     this.endLoader.setVisibility(View.VISIBLE);
                     break;
-                case 4:
+                case 5:
+                    askCityInput(endLoader);
+                    break;
+                case 6:
                     lastUpdateReceived();
                     break;
             }
         } else {
             // Start new trip
-            this.startLoader.setVisibility(View.VISIBLE);
+            if(currentTrip.getTrackingSetting() > 0) {
+                this.startLoader.setVisibility(View.VISIBLE);
 
-            // Check location permission
-            if(PermissionUtils.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, this.get_REQUEST_CODE_FINE_LOCATION())) {
-                permissionAccepted(this.get_REQUEST_CODE_FINE_LOCATION());
+                // Check location permission
+                if(PermissionUtils.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, this.get_REQUEST_CODE_FINE_LOCATION())) {
+                    permissionAccepted(this.get_REQUEST_CODE_FINE_LOCATION());
+                }
+            } else {
+                askCityInput(startLoader);
+                permissionDeclined(get_REQUEST_CODE_FINE_LOCATION());
             }
         }
     }
@@ -171,7 +196,11 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
 
     public void requestFinalUpdate() {
         // Update layouts
-        updateLayouts(routeInformation, endLoader);
+        if(((Global) getApplication()).getTrip().getTrackingSetting() > 0) {
+            updateLayouts(routeInformation, endLoader);
+        } else {
+            askCityInput(routeInformation);
+        }
 
         // Send intent
         Intent intent = new Intent("routeBroadcaster");
@@ -202,6 +231,40 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
         // Update TextView
         final TextView kmend = findViewById(R.id.kmtotaal);
         kmend.setText(String.valueOf(estimation));
+    }
+
+    public void askCityInput(ConstraintLayout hide) {
+        // Update layouts
+        updateLayouts(hide, cityFiller);
+        if(((Global) getApplication()).getTrip().getCityStarted() != null) {
+            ((EditText) findViewById(R.id.enterCityET)).setText(null);
+            findViewById(R.id.enterStartCityTV).setVisibility(View.GONE);
+            findViewById(R.id.enterEndCityTV).setVisibility(View.VISIBLE);
+        }
+
+        // Set on click listener
+        ((Button) findViewById(R.id.enterCitySubmit)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String cityEntered = ((EditText) findViewById(R.id.enterCityET)).getText().toString();
+                if(!cityEntered.isEmpty()) {
+                    // Update status
+                    ((Global) getApplication()).updateTripStatus();
+
+                    // Set city
+                    currentTrip = ((Global) getApplication()).getTrip();
+                    if (currentTrip.getCityStarted() == null) {
+                        currentTrip.setCityStarted(cityEntered);
+                        updateLayouts(cityFiller, routeInformation);
+                        requestUpdate();
+                    } else {
+                        currentTrip.setCityEnded(cityEntered);
+                        lastUpdateReceived();
+                    }
+                }
+            }
+        });
+
     }
 
     public void lastUpdateReceived() {
