@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,36 +82,41 @@ public class TimListViewDetail extends BackButtonActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         // Init
-        mMap = googleMap;
 
-        List<LatLng> points = PolyUtil.decode(detailTrip.getRoutePolyline()); // list of latlng
+        if(detailTrip.getTrackingSetting() > 0) {
 
-        for (int i = 0; i < points.size() - 1; i++) {
-            LatLng src = points.get(i);
-            LatLng dest = points.get(i + 1);
+            mMap = googleMap;
 
-            // mMap is the Map Object
-            Polyline line = mMap.addPolyline(
-                    new PolylineOptions().add(
-                            new LatLng(src.latitude, src.longitude),
-                            new LatLng(dest.latitude,dest.longitude)
-                    ).width(5).color(Color.BLUE).geodesic(true)
-            );
+            List<LatLng> points = PolyUtil.decode(detailTrip.getRoutePolyline()); // list of latlng
+
+            for (int i = 0; i < points.size() - 1; i++) {
+                LatLng src = points.get(i);
+                LatLng dest = points.get(i + 1);
+
+                // mMap is the Map Object
+                Polyline line = mMap.addPolyline(
+                        new PolylineOptions().add(
+                                new LatLng(src.latitude, src.longitude),
+                                new LatLng(dest.latitude, dest.longitude)
+                        ).width(5).color(Color.BLUE).geodesic(true)
+                );
+            }
+
+
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            mMap.setMaxZoomPreference(15);
+
+
+            for (int i = 0; i < points.size(); i++) {
+                builder.include(points.get(i));
+            }
+            LatLngBounds bounds = builder.build();
+            int padding = 200; // offset from edges of the map in pixels
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            mMap.animateCamera(cu);
+
+        }else{
+            findViewById(R.id.map).setVisibility(View.GONE);
         }
-
-
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        mMap.setMaxZoomPreference(15);
-
-
-        for(int i = 0; i < points.size();i++){
-            builder.include(points.get(i));
-        }
-        LatLngBounds bounds = builder.build();
-        int padding = 200; // offset from edges of the map in pixels
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        mMap.animateCamera(cu);
-
-
 }
 }
