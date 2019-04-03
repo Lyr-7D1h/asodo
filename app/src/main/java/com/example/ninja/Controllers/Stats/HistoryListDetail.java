@@ -74,7 +74,8 @@ public class HistoryListDetail extends BackButtonActivity implements OnMapReadyC
         // Je kan ook de layout in de xml veranderen hoe je wil en gewoon invullen
 
         TextView detailsTV = findViewById(R.id.detailsTV);
-        detailsTV.setText(String.valueOf("kilometers: " + detailTrip.getMileageStarted() + " - " + detailTrip.getMileageEnded()) +"\nVan-Naar: " + detailTrip.getCityStarted() + " - " + detailTrip.getCityEnded());
+        detailsTV.setText(String.format("%s\nVan-Naar: %s - %s", String.valueOf("kilometers: " + detailTrip.getMileageStarted() + " - " + detailTrip.getMileageEnded()), detailTrip.getCityStarted(), detailTrip.getCityEnded()));
+        detailsTV.setText(String.format("%s\nVan-Naar: %s - %s\n\nBeschrijving: %s", String.valueOf("kilometers: " + detailTrip.getMileageStarted() + " - " + detailTrip.getMileageEnded()), detailTrip.getCityStarted(), detailTrip.getCityEnded(), detailTrip.getDesDeviation()));
     }
 
     @Override
@@ -82,9 +83,7 @@ public class HistoryListDetail extends BackButtonActivity implements OnMapReadyC
         // Init
 
         if(detailTrip.getTrackingSetting() > 0) {
-
             mMap = googleMap;
-
             List<LatLng> points = PolyUtil.decode(detailTrip.getRoutePolyline()); // list of latlng
 
             for (int i = 0; i < points.size() - 1; i++) {
@@ -100,21 +99,20 @@ public class HistoryListDetail extends BackButtonActivity implements OnMapReadyC
                 );
             }
 
-
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             mMap.setMaxZoomPreference(15);
-
 
             for (int i = 0; i < points.size(); i++) {
                 builder.include(points.get(i));
             }
+
             LatLngBounds bounds = builder.build();
             int padding = 200; // offset from edges of the map in pixels
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             mMap.animateCamera(cu);
 
-        }else{
+        } else {
             findViewById(R.id.map).setVisibility(View.GONE);
         }
-}
+    }
 }

@@ -154,6 +154,9 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
                 case 6:
                     lastUpdateReceived();
                     break;
+                default:
+                    lastUpdateReceived();
+                    break;
             }
         } else {
             // Start new trip
