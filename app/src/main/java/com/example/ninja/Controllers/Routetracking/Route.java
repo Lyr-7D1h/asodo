@@ -317,6 +317,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     public void permissionDeclined(int requestCode) {
         // Change tracking setting
         //TODO to 0
+        this.currentTrip = ((Global) this.getApplication()).getTrip();
         currentTrip.setTrackingSetting(0);
 
         // Start service
