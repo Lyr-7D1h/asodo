@@ -70,7 +70,7 @@ public class ExportActivity extends BackButtonActivity {
 
         // Hide date buttons
         Button text = (Button) findViewById(R.id.date);
-        text.setVisibility(View.GONE);
+        text.setVisibility(View.INVISIBLE);
         Button text2 = (Button) findViewById(R.id.date2);
         text2.setVisibility(View.GONE);
     };
