@@ -78,7 +78,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     protected void onCreate(Bundle savedInstanceState) {
         // Init
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.route);
+        setContentView(R.layout.activity_route);
         System.out.println("FF create");
 
         // Init

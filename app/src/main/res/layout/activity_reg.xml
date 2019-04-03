@@ -14,36 +14,51 @@
         android:layout_marginTop="50dp"
         android:contentDescription="@string/activity_log_logo"
         app:srcCompat="@drawable/logo" />
+
     <EditText
         android:id="@+id/edittext_username"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
+        android:drawableStart="@drawable/username"
         android:hint="@string/username"
-        android:drawableLeft="@drawable/username"/>
+        android:inputType="textPersonName"
+        android:autofillHints="username"
+        tools:targetApi="o" />
+
     <EditText
         android:id="@+id/edittext_password"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
+        android:drawableStart="@drawable/password"
         android:hint="@string/password"
-        android:drawableLeft="@drawable/password"
-        />
+        android:inputType="textPassword"
+        android:autofillHints="password"
+        tools:targetApi="o" />
+
     <EditText
         android:id="@+id/edittext_cnf_password"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
-        android:drawableLeft="@drawable/password"
-        android:hint="@string/confirm_password"/>
+        android:drawableStart="@drawable/password"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        android:autofillHints="password"
+        tools:targetApi="o" />
+
     <EditText
         android:id="@+id/edittext_Kenteken"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
+        android:drawableStart="@drawable/kenteken"
         android:hint="@string/Kenteken"
-        android:drawableLeft="@drawable/kenteken"
-        />
+        android:inputType="text"
+        android:maxLength="6"
+        android:importantForAutofill="no"
+        tools:targetApi="o" />
     <Button
         android:id="@+id/button_login"
         android:layout_width="190dp"

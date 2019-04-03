@@ -46,7 +46,7 @@
                 android:id="@+id/startkm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/start_route_loading"
+                android:hint="@string/route_km_hint"
                 android:importantForAutofill="no"
                 tools:targetApi="o"
                 android:inputType="number"

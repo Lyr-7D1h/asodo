@@ -277,7 +277,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
-                        android:text="0.0"
+                        android:text="@string/zerof"
                         android:textAlignment="center" />
 
                     <TextView

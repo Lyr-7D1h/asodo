@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Asodo</string>
+    <string name="zero">0</string>
+    <string name="zerof">0.0</string>
     <string name="username">Gebruikersnaam</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
@@ -19,14 +21,15 @@
     <string name="end_route">Einde rit</string>
     <string name="confirm_km">Bevestig kilometerstand</string>
     <string name="route_description">Rit beschrijving:</string>
+    <string name="route_km_hint">Kilometerstand</string>
     <string name="end_route_description_hint">Voeg een beschrijving toe</string>
     <string name="end_route_confirm">Bevestig</string>
     <string name="endcheck_confirm_km">Bevestig km stand</string>
-    <string name="route_load">Route laden...</string>
-    <string name="route_checking">Startlocatie wordt bepaald...</string>
+    <string name="route_load">Route laden…</string>
+    <string name="route_checking">Startlocatie wordt bepaald…</string>
     <string name="route_error_gps">Uw huidige locatie kan niet worden bepaald.</string>
     <string name="route_activate_location">Activieer Locatie Services</string>
-    <string name="route_locating_end_location">Eindlocatie wordt bepaald...</string>
+    <string name="route_locating_end_location">Eindlocatie wordt bepaald…</string>
     <string name="route_error_no_location">Uw huidige locatie kan niet worden bepaald.</string>
     <string name="route_activate_location_services">Activeer Locatie Services</string>
     <string name="route_travel_confirmed">Rit bezig</string>
@@ -38,10 +41,10 @@
     <string name="route_city_begin">Vul beginstad in</string>
     <string name="route_city_end">Vul eindstad in</string>
     <string name="route_city_confirm">Bevestig</string>
-    <string name="route_city_cityet">Enter CityET</string>
+    <string name="route_city_cityet">Vul een stad in</string>
     <string name="start_route">Start rit</string>
     <string name="start_route_confirm_km">Bevestig kilometerstand:</string>
-    <string name="start_route_loading">Aan het laden...</string>
+    <string name="start_route_loading">Aan het laden…</string>
     <string name="start_route_">Start km input</string>
     <string name="start_route_business_trip">Zakelijke reis</string>
     <string name="start_route_home_work">Woon werk</string>

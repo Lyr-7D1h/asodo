@@ -41,19 +41,10 @@
                 android:value="com.example.ninja.Controllers.MainActivity" />
         </activity>
         <activity android:name=".Controllers.Routetracking.Endroute"></activity>
-        <activity android:name=".Controllers.Stats.Stats"></activity>
         <activity android:name=".Controllers.ExportActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ninja.Controllers.MainActivity" />
-        </activity>
-        <activity
-            android:name=".Controllers.Stats.ItemListActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".Controllers.Stats.ItemDetailActivity"
-            android:parentActivityName=".Controllers.Stats.ItemListActivity">
         </activity>
 
         <activity android:name=".Controllers.Stats.TimListView">
