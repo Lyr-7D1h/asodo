@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegActivity"
+    tools:context=".Controllers.loginscreen.RegActivity"
     android:orientation="vertical"
-    android:gravity="center_horizontal">>
+    android:gravity="center_horizontal">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="127dp"
         android:layout_marginTop="50dp"
-        app:srcCompat= "@drawable/logo"/>
+        android:contentDescription="@string/activity_log_logo"
+        app:srcCompat="@drawable/logo" />
     <EditText
         android:id="@+id/edittext_username"
         android:layout_width="wrap_content"
@@ -67,7 +68,8 @@
             android:layout_height="35dp"
             android:text="@string/login2"
             android:textColor="#0000FF"
-            android:paddingLeft="10dp"/>
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogActivity"
+    tools:context=".Controllers.loginscreen.LogActivity"
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
@@ -24,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="110dp"
             android:layout_marginTop="0dp"
+            android:contentDescription="@string/activity_log_logo"
             app:srcCompat="@drawable/logo" />
 
         <EditText
