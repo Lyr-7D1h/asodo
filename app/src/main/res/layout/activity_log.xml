@@ -33,9 +33,12 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:drawableLeft="@drawable/password"
+            android:drawableStart="@drawable/password"
             android:hint="@string/password"
-            tools:paddingRight="10dp" />
+            android:inputType="textPassword"
+            tools:paddingRight="10dp"
+            android:autofillHints="password"
+            tools:targetApi="o" />
 
         <EditText
             android:id="@+id/edittext_username"
@@ -43,10 +46,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:drawableLeft="@drawable/username"
+            android:drawableStart="@drawable/username"
             android:hint="@string/username"
-            android:paddingLeft="10dp"
-            tools:paddingRight="10dp" />
+            android:inputType="textPersonName"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:autofillHints="username"
+            tools:targetApi="o" />
 
         <Button
             android:id="@+id/button_login"

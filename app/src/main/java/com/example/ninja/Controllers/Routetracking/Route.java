@@ -92,7 +92,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     protected void onCreate(Bundle savedInstanceState) {
         // Init
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.route);
+        setContentView(R.layout.activity_route);
         System.out.println("FF create");
 
         // Init
@@ -152,6 +152,9 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
                     askCityInput(endLoader);
                     break;
                 case 6:
+                    lastUpdateReceived();
+                    break;
+                default:
                     lastUpdateReceived();
                     break;
             }
@@ -367,6 +370,12 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
         //TODO to 0
         this.currentTrip = ((Global) this.getApplication()).getTrip();
         currentTrip.setTrackingSetting(0);
+
+        // Hide GPS prompts
+        findViewById(R.id.gpsDisabledInfo1).setVisibility(View.GONE);
+        findViewById(R.id.gpsDisabledInfo2).setVisibility(View.GONE);
+        findViewById(R.id.gpsDisabledInfo3).setVisibility(View.GONE);
+        shownGpsPrompt = true;
 
         // Start service
         startLocationService();

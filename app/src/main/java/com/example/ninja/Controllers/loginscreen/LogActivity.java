@@ -152,13 +152,6 @@ public class LogActivity extends AppCompatActivity {
         // Show toast
         Toast.makeText(LogActivity.this, "Ongeldige gebruikersnaam/wachtwoord!", Toast.LENGTH_SHORT).show();
     }
-
-    public void showProgressingView() {
-        if (!isProgressShowing) {
-            View view = findViewById(R.id.progressBar1);
-            view.bringToFront();
-        }
-    }
 }
 
 //  public void hideProgressingView() {
