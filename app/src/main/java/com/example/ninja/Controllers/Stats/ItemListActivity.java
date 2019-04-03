@@ -47,9 +47,11 @@ public class ItemListActivity extends AppCompatActivity{
         setContentView(R.layout.activity_item_list);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
