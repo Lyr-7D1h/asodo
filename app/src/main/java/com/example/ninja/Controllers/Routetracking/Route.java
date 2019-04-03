@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ninja.Controllers.LocationService;
 import com.example.ninja.Domain.Global;
@@ -261,6 +262,8 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
                         currentTrip.setCityEnded(cityEntered);
                         lastUpdateReceived();
                     }
+                } else {
+                    Toast.makeText(Route.this, "Vul een stad in", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -317,6 +320,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     public void permissionDeclined(int requestCode) {
         // Change tracking setting
         //TODO to 0
+        this.currentTrip = ((Global) this.getApplication()).getTrip();
         currentTrip.setTrackingSetting(0);
 
         // Start service

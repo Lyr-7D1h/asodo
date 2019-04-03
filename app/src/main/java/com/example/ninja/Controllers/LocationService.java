@@ -220,13 +220,13 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     }
 
     public void broadcastEstimation() {
-        if(((Global) getApplication()).getTrip().getTrackingSetting() > 0) {
-            Intent intent = new Intent("locationBroadcaster");
-            intent.putExtra("estimatedDistance", currentTrip.getEstimatedKMDrivenf());
-            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-        } else {
+        if(((Global) getApplication()).getTrip().getTrackingSetting() == 0) {
             updateNotification("Beëndig rit");
         }
+
+        Intent intent = new Intent("locationBroadcaster");
+        intent.putExtra("estimatedDistance", currentTrip.getEstimatedKMDrivenf());
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     public void broadcastFinalUpdate(Location location) {
