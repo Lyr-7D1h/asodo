@@ -37,4 +37,5 @@ dependencies {
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
     implementation 'com.itextpdf:itextg:5.5.10'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation group: 'com.google.maps.android', name: 'android-maps-utils', version: '0.4+'
 }
