@@ -2,6 +2,7 @@ package com.example.ninja.Controllers.loginscreen;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ninja.Controllers.MainActivity;
+import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.util.CacheUtils;
 import com.example.ninja.R;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
@@ -18,6 +20,7 @@ import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.util.ActivityUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.MalformedJsonException;
 
 public class LogActivity extends AppCompatActivity {
 
@@ -37,8 +40,20 @@ public class LogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log);
 
         // Check if user is logged in
-        if(CacheUtils.readCache(context, "user.cache") != null) {
-            ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);
+        try {
+            if(CacheUtils.readCache(context, "user.cache") != null) {
+                if(((Global) this.getApplication()).isActiveTrip()) {
+                    Intent intent = new Intent(LogActivity.this, MainActivity.class);
+                    intent.putExtra("redirect", 1);
+                    startActivity(intent);
+                } else {
+                    ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);
+                }
+
+                finish();
+            }
+        } catch (MalformedJsonException e) {
+            CacheUtils.deleteCache(context, "user.cache");
         }
 
         awaitingResponse = false;
@@ -123,6 +138,9 @@ public class LogActivity extends AppCompatActivity {
 
         // Store response to file
         CacheUtils.cacheJsonObject(context, 0, response, "user.cache");
+
+        // Sync routes
+        ((Global) this.getApplication()).sync();
 
         // Move to home
         ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);

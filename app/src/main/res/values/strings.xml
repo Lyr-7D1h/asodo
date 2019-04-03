@@ -20,7 +20,12 @@
     </string-array>
     <string-array name="language_values">
         <item name="Nederlands">Nederlands</item>
-        <item name ="Engels">Engels</item>
+        <item name="Engels">Engels</item>
     </string-array>
-
+    <string name="notification_title">Actieve rit</string>
+    <string name="channel_name">Test content</string>
+    <string name="channel_description">Test content</string>
+    <string name="loading">Aan het laden…</string>
+    <string name="calendar_tip">Selecteer 2 datums voordat u de pdf download</string>
+    <string name="calendar_send">Stuur</string>
 </resources>

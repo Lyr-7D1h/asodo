@@ -13,7 +13,7 @@ public class ActivityUtils {
      * @param cls
      */
     public static void changeActivity(Activity activity, Context packageContext, Class<?> cls) {
-        Intent moveToHome = new Intent(packageContext, cls);
-        activity.startActivity(moveToHome);
+        Intent intent = new Intent(packageContext, cls);
+        activity.startActivity(intent);
     }
 }

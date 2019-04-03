@@ -4,10 +4,16 @@ import android.content.Context;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.stream.MalformedJsonException;
 
 public class UserUtils {
     private static JsonObject getUserData(Context ctx) {
-        return CacheUtils.readCache(ctx, "user.cache");
+        try {
+            return CacheUtils.readCache(ctx, "user.cache");
+        } catch (MalformedJsonException e) {
+            CacheUtils.deleteCache(ctx, "user.cache");
+            return null;
+        }
     }
 
     public static String getUserID(Context ctx) {
