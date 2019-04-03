@@ -100,13 +100,17 @@ public class TimListViewDetail extends BackButtonActivity implements OnMapReadyC
 
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        mMap.setMaxZoomPreference(15);
+
 
         for(int i = 0; i < points.size();i++){
             builder.include(points.get(i));
         }
         LatLngBounds bounds = builder.build();
-        int padding = 40; // offset from edges of the map in pixels
+        int padding = 200; // offset from edges of the map in pixels
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
         mMap.animateCamera(cu);
-    }
+
+
+}
 }
