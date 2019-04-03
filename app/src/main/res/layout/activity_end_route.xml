@@ -47,13 +47,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="0"
+                android:text="@string/zero"
                 android:textAlignment="textStart"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:hint="@string/route_km_hint"
+                android:importantForAutofill="no"
+                tools:targetApi="o" />
         </LinearLayout>
 
         <LinearLayout

@@ -3,15 +3,11 @@ package com.example.ninja.Controllers.Stats;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.ninja.Controllers.MainActivity;
 import com.example.ninja.Controllers.abstractActivities.BackButtonActivity;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
@@ -21,22 +17,14 @@ import com.example.ninja.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Objects;
-
-public class TimListView extends BackButtonActivity {
+public class HistoryList extends BackButtonActivity {
 
     private ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tim_list_view);
+        setContentView(R.layout.activity_hitory_list);
 
         // Init ListView
         initListView();
@@ -60,7 +48,7 @@ public class TimListView extends BackButtonActivity {
         tripsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(TimListView.this, TimListViewDetail.class);
+                Intent intent = new Intent(HistoryList.this, HistoryListDetail.class);
                 intent.putExtra("position", position);
                 startActivity(intent);
             }
