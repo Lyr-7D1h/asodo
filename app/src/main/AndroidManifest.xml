@@ -35,10 +35,18 @@
         <activity
             android:name=".Controllers.Routetracking.Startroute"
             android:parentActivityName=".Controllers.MainActivity"></activity>
-        <activity android:name=".Controllers.Routetracking.Route"></activity>
+        <activity android:name=".Controllers.Routetracking.Route">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ninja.Controllers.MainActivity" />
+        </activity>
         <activity android:name=".Controllers.Routetracking.Endroute"></activity>
         <activity android:name=".Controllers.Stats.Stats"></activity>
-        <activity android:name=".Controllers.ExportActivity" />
+        <activity android:name=".Controllers.ExportActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ninja.Controllers.MainActivity" />
+        </activity>
         <activity
             android:name=".Controllers.Stats.ItemListActivity"
             android:label="@string/app_name">
