@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegActivity"
     android:background="@drawable/gradient_background"
+    tools:context=".Controllers.loginscreen.RegActivity"
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
@@ -21,59 +21,69 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="127dp"
-            android:layout_marginTop="0dp"
-            app:srcCompat="@drawable/logo" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="127dp"
+        android:layout_marginTop="0dp"
+        android:contentDescription="@string/activity_log_logo"
+        app:srcCompat="@drawable/logo"/>
 
-        <EditText
-            android:id="@+id/edittext_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:drawableLeft="@drawable/username"
-            android:hint="@string/username"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+    <EditText
+        android:id="@+id/edittext_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/username"
+        android:hint="@string/username"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:inputType="textPersonName"
+        android:autofillHints="username"
+        tools:targetApi="o"/>
 
-        <EditText
-            android:id="@+id/edittext_password"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:drawableLeft="@drawable/password"
-            android:hint="@string/password" />
+    <EditText
+        android:id="@+id/edittext_password"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:hint="@string/password"
+        android:drawableLeft="@drawable/password"
+        ndroid:inputType="textPassword"
+        android:autofillHints="password"
+        tools:targetApi="o"/>
 
-        <EditText
-            android:id="@+id/edittext_cnf_password"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:drawableLeft="@drawable/password"
-            android:hint="@string/confirm_password" />
+    <EditText
+        android:id="@+id/edittext_cnf_password"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:drawableLeft="@drawable/password"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        android:autofillHints="password"
+        tools:targetApi="o"/>
 
-        <EditText
-            android:id="@+id/edittext_Kenteken"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:drawableLeft="@drawable/kenteken"
-            android:hint="@string/Kenteken" />
+    <EditText
+        android:id="@+id/edittext_Kenteken"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:hint="@string/Kenteken"
+        android:drawableLeft="@drawable/kenteken"
+        android:inputType="text"
+        android:maxLength="6"
+        android:importantForAutofill="no"
+        tools:targetApi="o"/>
 
-        <Button
-            android:id="@+id/button_login"
-            android:layout_width="190dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:background="@drawable/smallbuttons"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/registreer" />
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/registreer"/>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -89,20 +99,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:text="@string/al_geregistreerd"
-                    android:textColor="#4D4D4D"
-                    tools:layout_editor_absoluteX="320dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="@string/al_geregistreerd"
+            android:textColor="#4D4D4D"
+            tools:layout_editor_absoluteX="320dp"/>
 
-                <TextView
-                    android:id="@+id/textview_register"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:paddingLeft="10dp"
-                    android:text="@string/login2"
-                    android:textColor="#0000FF" />
+        <TextView
+            android:id="@+id/textview_register"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="@string/login2"
+            android:textColor="#0000FF"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
 
             </LinearLayout>
 

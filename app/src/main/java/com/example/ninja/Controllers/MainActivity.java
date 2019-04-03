@@ -2,28 +2,17 @@ package com.example.ninja.Controllers;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.example.ninja.Controllers.Routetracking.Route;
 import com.example.ninja.Controllers.Routetracking.Startroute;
-import com.example.ninja.Controllers.Stats.ItemListActivity;
-import com.example.ninja.Controllers.Stats.TimListView;
-import com.example.ninja.Controllers.loginscreen.LogActivity;
+import com.example.ninja.Controllers.Stats.HistoryList;
 import com.example.ninja.Domain.Global;
-import com.example.ninja.Domain.httpRequests.CustomListener;
-import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.util.ActivityUtils;
-import com.example.ninja.Domain.util.AlertUtils;
-import com.example.ninja.Domain.util.CacheUtils;
-import com.example.ninja.Domain.util.ServiceUtils;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import com.example.ninja.R;
 
@@ -51,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Button statistics = (Button) findViewById(R.id.statistics);
         statistics.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TimListView.class);
+                Intent intent = new Intent(MainActivity.this, HistoryList.class);
                 startActivity(intent);
             }
         });

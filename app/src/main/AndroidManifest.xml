@@ -19,11 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:networkSecurityConfig="@xml/network_security_config">
+        <uses-library android:name="com.google.android.maps" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".Controllers.AhNiffo"/>
         <activity android:name=".Controllers.MainActivity" />
         <activity android:name=".Controllers.loginscreen.RegActivity" />
         <activity android:name=".Controllers.loginscreen.LogActivity">
@@ -41,30 +43,21 @@
                 android:value="com.example.ninja.Controllers.MainActivity" />
         </activity>
         <activity android:name=".Controllers.Routetracking.Endroute"></activity>
-        <activity android:name=".Controllers.Stats.Stats"></activity>
         <activity android:name=".Controllers.ExportActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ninja.Controllers.MainActivity" />
         </activity>
-        <activity
-            android:name=".Controllers.Stats.ItemListActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".Controllers.Stats.ItemDetailActivity"
-            android:parentActivityName=".Controllers.Stats.ItemListActivity">
-        </activity>
 
-        <activity android:name=".Controllers.Stats.TimListView">
+        <activity android:name=".Controllers.Stats.HistoryList">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ninja.Controllers.MainActivity" />
         </activity>
-        <activity android:name=".Controllers.Stats.TimListViewDetail">
+        <activity android:name=".Controllers.Stats.HistoryListDetail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ninja.Controllers.Stats.TimListView" />
+                android:value="com.example.ninja.Controllers.Stats.HistoryList" />
         </activity>
 
         <service android:name=".Controllers.LocationService" />

@@ -139,7 +139,7 @@ public class Exporter {
                 int distanceDriven = obj.get("distanceDriven").getAsInt();
                 String startDate = obj.get("tripStarted").getAsString();
 
-                String output = String.format("\n%s\nKilometers gereden:      %d", startDate, distanceDriven);
+                String output = String.format("\nf%s\nKilometers gereden:      %d", startDate, distanceDriven);
                 document.add(new Paragraph(output));
             }
         } catch (DocumentException e) {

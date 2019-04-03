@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogActivity"
+    tools:context=".Controllers.loginscreen.LogActivity"
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
@@ -24,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="110dp"
             android:layout_marginTop="0dp"
+            android:contentDescription="@string/activity_log_logo"
             app:srcCompat="@drawable/logo" />
 
         <EditText
@@ -32,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:drawableLeft="@drawable/username"
+            android:drawableStart="@drawable/username"
             android:hint="@string/username"
             android:paddingLeft="10dp"
             tools:paddingRight="10dp" />
@@ -45,7 +46,11 @@
             android:layout_marginTop="15dp"
             android:drawableLeft="@drawable/password"
             android:hint="@string/password"
-            tools:paddingRight="10dp" />
+            android:inputType="textPersonName"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:autofillHints="username"
+            tools:targetApi="o" />
 
         <Button
             android:id="@+id/button_login"
