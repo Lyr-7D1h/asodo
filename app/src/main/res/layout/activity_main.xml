@@ -28,13 +28,13 @@
         <Button
             android:id="@+id/start"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="140dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="30"
             android:background="@drawable/startbutton"
             android:drawableTop="@android:drawable/ic_menu_mapmode"
+
             android:text="Start nieuwe rit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.974"

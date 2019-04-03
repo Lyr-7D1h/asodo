@@ -12,17 +12,17 @@
                 android:type="linear"
                 />
             <padding
-                android:top="25dp"/>
+                android:top="9dp"/>
 
         </shape>
     </item>
     <item
 
-        android:top="70dp">
+        android:top="50dp">
 
         <shape>
             <padding
-                android:top="10dp"/>
+                android:top="5dp"/>
             <solid android:color="@android:color/white" />
         </shape>
     </item>
