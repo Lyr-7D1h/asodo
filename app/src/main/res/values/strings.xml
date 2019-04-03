@@ -53,6 +53,6 @@
     <string name="stats_statistics">Statistieken</string>
     <string name="activity_log_logo">Asodo</string>
     <string name="activity_main_start">Start nieuwe rit</string>
-    <string name="activity_main_statistics">statistieken</string>
+    <string name="activity_main_statistics">Ritten historie</string>
     <string name="activity_main_export">Exporteren</string>
 </resources>
