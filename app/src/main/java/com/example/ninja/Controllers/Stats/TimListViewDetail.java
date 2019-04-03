@@ -42,6 +42,7 @@ public class TimListViewDetail extends BackButtonActivity implements OnMapReadyC
         setContentView(R.layout.activity_tim_list_view_detail);
 
         // Init trip
+        OnMapReadyCallback self = this;
         int position = getIntent().getIntExtra("position", -1);
         ((Global) this.getApplication()).getTripCache(new AsodoRequesterCallback() {
             @Override
@@ -53,6 +54,11 @@ public class TimListViewDetail extends BackButtonActivity implements OnMapReadyC
 
                     // Add details
                     addDetails();
+
+                    // Init map
+                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                            .findFragmentById(R.id.map);
+                    mapFragment.getMapAsync(self);
                 } catch (IndexOutOfBoundsException e) {
                     // Inform user
                     Toast.makeText(TimListViewDetail.this, "Fout bij het laden van route!", Toast.LENGTH_SHORT).show();
@@ -62,11 +68,6 @@ public class TimListViewDetail extends BackButtonActivity implements OnMapReadyC
                 }
             }
         });
-
-        // Init map
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
     }
 
     public void addDetails() {
