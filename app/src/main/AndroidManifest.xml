@@ -29,7 +29,6 @@
         <activity android:name=".Controllers.MainActivity" />
         <activity android:name=".Controllers.loginscreen.RegActivity" />
         <activity android:name=".Controllers.loginscreen.LogActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

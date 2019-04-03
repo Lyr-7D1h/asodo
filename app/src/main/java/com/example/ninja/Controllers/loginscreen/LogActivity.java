@@ -109,7 +109,7 @@ public class LogActivity extends AppCompatActivity {
                         loginResponseHandler(jsonResponse);
                     }
                 });
-            }else{
+            } else {
                 ActivityUtils.changeActivity(this, LogActivity.this, AhNiffo.class);
             }
 

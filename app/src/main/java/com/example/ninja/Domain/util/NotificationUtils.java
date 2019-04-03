@@ -21,7 +21,9 @@ public class NotificationUtils {
             CharSequence name = ctx.getString(R.string.channel_name);
             String description = ctx.getString(R.string.channel_description);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("Asodo", name, NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel channel = new NotificationChannel("Asodo", name, importance);
+            channel.setVibrationPattern(new long[]{ 0 });
+            channel.enableVibration(true);
             channel.setDescription(description);
 
             // Register channel
