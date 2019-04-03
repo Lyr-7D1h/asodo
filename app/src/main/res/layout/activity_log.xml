@@ -36,7 +36,10 @@
             android:drawableStart="@drawable/username"
             android:hint="@string/username"
             android:paddingLeft="10dp"
-            tools:paddingRight="10dp" />
+            android:paddingRight="10dp"
+            android:autofillHints="username"
+            tools:targetApi="o"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/edittext_password"
@@ -44,12 +47,12 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:drawableLeft="@drawable/password"
+            android:drawableStart="@drawable/password"
             android:hint="@string/password"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:autofillHints="username"
+            android:autofillHints="password"
             tools:targetApi="o" />
 
         <Button
