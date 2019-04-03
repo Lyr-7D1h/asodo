@@ -323,6 +323,12 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
         this.currentTrip = ((Global) this.getApplication()).getTrip();
         currentTrip.setTrackingSetting(0);
 
+        // Hide GPS prompts
+        findViewById(R.id.gpsDisabledInfo1).setVisibility(View.GONE);
+        findViewById(R.id.gpsDisabledInfo2).setVisibility(View.GONE);
+        findViewById(R.id.gpsDisabledInfo3).setVisibility(View.GONE);
+        shownGpsPrompt = true;
+
         // Start service
         startLocationService();
     }
