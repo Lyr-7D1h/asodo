@@ -2,13 +2,10 @@ package com.example.ninja.Controllers.Stats;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ninja.Controllers.Routetracking.Startroute;
 import com.example.ninja.Controllers.abstractActivities.BackButtonActivity;
-import com.example.ninja.Controllers.loginscreen.RegActivity;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
 import com.example.ninja.Domain.trips.Trip;
@@ -23,7 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-public class TimListViewDetail extends BackButtonActivity implements OnMapReadyCallback {
+public class HistoryListDetail extends BackButtonActivity implements OnMapReadyCallback {
 
     private Trip detailTrip;
     private GoogleMap mMap;
@@ -31,7 +28,7 @@ public class TimListViewDetail extends BackButtonActivity implements OnMapReadyC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tim_list_view_detail);
+        setContentView(R.layout.activity_history_list_detail);
 
         // Init trip
         int position = getIntent().getIntExtra("position", -1);
@@ -47,7 +44,7 @@ public class TimListViewDetail extends BackButtonActivity implements OnMapReadyC
                     addDetails();
                 } catch (IndexOutOfBoundsException e) {
                     // Inform user
-                    Toast.makeText(TimListViewDetail.this, "Fout bij het laden van route!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HistoryListDetail.this, "Fout bij het laden van route!", Toast.LENGTH_SHORT).show();
 
                     // Go back
                     finish();

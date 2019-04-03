@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import com.example.ninja.Controllers.Routetracking.Route;
 import com.example.ninja.Controllers.Routetracking.Startroute;
-import com.example.ninja.Controllers.Stats.TimListView;
+import com.example.ninja.Controllers.Stats.HistoryList;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.util.ActivityUtils;
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Button statistics = (Button) findViewById(R.id.statistics);
         statistics.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TimListView.class);
+                Intent intent = new Intent(MainActivity.this, HistoryList.class);
                 startActivity(intent);
             }
         });
