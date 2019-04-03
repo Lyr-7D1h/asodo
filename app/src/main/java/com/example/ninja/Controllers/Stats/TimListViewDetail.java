@@ -94,7 +94,7 @@ public class TimListViewDetail extends BackButtonActivity implements OnMapReadyC
                     new PolylineOptions().add(
                             new LatLng(src.latitude, src.longitude),
                             new LatLng(dest.latitude,dest.longitude)
-                    ).width(2).color(Color.BLUE).geodesic(true)
+                    ).width(5).color(Color.BLUE).geodesic(true)
             );
         }
 
