@@ -7,4 +7,6 @@
     app:entryValues="@array/language_values"
     app:defaultValue="@string/language_default_value"
     app:summary="@string/language_summary"/>
+
+
 </PreferenceScreen>

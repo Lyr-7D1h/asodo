@@ -5,4 +5,8 @@
     <item
         android:id="@+id/action_settings"
         android:title="Opties"/>
+    <item
+        android:id="@+id/action_logout"
+        android:title="logout"
+        android:orderInCategory="100"/>
 </menu>

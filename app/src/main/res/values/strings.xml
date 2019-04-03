@@ -19,17 +19,8 @@
         <item>Engels</item>
     </string-array>
     <string-array name="language_values">
-        <item>Nederlands</item>
-        <item>Engels</item>
+        <item name="Nederlands">Nederlands</item>
+        <item name ="Engels">Engels</item>
     </string-array>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-
-
 
 </resources>
