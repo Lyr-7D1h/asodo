@@ -60,6 +60,7 @@ public class Trip implements Serializable {
         return tripID;
     }
 
+
     public void setTripID(String tripID) {
         this.tripID = tripID;
     }
@@ -316,6 +317,8 @@ public class Trip implements Serializable {
             res.add("routePolyline", new JsonPrimitive(""));
         }
 
+
+
         res.add("businessTrip", new JsonPrimitive(this.businessTrip));
         res.add("bbCommuting", new JsonPrimitive(this.bbCommuting));
 
@@ -427,4 +430,5 @@ public class Trip implements Serializable {
         // Return
         return res;
     }
+
 }
