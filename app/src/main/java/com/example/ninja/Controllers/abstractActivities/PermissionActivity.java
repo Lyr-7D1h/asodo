@@ -3,7 +3,7 @@ package com.example.ninja.Controllers.abstractActivities;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 
-public abstract class PermissionActivity extends AppCompatActivity {
+public abstract class PermissionActivity extends BackButtonActivity {
     // Request codes
     private final int REQUEST_CODE_FINE_LOCATION = 123;
 

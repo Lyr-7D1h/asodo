@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.ninja.Controllers.abstractActivities.BackButtonActivity;
 import com.example.ninja.Domain.exporter.CustomCalendarViewListener;
 import com.example.ninja.Domain.exporter.Exporter;
 import com.example.ninja.R;
@@ -21,7 +22,7 @@ import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ExportActivity extends AppCompatActivity {
+public class ExportActivity extends BackButtonActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
