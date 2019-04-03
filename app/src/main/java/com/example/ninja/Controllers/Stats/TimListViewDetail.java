@@ -76,7 +76,7 @@ public class TimListViewDetail extends BackButtonActivity implements OnMapReadyC
         // Je kan ook de layout in de xml veranderen hoe je wil en gewoon invullen
 
         TextView detailsTV = findViewById(R.id.detailsTV);
-        detailsTV.setText(String.valueOf("kilometers: " + detailTrip.getMileageStarted() + " - " + detailTrip.getMileageEnded()) +"\nVan-Naar: " + detailTrip.getCityStarted() + " - " + detailTrip.getCityEnded());
+        detailsTV.setText(String.valueOf("kilometers: " + detailTrip.getMileageStarted() + " - " + detailTrip.getMileageEnded()) +"\nVan-Naar: " + detailTrip.getCityStarted() + " - " + detailTrip.getCityEnded() + "\n\nBeschrijving: " + detailTrip.getDesDeviation());
     }
 
     @Override
