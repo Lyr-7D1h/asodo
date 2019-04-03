@@ -230,8 +230,8 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
 
             List<LatLng> places = new ArrayList<>();
 
-            for(int i = 0; locList.size() >= i; i++){
-            places.set(0,new LatLng(locList.get(0).getLatitude(), locList.get(0).getLongitude()));
+            for(int i = 0; i < locList.size(); i++){
+                places.add(new LatLng(locList.get(i).getLatitude(), locList.get(i).getLongitude()));
             }
 
             currentTrip.setRoutePolyline(PolyUtil.encode(places));
