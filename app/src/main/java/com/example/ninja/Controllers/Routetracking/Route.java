@@ -29,6 +29,7 @@ import com.example.ninja.Domain.stateReceivers.LocationStateReceiver;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.util.AlertUtils;
 import com.example.ninja.Domain.util.PermissionUtils;
+import com.example.ninja.Domain.util.ServiceUtils;
 import com.example.ninja.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
@@ -227,12 +228,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     }
 
     public void stopLocationService() {
-        // Stop location service
-        stopService(((Global) this.getApplication()).getLocationIntent());
-        ((Global) this.getApplication()).setLocationIntent(null);
-
-        // Set trip status to inactive
-        ((Global) this.getApplication()).setActiveTrip(false);
+        ServiceUtils.killLocationService(this);
     }
 
     public void updateLayouts(ConstraintLayout hide, ConstraintLayout show) {

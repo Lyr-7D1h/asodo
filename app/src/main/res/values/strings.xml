@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">Asodo</string>
+    <string name="app_name_cap">ASODO</string>
     <string name="zero">0</string>
     <string name="zerof">0.0</string>
     <string name="enable">Inschakelen</string>
+    <string name="default_ok">OK</string>
+    <string name="retry">Retry</string>
     <string name="cancel">Annuleren</string>
+    <string name="nvt">NVT</string>
+    <string name="no_internet">Geen internet verbinding!</string>
     <string name="username">Gebruikersnaam</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
@@ -43,7 +48,7 @@
     <string name="route_current_km_input">Afgelegde afstand:</string>
     <string name="gps_popup">GPS uitgeschakeld.\nKan locatie niet bepalen.</string>
     <string name="route_km">km</string>
-    <string name="route_estimation">Afgelegde afstand: %s km</string>
+    <string name="route_estimation">Afgelegde afstand: %.1f km</string>
     <string name="route_gps_disabled">GPS uitgeschakeld</string>
     <string name="route_cant_confirm_location">Uw huidige locatie kan niet worden bepaald.</string>
     <string name="route_end_route">Beëindig rit</string>
@@ -77,4 +82,10 @@
     <string name="activity_export_business">Zakelijke reizen</string>
     <string name="activity_export_personal">Persoonlijke reizen</string>
     <string name="activity_export_no_two_dates">U heeft geen 2 datums geselecteerd</string>
+    <string name="exporter_no_folder">Kan geen folder genereren</string>
+    <string name="exporter_no_permission">Toegang geweigerd tot externe opslag</string>
+    <string name="exporter_no_email_client">Er is geen email client geïnstalleerd</string>
+    <string name="exporter_download_successful">PDF Download Successvol!</string>
+    <string name="exporter_subject_message">Declaratie Overzicht  %s - %s</string>
+    <string name="exporter_automated_message">Automated message from Asodo.</string>
 </resources>

@@ -191,7 +191,6 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         mFusedLocationClient.removeLocationUpdates(locationCallback);
     }
 
-    @SuppressLint("StringFormatMatches")
     public void updateNotification() {
         float estimation = currentTrip.getEstimatedKMDrivenf();
         updateNotification(String.valueOf(String.format(getString(R.string.route_estimation), estimation)));
