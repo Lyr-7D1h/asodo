@@ -153,9 +153,3 @@ public class LogActivity extends AppCompatActivity {
         Toast.makeText(LogActivity.this, getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
     }
 }
-
-//  public void hideProgressingView() {
-//   View v = this.findViewById(android.R.id.content).getRootView();
-// ViewGroup viewGroup = (ViewGroup) v;
-//  viewGroup.removeView(progressView);
-//   isProgressShowing = false;

@@ -53,63 +53,6 @@ public class MainActivity extends AppCompatActivity {
                 ActivityUtils.changeActivity(self, MainActivity.this, ExportActivity.class);
             }
         });
-
-//        // Functionality of options button
-//        Button options = (Button) findViewById(R.id.options);
-//        options.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                System.out.println("options"); // Placeholder
-//
-//                CacheUtils.deleteCache(context, "trips.list");
-//                // Example Request
-//                String jsonString = "{\"username\":\"huts\",\"password\":\"huts\"}";
-//                JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
-//
-//                AsodoRequester.newRequest("authenticate", json, MainActivity.this, new CustomListener() {
-//                    @Override
-//                    public void onResponse(JsonObject jsonResponse) {
-//                        System.out.println(jsonResponse);
-//                    }
-//                });
-//            }
-//        });
-
-//        // Functionality of logout button
-//        Button logout = (Button) findViewById(R.id.logout);
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                // Check for active trip
-//                if(((Global) self.getApplication()).isActiveTrip()) {
-//                    AlertUtils.showAlert("Doorgaan", "U heeft een actieve rit!\n\nAls u uitlogt zal deze rit verloren gaan.", self, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            // Kill service
-//                            ServiceUtils.killLocationService(self);
-//
-//                            // Delete user data
-//                            CacheUtils.deleteCache(context, "user.cache");
-//                            CacheUtils.deleteCache(context, "trips.cache");
-//
-//                            // Set data to unsynced
-//                            ((Global) self.getApplication()).setUnSynced();
-//
-//                            // Move user to login
-//                            ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);
-//                        }
-//                    }, true);
-//                } else {
-//                    // Delete user data
-//                    CacheUtils.deleteCache(context, "user.cache");
-//                    CacheUtils.deleteCache(context, "trips.cache");
-//
-//                    // Set data to unsynced
-//                    ((Global) self.getApplication()).setUnSynced();
-//
-//                    // Move user to login
-//                    ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);
-//                }
-//            }
-//        });
     }
 
     @Override
