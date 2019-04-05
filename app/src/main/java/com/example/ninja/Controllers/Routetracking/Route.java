@@ -280,7 +280,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
                         lastUpdateReceived();
                     }
                 } else {
-                    Toast.makeText(Route.this, "Vul een stad in", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Route.this, getString(R.string.enter_city), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -418,7 +418,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
                 shownGpsPrompt = true;
 
                 // Show alert
-                AlertUtils.showAlert("Inschakelen", "Annuleren", "GPS uitgeschakeld.\nKan locatie niet bepalen.", this, new DialogInterface.OnClickListener() {
+                AlertUtils.showAlert(getString(R.string.enable), getString(R.string.cancel), getString(R.string.gps_popup), this, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         showGpsPrompt();

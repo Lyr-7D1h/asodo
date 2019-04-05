@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         // Reset start button text if active trip
         Button start = (Button) findViewById(R.id.start);
         if(((Global) this.getApplication()).isActiveTrip()) {
-            start.setText(String.valueOf("Open actieve rit"));
+            start.setText(String.valueOf(getString(R.string.activity_main_active_trip)));
         }
     }
 
