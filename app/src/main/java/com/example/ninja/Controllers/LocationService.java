@@ -306,7 +306,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                 case 3:
                     updateNotification();
                     break;
-                case 5:
+                case 4:
                     updateNotification(getString(R.string.route_locating_end_location));
                     break;
             }
