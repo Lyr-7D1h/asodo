@@ -138,7 +138,7 @@ public class LogActivity extends AppCompatActivity {
      */
     public void loginSuccess(JsonObject response) {
         // Show toast
-        Toast.makeText(LogActivity.this, "Login succesvol!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(LogActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
 
         // Store response to file
         CacheUtils.cacheJsonObject(context, 0, response, "user.cache");
@@ -155,12 +155,6 @@ public class LogActivity extends AppCompatActivity {
      */
     public void loginFailed() {
         // Show toast
-        Toast.makeText(LogActivity.this, "Ongeldige gebruikersnaam/wachtwoord!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(LogActivity.this, getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
     }
 }
-
-//  public void hideProgressingView() {
-//   View v = this.findViewById(android.R.id.content).getRootView();
-// ViewGroup viewGroup = (ViewGroup) v;
-//  viewGroup.removeView(progressView);
-//   isProgressShowing = false;

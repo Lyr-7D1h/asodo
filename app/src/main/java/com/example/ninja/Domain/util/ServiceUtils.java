@@ -14,7 +14,6 @@ public class ServiceUtils {
 
             // Reset variables
             ((Global) activity.getApplication()).setLocationIntent(null);
-            ((Global) activity.getApplication()).setTrip(null);
             ((Global) activity.getApplication()).setActiveTrip(false);
         }
     }

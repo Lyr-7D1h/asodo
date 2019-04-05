@@ -60,7 +60,7 @@ public class HistoryListDetail extends BackButtonActivity implements OnMapReadyC
                     mapFragment.getMapAsync(self);
                 } catch (IndexOutOfBoundsException e) {
                     // Inform user
-                    Toast.makeText(HistoryListDetail.this, "Fout bij het laden van route!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HistoryListDetail.this, getString(R.string.activity_history_list_detail_invalid_detail), Toast.LENGTH_SHORT).show();
 
                     // Go back
                     finish();
