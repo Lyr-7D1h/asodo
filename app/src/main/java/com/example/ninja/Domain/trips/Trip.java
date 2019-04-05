@@ -2,6 +2,7 @@ package com.example.ninja.Domain.trips;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.location.Location;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import com.example.ninja.Domain.coordinates.LocationList;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.util.UserUtils;
+import com.example.ninja.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
