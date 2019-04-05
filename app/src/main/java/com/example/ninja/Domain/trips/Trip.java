@@ -11,7 +11,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.example.ninja.Domain.coordinates.LatLngList;
 import com.example.ninja.Domain.coordinates.LocationList;
+import com.example.ninja.Domain.coordinates.singleUpdates.LatLngWrapper;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.util.UserUtils;
@@ -340,6 +342,14 @@ public class Trip implements Serializable {
     }
 
     public void registerToDB(Context ctx) {
+        // Set city started and ended by location
+        if(getTrackingSetting() > 0) {
+            LatLngList latLngList = LatLngList.decode(getRoutePolyline());
+
+            setCityStarted(new LatLngWrapper(latLngList.get(0)).getCity(ctx));
+            setCityEnded(new LatLngWrapper(latLngList.get(latLngList.size() - 1)).getCity(ctx));
+        }
+
         AsodoRequester.newRequest("registerTrip", toJsonObject(), ctx, new CustomListener() {
             @Override
             public void onResponse(JsonObject jsonResponse) {

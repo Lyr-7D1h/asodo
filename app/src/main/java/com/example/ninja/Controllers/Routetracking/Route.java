@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.ninja.Controllers.LocationService;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Controllers.abstractActivities.PermissionActivity;
+import com.example.ninja.Domain.coordinates.LatLngList;
 import com.example.ninja.Domain.stateReceivers.LocationStateReceiver;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.util.AlertUtils;
@@ -284,42 +285,17 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     }
 
     public void lastUpdateReceived() {
+        // Init
         currentTrip = ((Global) getApplication()).getTrip();
+
+        // Set trip ended
         currentTrip.setTripEnded();
-        ArrayList<Location> locList = currentTrip.getLocationList().getLocations();
 
+        // Set polyline
         if (currentTrip.getTrackingSetting() > 0){
-            Location start = locList.get(0);
-            Location end = locList.get(locList.size()-1);
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-            List<LatLng> places = new ArrayList<>();
-
-            for(int i = 0; i < locList.size(); i++){
-                places.add(new LatLng(locList.get(i).getLatitude(), locList.get(i).getLongitude()));
-            }
-
-            currentTrip.setRoutePolyline(PolyUtil.encode(places));
-
-
-
-
-            try {
-                List<Address> startad = geocoder.getFromLocation(start.getLatitude(), start.getLongitude(), 1);
-                List<Address> eindad = geocoder.getFromLocation(end.getLatitude(), end.getLongitude(), 1);
-
-                currentTrip.setCityStarted(startad.get(0).getLocality());
-                currentTrip.setCityEnded(eindad.get(0).getLocality());
-
-                System.out.println(currentTrip.getCityEnded());
-
-            }catch(IOException e){
-                System.out.println("missende adressen");
-            }
-
-
-
+            currentTrip.setRoutePolyline(new LatLngList(currentTrip.getLocationList()).encode());
         }
+
         // Stop location service
         stopLocationService();
 

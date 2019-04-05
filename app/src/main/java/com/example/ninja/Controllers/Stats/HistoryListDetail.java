@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.ninja.Controllers.abstractActivities.BackButtonActivity;
 import com.example.ninja.Domain.Global;
+import com.example.ninja.Domain.coordinates.LatLngList;
 import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.trips.TripList;
@@ -80,18 +81,19 @@ public class HistoryListDetail extends BackButtonActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        // Init
-
-        if(detailTrip.getTrackingSetting() > 0) {
+        if(detailTrip.getTrackingSetting() > 0 && (!detailTrip.getRoutePolyline().isEmpty() && detailTrip.getRoutePolyline() != null)) {
+            // Init
             mMap = googleMap;
-            List<LatLng> points = PolyUtil.decode(detailTrip.getRoutePolyline()); // list of latlng
+            mMap.setMaxZoomPreference(17);
+            LatLngList places = LatLngList.decode(detailTrip.getRoutePolyline()); // list of latlng
 
-            for (int i = 0; i < points.size() - 1; i++) {
-                LatLng src = points.get(i);
-                LatLng dest = points.get(i + 1);
+            // Create polyline
+            for (int i = 0; i < places.size() - 1; i++) {
+                LatLng src = places.get(i);
+                LatLng dest = places.get(i + 1);
 
                 // mMap is the Map Object
-                Polyline line = mMap.addPolyline(
+                mMap.addPolyline(
                         new PolylineOptions().add(
                                 new LatLng(src.latitude, src.longitude),
                                 new LatLng(dest.latitude, dest.longitude)
@@ -99,18 +101,17 @@ public class HistoryListDetail extends BackButtonActivity implements OnMapReadyC
                 );
             }
 
+            // Generate bounds
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            mMap.setMaxZoomPreference(15);
-
-            for (int i = 0; i < points.size(); i++) {
-                builder.include(points.get(i));
+            for (int i = 0; i < places.size(); i++) {
+                builder.include(places.get(i));
             }
-
             LatLngBounds bounds = builder.build();
-            int padding = 200; // offset from edges of the map in pixels
+
+            // Create camera
+            int padding = 100; // offset from edges of the map in pixels
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             mMap.animateCamera(cu);
-
         } else {
             findViewById(R.id.map).setVisibility(View.GONE);
         }
