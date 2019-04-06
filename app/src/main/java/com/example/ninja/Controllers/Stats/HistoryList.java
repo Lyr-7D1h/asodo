@@ -21,6 +21,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class HistoryList extends BackButtonActivity {
 
@@ -83,8 +84,8 @@ public class HistoryList extends BackButtonActivity {
                         cityEnded = getString(R.string.undefined);
                     }
 
-                    DateFormat dateFormatFrom = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    DateFormat dateFormatTo = new SimpleDateFormat("d MMMM yyyy");
+                    DateFormat dateFormatFrom = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    DateFormat dateFormatTo = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
                     String date = null;
                     try {
                         Date temp = dateFormatFrom.parse(trip.getTripEnded());
