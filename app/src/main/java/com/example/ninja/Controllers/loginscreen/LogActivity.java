@@ -15,6 +15,7 @@ import com.example.ninja.Controllers.AhNiffo;
 import com.example.ninja.Controllers.MainActivity;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.util.CacheUtils;
+import com.example.ninja.Domain.util.LocaleUtils;
 import com.example.ninja.R;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
@@ -39,6 +40,8 @@ public class LogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
+
+        checkLanguageSet();
 
         // Check if user is logged in
         try {
@@ -70,6 +73,7 @@ public class LogActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ActivityUtils.changeActivity(self, LogActivity.this, RegActivity.class);
                 finish();
+                overridePendingTransition(0,0);
             }
         });
 
@@ -158,5 +162,18 @@ public class LogActivity extends AppCompatActivity {
     public void loginFailed() {
         // Show toast
         Toast.makeText(LogActivity.this, getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
+    }
+
+    public void checkLanguageSet() {
+        if(!((Global) getApplication()).isLanguageSet()) {
+            // Set locale
+            LocaleUtils.setLocale(this);
+            ((Global) getApplication()).setLanguageSet(true);
+
+            //It is required to recreate the activity to reflect the change in UI.
+            ActivityUtils.changeActivity(this, LogActivity.this, LogActivity.class);
+            finish();
+            overridePendingTransition(0,0);
+        }
     }
 }

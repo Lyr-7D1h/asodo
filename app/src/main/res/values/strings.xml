@@ -34,8 +34,8 @@
         <item>English</item>
     </string-array>
     <string-array name="language_values">
-        <item name="Nederlands">Dutch</item>
-        <item name="Engels">English</item>
+        <item>nl</item>
+        <item>en</item>
     </string-array>
     <string name="settings_cache_size_title">Number of saved trips</string>
     <string name="settings_cache_size_summary">Determine how many trips will be saved locally on the phone for offline mode</string>

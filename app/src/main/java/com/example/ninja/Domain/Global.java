@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.location.LocationManager;
 import android.support.v7.preference.PreferenceManager;
 
@@ -17,6 +18,7 @@ import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.trips.TripList;
 import com.example.ninja.Domain.util.CacheUtils;
 import com.example.ninja.Domain.util.ConnectivityUtils;
+import com.example.ninja.Domain.util.LocaleUtils;
 import com.example.ninja.Domain.util.UserUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -27,7 +29,7 @@ import java.util.Objects;
 
 public class Global extends Application implements NetworkStateReceiver.NetworkStateReceiverListener {
     // Global variables
-    private static Context sContext;
+    private boolean languageSet;
     private boolean activeTrip;
     private int tripStatus;
     private Trip trip;
@@ -43,11 +45,17 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
     private boolean synced;
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleUtils.setLocale(this);
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
 
-        // Set application context
-        sContext = getApplicationContext();
+        // Init locale status
+        setLanguageSet(false);
 
         // Init networkStateReceiver
         networkStateReceiver = new NetworkStateReceiver();
@@ -55,7 +63,7 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
         this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
 
         // Init locationStateReceiver
-        locationStateReceiver = new LocationStateReceiver(getContext());
+        locationStateReceiver = new LocationStateReceiver(this);
         this.registerReceiver(locationStateReceiver, new IntentFilter(LocationManager.MODE_CHANGED_ACTION));
 
         // Set trip cache
@@ -79,10 +87,6 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
         }
     }
 
-    public static Context getContext() {
-        return sContext;
-    }
-
     public boolean isActiveTrip() {
         return activeTrip;
     }
@@ -95,6 +99,14 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
         } else {
             tripStatus = 0;
         }
+    }
+
+    public boolean isLanguageSet() {
+        return languageSet;
+    }
+
+    public void setLanguageSet(boolean languageSet) {
+        this.languageSet = languageSet;
     }
 
     public int getTripStatus() {

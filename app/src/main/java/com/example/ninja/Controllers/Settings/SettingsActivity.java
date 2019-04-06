@@ -17,7 +17,7 @@ public class SettingsActivity extends BackButtonActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new SettingsFragment(getApplication()))
+                .replace(R.id.fragment_container, new SettingsFragment(getApplication(), this))
                 .commit();
     }
 }
