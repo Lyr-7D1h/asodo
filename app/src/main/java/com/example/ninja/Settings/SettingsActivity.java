@@ -15,15 +15,6 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setTitle("Opties");
-
-//        if(findViewById(R.id.fragment_container) !=null){
-//            if(savedInstanceState!=null)
-//                return;
-
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, new SettingsFragment())
