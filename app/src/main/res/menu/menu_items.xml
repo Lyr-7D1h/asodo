@@ -4,9 +4,9 @@
 
     <item
         android:id="@+id/action_settings"
-        android:title="Opties"/>
+        android:title="@string/options_menu_settings"/>
     <item
         android:id="@+id/action_logout"
-        android:title="logout"
+        android:title="@string/options_menu_logout"
         android:orderInCategory="100"/>
 </menu>

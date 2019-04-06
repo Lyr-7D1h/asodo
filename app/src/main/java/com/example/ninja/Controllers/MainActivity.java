@@ -2,6 +2,7 @@ package com.example.ninja.Controllers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,10 +15,14 @@ import android.widget.Button;
 import com.example.ninja.Controllers.Routetracking.Route;
 import com.example.ninja.Controllers.Routetracking.Startroute;
 import com.example.ninja.Controllers.Stats.HistoryList;
+import com.example.ninja.Controllers.loginscreen.LogActivity;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.util.ActivityUtils;
 import com.example.ninja.Controllers.Settings.SettingsActivity;
 
+import com.example.ninja.Domain.util.AlertUtils;
+import com.example.ninja.Domain.util.CacheUtils;
+import com.example.ninja.Domain.util.ServiceUtils;
 import com.example.ninja.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -90,8 +95,43 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+            case R.id.action_logout:
+                logout();
+                return true;
 
-                default:return super.onOptionsItemSelected(item);
+            default:return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void logout() {
+        // Init
+        Activity self = this;
+
+        // Check for active trip
+        if(((Global) self.getApplication()).isActiveTrip()) {
+            AlertUtils.showAlert(getString(R.string.continue_), getString(R.string.cancel), getString(R.string.active_trip_warning), self, (dialog, which) -> logout(true));
+        } else {
+            logout(false);
+        }
+    }
+
+    private void logout(boolean killService) {
+        // Init
+        Activity self = this;
+
+        // Kill service
+        if(killService) {
+            ServiceUtils.killLocationService(self);
+        }
+
+        // Delete user data
+        CacheUtils.deleteCache(context, "user.cache");
+        CacheUtils.deleteCache(context, "trips.cache");
+
+        // Set data to unsynced
+        ((Global) self.getApplication()).setUnSynced();
+
+        // Move user to login
+        ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);
     }
 }

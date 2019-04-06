@@ -7,6 +7,7 @@
     <string name="start">Start</string>
     <string name="end">Einde</string>
     <string name="default_ok">OK</string>
+    <string name="continue_">Doorgaan</string>
     <string name="retry">Retry</string>
     <string name="cancel">Annuleren</string>
     <string name="undefined">\?\?\?</string>
@@ -27,7 +28,9 @@
     <string name="login2">Login</string>
     <string name="confirm_password">Bevestig Password</string>
     <string name="welkom_gebruiker">Welkom Gebruiker!</string>
-    <string name="settings">Opties</string>
+    <string name="active_trip_warning">U heeft een actieve rit!\n\nAls u uitlogt zal deze rit verloren gaan.</string>
+    <string name="options_menu_settings">Opties</string>
+    <string name="options_menu_logout">Logout</string>
     <string name="language">Taal</string>
     <string name="language_summary">Verander de taal van de app</string>
     <string name="language_default_value">Nederlands</string>
