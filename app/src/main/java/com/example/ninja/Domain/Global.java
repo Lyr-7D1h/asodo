@@ -4,7 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
+import android.support.v7.preference.PreferenceManager;
 
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
@@ -20,6 +22,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.MalformedJsonException;
+
+import java.util.Objects;
 
 public class Global extends Application implements NetworkStateReceiver.NetworkStateReceiverListener {
     // Global variables
@@ -131,6 +135,7 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
 
     public void setUnSynced() {
         this.synced = false;
+        sync();
     }
 
     public void sync() {
@@ -186,9 +191,15 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
 
     private void syncTripList() {
         if(ConnectivityUtils.isNetworkAvailable(this)) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             JsonObject json = new JsonObject();
             json.add("userID", new JsonPrimitive(UserUtils.getUserID(this)));
-            json.add("limit", new JsonPrimitive(10)); //TODO from settings
+
+            int limit = 10;
+            if(prefs.getString("cache_size", "10") != null) {
+                 limit = Integer.parseInt(Objects.requireNonNull(prefs.getString("cache_size", "10")));
+            }
+            json.add("limit", new JsonPrimitive(limit));
 
             Context self = this;
             AsodoRequester.newRequest("getTrips", json, this, new CustomListener() {

@@ -19,7 +19,7 @@
         android:summary="@string/settings_tracking_setting_summary"/>
 
     <ListPreference
-        android:key="cached_trips"
+        android:key="cache_size"
         android:title="@string/settings_cache_size_title"
         android:entries="@array/settings_cache_size_entries"
         android:entryValues="@array/settings_cache_size_values"

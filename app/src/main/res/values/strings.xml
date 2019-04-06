@@ -42,20 +42,22 @@
     <string name="settings_cache_size_title">Aantal opgeslagen ritten</string>
     <string name="settings_cache_size_summary">Bepaal hoeveel ritten lokaal op de telefoon worden opgeslagen voor het gebruik van offline modus.</string>
     <string-array name="settings_cache_size_entries">
-        <item>0</item>
+        <item>1</item>
         <item>5</item>
         <item>10</item>
         <item>25</item>
         <item>50</item>
         <item>100</item>
+        <item>All</item>
     </string-array>
     <string-array name="settings_cache_size_values">
-        <item>0</item>
+        <item>1</item>
         <item>5</item>
         <item>10</item>
         <item>25</item>
         <item>50</item>
         <item>100</item>
+        <item>0</item>
     </string-array>
     <string name="settings_tracking_setting_title">Routetracking</string>
     <string name="settings_tracking_setting_summary">Bepaal hoe GPS u gaat ondersteunen tijdens uw ritten</string>
