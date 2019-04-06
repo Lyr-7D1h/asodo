@@ -78,6 +78,8 @@
     <string name="stats_statistics">Statistieken</string>
     <string name="activity_history_list_title" formatted="true">%s: %s - %s</string>
     <string name="activity_history_list_description" formatted="true">Afgelegde afstand: %d kilometers</string>
+    <string name="activity_history_list_show_cache">Offline mode\nGeen netwerk beschikbaar</string>
+    <string name="activity_history_list_refres_results">Ritten worden gesynchroniseerd</string>
     <string name="activity_history_list_detail_invalid_detail">Fout bij het laden van rit!</string>
     <string name="activity_history_list_detail_header_details">Rit details</string>
     <string name="activity_history_list_detail_header_description">Rit beschrijving</string>

@@ -117,6 +117,14 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
         this.locationIntent = locationIntent;
     }
 
+    public void receiveNetworkUpdates(NetworkStateReceiver.NetworkStateReceiverListener listener) {
+        networkStateReceiver.addListener(listener);
+    }
+
+    public void unregisterNetworkUpdates(NetworkStateReceiver.NetworkStateReceiverListener listener) {
+        networkStateReceiver.removeListener(listener);
+    }
+
     public LocationStateReceiver getLocationStateReceiver() {
         return locationStateReceiver;
     }

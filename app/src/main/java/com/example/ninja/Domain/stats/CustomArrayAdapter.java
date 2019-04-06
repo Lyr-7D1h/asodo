@@ -54,6 +54,10 @@ public class CustomArrayAdapter extends ArrayAdapter {
         items.add(item);
     }
 
+    public void clear() {
+        items.clear();
+    }
+
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
