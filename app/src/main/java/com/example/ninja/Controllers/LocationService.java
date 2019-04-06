@@ -1,6 +1,7 @@
 package com.example.ninja.Controllers;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -26,6 +27,7 @@ import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.coordinates.CustomLocationCallback;
 import com.example.ninja.Domain.coordinates.CustomLocationRequest;
 import com.example.ninja.Domain.util.NotificationUtils;
+import com.example.ninja.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -70,7 +72,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                         public void onLocation(Location location) {
                             // Update status
                             isRequestingSingleUpdate = false;
-                            updateNotification("Bevestig kilometerstand");
+                            updateNotification(getString(R.string.confirm_km));
 
                             // Broadcast update
                             broadcastFinalUpdate(location);
@@ -145,7 +147,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                     // Update status
                     isRequestingSingleUpdate = false;
                     if(trackingSetting == 1) {
-                        updateNotification("Beëindig rit");
+                        updateNotification(getString(R.string.route_end_route));
                     } else {
                         updateNotification();
                     }
@@ -191,7 +193,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
 
     public void updateNotification() {
         float estimation = currentTrip.getEstimatedKMDrivenf();
-        updateNotification(String.valueOf("Afgelegde afstand: " + estimation + " km"));
+        updateNotification(String.valueOf(String.format(getString(R.string.route_estimation), estimation)));
     }
 
     public void updateNotification(String message) {
@@ -210,7 +212,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         if(((Global) getApplication()).getTrip().getTrackingSetting() > 0) {
             ((Global) getApplication()).updateTripStatus();
         } else {
-            updateNotification("Vul beginstad in");
+            updateNotification(getString(R.string.route_city_begin));
         }
 
         // Send intent
@@ -221,7 +223,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
 
     public void broadcastEstimation() {
         if(((Global) getApplication()).getTrip().getTrackingSetting() == 0) {
-            updateNotification("Beëndig rit");
+            updateNotification(getString(R.string.route_end_route));
         }
 
         Intent intent = new Intent("locationBroadcaster");
@@ -240,7 +242,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         if(((Global) getApplication()).getTrip().getTrackingSetting() > 0) {
             ((Global) getApplication()).updateTripStatus();
         } else {
-            updateNotification("Vul eindstad in");
+            updateNotification(getString(R.string.route_city_end));
         }
 
         // Send intent
@@ -299,13 +301,13 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
 
             switch (tripStatus) {
                 case 1:
-                    updateNotification("Startlocatie wordt bepaald");
+                    updateNotification(getString(R.string.route_checking));
                     break;
                 case 3:
                     updateNotification();
                     break;
                 case 5:
-                    updateNotification("Eindlocatie wordt bepaald");
+                    updateNotification(getString(R.string.route_locating_end_location));
                     break;
             }
         }
@@ -314,7 +316,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     @Override
     public void locationUnavailable() {
         if((trackingSetting == 1 && isRequestingSingleUpdate) || trackingSetting == 2) {
-            updateNotification("GPS Uitgeschakeld");
+            updateNotification(getString(R.string.route_gps_disabled));
         }
     }
 }

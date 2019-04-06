@@ -72,11 +72,11 @@ public class Endroute extends AppCompatActivity {
             int res = Integer.parseInt(finalMileage);
 
             if(res < currentTrip.getMileageStarted()) {
-                Toast.makeText(Endroute.this, "Fout: Kilometerstand lager dan beginstand", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Endroute.this, getString(R.string.mileage_lower_than_start), Toast.LENGTH_SHORT).show();
                 return false;
             }
         } catch (NumberFormatException e) {
-            Toast.makeText(Endroute.this, "Fout: Kilometerstand is geen nummer", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Endroute.this, getString(R.string.mileage_no_number), Toast.LENGTH_SHORT).show();
             return false;
         }
 

@@ -47,7 +47,7 @@ public class ExportActivity extends BackButtonActivity {
 
         // Settings spinner
         Spinner spinner = (Spinner) findViewById(R.id.selected);
-        String[] items = new String[]{"Business Trip & Personal Trip", "Business Trip", "Personal Trip"};
+        String[] items = new String[]{getString(R.string.activity_export_business_personal), getString(R.string.activity_export_business), getString(R.string.activity_export_personal)};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         spinner.setAdapter(adapter);
 
@@ -60,10 +60,10 @@ public class ExportActivity extends BackButtonActivity {
                     if (listener.getDates()[0] != null && listener.getDates()[1] != null) {
                         new Exporter(listener.getDates(), ExportActivity.this, spinner.getSelectedItem().toString());
                     } else {
-                        Toast.makeText(ExportActivity.this, "You haven't selected 2 dates", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ExportActivity.this, getString(R.string.activity_export_no_two_dates), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText((Activity) ExportActivity.this, "You haven't selected 2 dates", Toast.LENGTH_LONG).show();
+                    Toast.makeText((Activity) ExportActivity.this, getString(R.string.activity_export_no_two_dates), Toast.LENGTH_LONG).show();
                 }
             }
         });

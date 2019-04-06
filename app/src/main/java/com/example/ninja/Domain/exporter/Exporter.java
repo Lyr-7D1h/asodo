@@ -62,7 +62,7 @@ public class Exporter {
     public void createPath() {
 
         File folder = new File(Environment.getExternalStorageDirectory() +
-                File.separator + "ASODO");
+                File.separator + context.getString(R.string.app_name_cap));
         boolean success = true;
         if (!folder.exists()) {
             success = folder.mkdirs();
@@ -70,9 +70,10 @@ public class Exporter {
         if (success) {
             System.out.println("Folder created at " + folder.getAbsolutePath());
         } else {
-            Toast.makeText(this.context, "Couldn't create folder", Toast.LENGTH_SHORT);
+            Toast.makeText(this.context, context.getString(R.string.exporter_no_folder), Toast.LENGTH_SHORT);
         }
-        String fileName = "ASODO_"+new SimpleDateFormat("yyyy-MM-dd-hh.mm.ss").format(new Date())+".pdf";
+        String fileName = context.getString(R.string.app_name_cap) + "_"
+                + new SimpleDateFormat("yyyy-MM-dd-hh.mm.ss").format(new Date())+".pdf";
         File dir = new File(folder.getAbsolutePath());
         this.fileName = fileName;
         this.file = new File(dir, fileName);
@@ -84,7 +85,7 @@ public class Exporter {
                 file.setReadable(true, false);
                 writePdf();
             } catch (IOException e) {
-                Toast.makeText(this.context, "Permission denied to write to your External storage", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.context, context.getString(R.string.exporter_no_permission), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
@@ -156,7 +157,7 @@ public class Exporter {
 
         sendPdf();
 
-        Toast.makeText((Activity) this.context, "PDF Download Successful!", Toast.LENGTH_LONG).show();
+        Toast.makeText((Activity) this.context, context.getString(R.string.exporter_download_successful), Toast.LENGTH_LONG).show();
     }
 
     public void sendPdf() {
@@ -176,32 +177,18 @@ public class Exporter {
 
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Declaratie Overzicht  " + startDate + " - " + endDate);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, String.format(context.getString(R.string.exporter_subject_message), startDate, endDate));
         emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(this.file));
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Automated message from Asodo.");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.exporter_automated_message));
 
         try {
             this.context.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
             System.out.println("Finished sending email...");
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(this.context,
-                    "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                    context.getString(R.string.exporter_no_email_client), Toast.LENGTH_SHORT).show();
         }
     }
-
-//    public void showPdf() {
-//        if(this.file.exists()) {
-//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT); // ACTION_GET_CONTENT                                                                                                                                                                                          ); // ACTION_GET_CONTENT
-//            Uri uri = Uri.parse(this.path); // a directory
-//            intent.setDataAndType(uri, "resource/folder");
-//            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-//            intent.addCategory(Intent.CATEGORY_OPENABLE);
-//            this.context.startActivity(Intent.createChooser(intent, "Open File"));
-//            this.context.startActivity(intent);
-//        } else {
-//            Toast.makeText(this.context.getApplicationContext(), "File path is incorrect." , Toast.LENGTH_LONG).show();
-//        }
-//    }
 
     // Get api data with dates provided
     public void writePdf() {
@@ -214,16 +201,15 @@ public class Exporter {
         AsodoRequester.newRequest("getTrips", json, (Activity) this.context, new CustomListener() {
             @Override
             public void onResponse(JsonObject jsonResponse) {
-                System.out.println(category);
-                System.out.println(jsonResponse);
-                if (category.equals("business trip & personal trip")) {
-                    createPdf(jsonResponse);
-                } else if (category.equals("business trip")) {
-                    createPdf(filterJson(jsonResponse, 1));
-                } else {
-                    createPdf(filterJson(jsonResponse, 0));
-                }
-//                createPdf(jsonResponse);
+            System.out.println(category);
+            System.out.println(jsonResponse);
+            if (category.equals(context.getString(R.string.activity_export_business_personal))) {
+                createPdf(jsonResponse);
+            } else if (category.equals(context.getString(R.string.activity_export_business))) {
+                createPdf(filterJson(jsonResponse, 1));
+            } else {
+                createPdf(filterJson(jsonResponse, 0));
+            }
             }
         });
     }
