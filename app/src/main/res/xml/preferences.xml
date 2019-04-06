@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ListPreference
-    app:key="@string/language"
-    app:title="@string/language"
-    app:entries="@array/language_entries"
-    app:entryValues="@array/language_values"
-    app:defaultValue="@string/language_default_value"
-    app:summary="@string/language_summary"/>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ListPreference
+        android:key="@string/language"
+        android:title="@string/language"
+        android:entries="@array/language_entries"
+        android:entryValues="@array/language_values"
+        android:defaultValue="@string/language_default_value"
+        android:summary="@string/language_summary"/>
+
+    <ListPreference
+        android:key="tracking_setting"
+        android:title="@string/settings_tracking_setting_title"
+        android:entries="@array/settings_tracking_setting_entries"
+        android:entryValues="@array/settings_tracking_setting_values"
+        android:defaultValue="2"
+        android:summary="@string/settings_tracking_setting_summary"/>
+
+    <ListPreference
+        android:key="cached_trips"
+        android:title="@string/settings_cache_size_title"
+        android:entries="@array/settings_cache_size_entries"
+        android:entryValues="@array/settings_cache_size_values"
+        android:defaultValue="10"
+        android:summary="@string/settings_cache_size_summary"/>
 
 </PreferenceScreen>
