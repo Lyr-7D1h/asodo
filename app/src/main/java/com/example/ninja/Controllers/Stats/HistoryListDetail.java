@@ -14,6 +14,7 @@ import com.example.ninja.Domain.coordinates.LatLngList;
 import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.trips.TripList;
+import com.example.ninja.Domain.util.ConnectivityUtils;
 import com.example.ninja.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -170,7 +171,7 @@ public class HistoryListDetail extends BackButtonActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        if(detailTrip.getTrackingSetting() > 0 && (!detailTrip.getRoutePolyline().isEmpty() && detailTrip.getRoutePolyline() != null)) {
+        if(detailTrip.getTrackingSetting() > 0 && (!detailTrip.getRoutePolyline().isEmpty() && detailTrip.getRoutePolyline() != null) && ConnectivityUtils.isNetworkAvailable(this)) {
             // Init
             mMap = googleMap;
             mMap.setMaxZoomPreference(17);
@@ -202,7 +203,7 @@ public class HistoryListDetail extends BackButtonActivity implements OnMapReadyC
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             mMap.animateCamera(cu);
         } else {
-            findViewById(R.id.map).setVisibility(View.GONE);
+            findViewById(R.id.mapCont).setVisibility(View.GONE);
         }
     }
 }
