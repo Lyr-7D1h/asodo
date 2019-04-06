@@ -191,16 +191,21 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
 
     private void syncTripList() {
         if(ConnectivityUtils.isNetworkAvailable(this)) {
+            // Init
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             JsonObject json = new JsonObject();
+
+            // Get userID
             json.add("userID", new JsonPrimitive(UserUtils.getUserID(this)));
 
+            // Determine limit
             int limit = 10;
             if(prefs.getString("cache_size", "10") != null) {
                  limit = Integer.parseInt(Objects.requireNonNull(prefs.getString("cache_size", "10")));
             }
             json.add("limit", new JsonPrimitive(limit));
 
+            // Make request
             Context self = this;
             AsodoRequester.newRequest("getTrips", json, this, new CustomListener() {
                 @Override

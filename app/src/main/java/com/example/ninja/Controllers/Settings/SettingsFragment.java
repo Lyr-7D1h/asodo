@@ -28,6 +28,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle bundle, String s) {
         setPreferencesFromResource(R.xml.preferences, s);
 
+        // Resync on settings change
         findPreference("cache_size").setOnPreferenceChangeListener((preference, o) -> {
             ((Global) application).setUnSynced();
             return true;
