@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,12 +16,7 @@ import com.example.ninja.Controllers.Routetracking.Startroute;
 import com.example.ninja.Controllers.Stats.HistoryList;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.util.ActivityUtils;
-import com.example.ninja.Domain.util.AlertUtils;
-import com.example.ninja.Domain.util.CacheUtils;
-import com.example.ninja.Settings.SettingsActivity;
-import com.example.ninja.Domain.util.ServiceUtils;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.example.ninja.Controllers.Settings.SettingsActivity;
 
 import com.example.ninja.R;
 
