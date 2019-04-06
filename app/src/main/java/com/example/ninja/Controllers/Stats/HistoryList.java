@@ -3,6 +3,7 @@ package com.example.ninja.Controllers.Stats;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -26,6 +27,7 @@ import java.util.Locale;
 public class HistoryList extends BackButtonActivity {
 
     private CustomArrayAdapter arrayAdapter;
+    private SwipeRefreshLayout historyListRefresh;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,13 +42,17 @@ public class HistoryList extends BackButtonActivity {
         // Init
         final ListView tripsLV = (ListView) findViewById(R.id.tripsLV);
 
+        // On refresh
+        historyListRefresh = findViewById(R.id.historyListRefresh);
+        historyListRefresh.setOnRefreshListener(() -> setListViewItems(false));
+
         // Create an ArrayAdapter from List
         arrayAdapter = new CustomArrayAdapter
                 (this, android.R.layout.simple_list_item_2, android.R.id.text1);
 
 
         // Set list view items
-        setListViewItems();
+        setListViewItems(false);
 
         // DataBind ListView with items from ArrayAdapter
         tripsLV.setAdapter(arrayAdapter);
@@ -62,11 +68,18 @@ public class HistoryList extends BackButtonActivity {
         });
     }
 
-    public void setListViewItems() {
+    public void setListViewItems(boolean refresh) {
+        // Update refresher status
+        historyListRefresh.setRefreshing(refresh);
+
         ((Global) this.getApplication()).getTripCache(new AsodoRequesterCallback() {
             @Override
             public void callback(JsonObject jsonResponse) {
                 JsonArray cachedTrips = new TripList(jsonResponse).getTrips();
+
+                // Clear listview
+                arrayAdapter.clear();
+                arrayAdapter.notifyDataSetChanged();
 
                 // Add values
                 for (int i = cachedTrips.size() - 1; i >= 0; i--) {
@@ -103,6 +116,9 @@ public class HistoryList extends BackButtonActivity {
                     // Update ListView
                     arrayAdapter.notifyDataSetChanged();
                 }
+
+                // Update refresher status
+                historyListRefresh.setRefreshing(false);
             }
         });
     }
