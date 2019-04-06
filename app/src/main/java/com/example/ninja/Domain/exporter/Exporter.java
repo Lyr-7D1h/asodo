@@ -54,7 +54,7 @@ public class Exporter {
         this.start = dates[0];
         this.end = dates[1];
         this.context = context;
-        this.category = category.toLowerCase();
+        this.category = category;
 
         createPath();
     }
@@ -132,19 +132,19 @@ public class Exporter {
                 String businessTrip = "";
                 switch (btint) {
                     case 1:
-                        businessTrip = "Business Trip";
+                        businessTrip = context.getString(R.string.start_route_business_trip);
                         break;
                     case 0:
-                        businessTrip = "Personal Trip";
+                        businessTrip = context.getString(R.string.start_route_personal_trip);
                         break;
                 }
                 String startDate = obj.get("tripStarted").getAsString();
                 if (distanceDriven != 0) {
                     if (description != null && !description.isEmpty()) {
-                        String output = String.format("\n%s\n%s\nKilometers gereden:      %d\nDescription: %s", startDate, businessTrip, distanceDriven, description);
+                        String output = String.format(context.getString(R.string.exporter_mail_description), startDate, businessTrip, distanceDriven, description);
                         document.add(new Paragraph(output));
                     } else {
-                        String output = String.format("\n%s\n%s\nKilometers gereden:      %d", startDate, businessTrip, distanceDriven);
+                        String output = String.format(context.getString(R.string.exporter_mail_no_description), startDate, businessTrip, distanceDriven);
                         document.add(new Paragraph(output));
                     }
                 }

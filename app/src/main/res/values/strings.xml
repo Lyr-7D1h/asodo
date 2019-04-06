@@ -61,6 +61,7 @@
     <string name="start_route_loading">Aan het laden…</string>
     <string name="start_route_">Start km input</string>
     <string name="start_route_business_trip">Zakelijke reis</string>
+    <string name="start_route_personal_trip">Privé reis</string>
     <string name="start_route_home_work">Woon werk</string>
     <string name="start_route_start">Start rit</string>
     <string name="start_route_no_last_mileage">Kan laatste kilometerstand niet laden!</string>
@@ -88,4 +89,6 @@
     <string name="exporter_download_successful">PDF Download Successvol!</string>
     <string name="exporter_subject_message">Declaratie Overzicht  %s - %s</string>
     <string name="exporter_automated_message">Automated message from Asodo.</string>
+    <string name="exporter_mail_description" formatted="true">\n%s\n%s\nKilometers gereden:      %d\nBeschrijving: %s</string>
+    <string name="exporter_mail_no_description" formatted="true">\n%s\n%s\nKilometers gereden:      %d</string>
 </resources>
