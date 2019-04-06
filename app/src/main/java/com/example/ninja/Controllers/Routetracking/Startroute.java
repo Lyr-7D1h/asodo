@@ -3,8 +3,10 @@ package com.example.ninja.Controllers.Routetracking;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +23,8 @@ import com.example.ninja.Domain.util.ActivityUtils;
 import com.example.ninja.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import java.util.Objects;
 
 public class Startroute extends BackButtonActivity {
 
@@ -115,11 +119,12 @@ public class Startroute extends BackButtonActivity {
 
     public boolean updateTrip(int lastMileage) {
         // Init
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         currentTrip = ((Global) getApplication()).getTrip();
 
         // Set values
         currentTrip.setTripStarted();
-        currentTrip.setTrackingSetting(2); // TODO
+        currentTrip.setTrackingSetting(Integer.parseInt(Objects.requireNonNull(prefs.getString("tracking_setting", "2"))));
         currentTrip.setBusinessTrip(((Switch) findViewById(R.id.businessTrip)).isChecked() ?1:0);
         currentTrip.setBbCommuting(((Switch) findViewById(R.id.bbCommuting)).isChecked() ?0:1);
 

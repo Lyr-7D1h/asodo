@@ -62,7 +62,7 @@
     <string name="settings_tracking_setting_title">Routetracking</string>
     <string name="settings_tracking_setting_summary">Bepaal hoe GPS u gaat ondersteunen tijdens uw ritten</string>
     <string-array name="settings_tracking_setting_entries">
-        <item>Geen locatietracking</item>
+        <item>Geen routetracking</item>
         <item>Bepaal alleen begin- en eindlocatie via GPS</item>
         <item>Volledige routetracking</item>
     </string-array>
