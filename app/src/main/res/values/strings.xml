@@ -51,7 +51,7 @@
         <item>25</item>
         <item>50</item>
         <item>100</item>
-        <item>All</item>
+        <item>Alles</item>
     </string-array>
     <string-array name="settings_cache_size_values">
         <item>1</item>
