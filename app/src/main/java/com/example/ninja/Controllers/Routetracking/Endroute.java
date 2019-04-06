@@ -49,8 +49,6 @@ public class Endroute extends AppCompatActivity {
             ((Global) this.getApplication()).setTrip(null);
 
             // Move activity
-            Intent intent = new Intent(v.getContext(), MainActivity.class);
-            startActivity(intent);
             finish();
         }
     }
