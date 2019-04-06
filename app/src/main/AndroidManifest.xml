@@ -25,7 +25,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Controllers.AhNiffo"/>
         <activity android:name=".Controllers.MainActivity" />
         <activity android:name=".Controllers.loginscreen.RegActivity" />
         <activity android:name=".Controllers.loginscreen.LogActivity">
@@ -58,6 +57,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ninja.Controllers.Stats.HistoryList" />
+        </activity>
+        <activity android:name=".Controllers.AhNiffo">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ninja.Controllers.MainActivity" />
         </activity>
 
         <service android:name=".Controllers.LocationService" />

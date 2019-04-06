@@ -1,24 +1,449 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/map"
-
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/mapCont"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:minHeight="200dp">
 
-        <TextView
-            android:id="@+id/detailsTV"
+            <fragment
+                android:id="@+id/map"
+
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/loading" />
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/pane"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/activity_history_list_detail_header_details"
+                    android:text="@string/activity_history_list_detail_header_details"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="@string/activity_history_list_detail_header_details" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="3dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:contentDescription="@string/activity_history_list_detail_label_from"
+                            android:text="@string/activity_history_list_detail_label_from"
+                            android:textStyle="bold"
+                            tools:text="@string/activity_history_list_detail_label_from"
+                            tools:ignore="NestedWeights" />
+
+                        <TextView
+                            android:id="@+id/detailsCityStartedTV"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="@string/loading" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:contentDescription="@string/activity_history_list_detail_label_to"
+                            android:text="@string/activity_history_list_detail_label_to"
+                            android:textStyle="bold"
+                            tools:text="@string/activity_history_list_detail_label_to"
+                            tools:ignore="NestedWeights" />
+
+                        <TextView
+                            android:id="@+id/detailsCityEndedTV"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="@string/loading" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="3dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/activity_history_list_detail_label_mileage"
+                        android:text="@string/activity_history_list_detail_label_mileage"
+                        android:textStyle="bold"
+                        tools:text="@string/activity_history_list_detail_label_mileage" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:contentDescription="@string/activity_history_list_detail_label_start"
+                                android:text="@string/activity_history_list_detail_label_start"
+                                android:textStyle="bold"
+                                tools:text="@string/activity_history_list_detail_label_start"
+                                tools:ignore="NestedWeights" />
+
+                            <TextView
+                                android:id="@+id/detailsMileageStartedTV"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:text="@string/loading" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:contentDescription="@string/activity_history_list_detail_label_end"
+                                android:text="@string/activity_history_list_detail_label_end"
+                                android:textStyle="bold"
+                                tools:text="@string/activity_history_list_detail_label_end"
+                                tools:ignore="NestedWeights" />
+
+                            <TextView
+                                android:id="@+id/detailsMileageEndedTV"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:text="@string/loading" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:contentDescription="@string/activity_history_list_detail_label_distance_driven"
+                            android:text="@string/activity_history_list_detail_label_distance_driven"
+                            android:textStyle="bold"
+                            tools:text="@string/activity_history_list_detail_label_distance_driven" />
+
+                        <TextView
+                            android:id="@+id/detailsDistanceDrivenTV"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="8"
+                            android:text="@string/loading" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="3dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:contentDescription="@string/activity_history_list_detail_label_date"
+                            android:text="@string/activity_history_list_detail_label_date"
+                            android:textStyle="bold"
+                            tools:text="@string/activity_history_list_detail_label_date" />
+
+                        <TextView
+                            android:id="@+id/detailsDateTV"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="8"
+                            android:text="@string/loading" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:contentDescription="@string/activity_history_list_detail_label_start"
+                                android:text="@string/activity_history_list_detail_label_start"
+                                android:textStyle="bold"
+                                tools:text="@string/activity_history_list_detail_label_start"
+                                tools:ignore="NestedWeights" />
+
+                            <TextView
+                                android:id="@+id/detailsTimeStartedTV"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:text="@string/loading" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:contentDescription="@string/activity_history_list_detail_label_end"
+                                android:text="@string/activity_history_list_detail_label_end"
+                                android:textStyle="bold"
+                                tools:text="@string/activity_history_list_detail_label_end"
+                                tools:ignore="NestedWeights" />
+
+                            <TextView
+                                android:id="@+id/detailsTimeEndedTV"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:text="@string/loading" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:contentDescription="@string/activity_history_list_detail_label_time_duration"
+                            android:text="@string/activity_history_list_detail_label_time_duration"
+                            android:textStyle="bold"
+                            tools:text="@string/activity_history_list_detail_label_time_duration" />
+
+                        <TextView
+                            android:id="@+id/detailsTripDurationTV"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="8"
+                            android:text="@string/loading" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:contentDescription="@string/activity_history_list_detail_label_business_trip"
+                            android:text="@string/activity_history_list_detail_label_business_trip"
+                            android:textStyle="bold"
+                            tools:text="@string/activity_history_list_detail_label_business_trip" />
+
+                        <TextView
+                            android:id="@+id/detailsBusinessTripTV"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:text="@string/loading" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/detailsBbCommutingCont"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:contentDescription="@string/activity_history_list_detail_label_bbCommuting"
+                            android:text="@string/activity_history_list_detail_label_bbCommuting"
+                            android:textStyle="bold"
+                            tools:text="@string/activity_history_list_detail_label_bbCommuting" />
+
+                        <TextView
+                            android:id="@+id/detailsBbCommutingTV"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:text="@string/loading" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/detailsDesDeviationCont"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/pane"
+                    android:padding="16dp"
+                    tools:ignore="UselessParent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/activity_history_list_detail_header_details"
+                            android:text="@string/activity_history_list_detail_header_description"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            tools:text="@string/activity_history_list_detail_header_description" />
+
+                        <TextView
+                            android:id="@+id/detailsDesDeviationTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/loading" />
+                    </LinearLayout>
+                </ScrollView>
+
+            </FrameLayout>
+
+        </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

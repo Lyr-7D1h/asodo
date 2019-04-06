@@ -5,21 +5,27 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.ninja.Controllers.abstractActivities.BackButtonActivity;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
+import com.example.ninja.Domain.stats.CustomArrayAdapter;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.trips.TripList;
 import com.example.ninja.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class HistoryList extends BackButtonActivity {
 
-    private ArrayAdapter<String> arrayAdapter;
+    private CustomArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,8 +41,9 @@ public class HistoryList extends BackButtonActivity {
         final ListView tripsLV = (ListView) findViewById(R.id.tripsLV);
 
         // Create an ArrayAdapter from List
-        arrayAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1);
+        arrayAdapter = new CustomArrayAdapter
+                (this, android.R.layout.simple_list_item_2, android.R.id.text1);
+
 
         // Set list view items
         setListViewItems();
@@ -66,9 +73,32 @@ public class HistoryList extends BackButtonActivity {
                     // Get trip
                     Trip trip = Trip.build(cachedTrips.get(i).getAsJsonObject());
 
+                    // Prepare variables
+                    String cityStarted = trip.getCityStarted();
+                    if(cityStarted.isEmpty()) {
+                        cityStarted = getString(R.string.undefined);
+                    }
+
+                    String cityEnded = trip.getCityEnded();
+                    if(cityEnded.isEmpty()) {
+                        cityEnded = getString(R.string.undefined);
+                    }
+
+                    DateFormat dateFormatFrom = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    DateFormat dateFormatTo = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
+                    String date = null;
+                    try {
+                        Date temp = dateFormatFrom.parse(trip.getTripEnded());
+                        date = dateFormatTo.format(temp);
+                    } catch (ParseException e) {
+                        date = getString(R.string.undefined);
+                    }
+
                     // Set text
-                    //TODO EXAMPLE - Doe hier wat je wilt
-                    arrayAdapter.add(trip.getMileageStarted() + " - " + trip.getMileageEnded());
+                    String[] item = new String[2];
+                    item[0] = String.format(getString(R.string.activity_history_list_title), date, cityStarted, cityEnded);
+                    item[1] = String.format(getString(R.string.activity_history_list_description), trip.getDistanceDriven());
+                    arrayAdapter.add(item);
 
                     // Update ListView
                     arrayAdapter.notifyDataSetChanged();

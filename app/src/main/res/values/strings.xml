@@ -4,9 +4,12 @@
     <string name="zero">0</string>
     <string name="zerof">0.0</string>
     <string name="enable">Inschakelen</string>
+    <string name="start">Start</string>
+    <string name="end">Einde</string>
     <string name="default_ok">OK</string>
     <string name="retry">Retry</string>
     <string name="cancel">Annuleren</string>
+    <string name="undefined">\?\?\?</string>
     <string name="nvt">NVT</string>
     <string name="no_internet">Geen internet verbinding!</string>
     <string name="username">Gebruikersnaam</string>
@@ -48,7 +51,7 @@
     <string name="route_current_km_input">Afgelegde afstand:</string>
     <string name="gps_popup">GPS uitgeschakeld.\nKan locatie niet bepalen.</string>
     <string name="route_km">km</string>
-    <string name="route_estimation">Afgelegde afstand: %.1f km</string>
+    <string name="route_estimation" formatted="true">Afgelegde afstand: %.1f km</string>
     <string name="route_gps_disabled">GPS uitgeschakeld</string>
     <string name="route_cant_confirm_location">Uw huidige locatie kan niet worden bepaald.</string>
     <string name="route_end_route">Beëindig rit</string>
@@ -73,7 +76,23 @@
     <string name="enter_city">Vul een stad in</string>
     <string name="stats_back">Terug</string>
     <string name="stats_statistics">Statistieken</string>
+    <string name="activity_history_list_title" formatted="true">%s: %s - %s</string>
+    <string name="activity_history_list_description" formatted="true">Afgelegde afstand: %d kilometers</string>
     <string name="activity_history_list_detail_invalid_detail">Fout bij het laden van rit!</string>
+    <string name="activity_history_list_detail_header_details">Rit details</string>
+    <string name="activity_history_list_detail_header_description">Rit beschrijving</string>
+    <string name="activity_history_list_detail_label_from">Van:</string>
+    <string name="activity_history_list_detail_label_to">Naar:</string>
+    <string name="activity_history_list_detail_label_start">Begin:</string>
+    <string name="activity_history_list_detail_label_end">Eind:</string>
+    <string name="activity_history_list_detail_label_yes">ja</string>
+    <string name="activity_history_list_detail_label_no">nee</string>
+    <string name="activity_history_list_detail_label_time_duration">Rit duur:</string>
+    <string name="activity_history_list_detail_label_date">Datum:</string>
+    <string name="activity_history_list_detail_label_mileage">Kilometerstanden</string>
+    <string name="activity_history_list_detail_label_distance_driven">Afstand:</string>
+    <string name="activity_history_list_detail_label_business_trip">Zakelijke reis:</string>
+    <string name="activity_history_list_detail_label_bbCommuting">Woon werk:</string>
     <string name="activity_log_logo">Asodo</string>
     <string name="activity_main_start">Start nieuwe rit</string>
     <string name="activity_main_statistics">Ritten historie</string>
@@ -87,7 +106,7 @@
     <string name="exporter_no_permission">Toegang geweigerd tot externe opslag</string>
     <string name="exporter_no_email_client">Er is geen email client geïnstalleerd</string>
     <string name="exporter_download_successful">PDF Download Successvol!</string>
-    <string name="exporter_subject_message">Declaratie Overzicht  %s - %s</string>
+    <string name="exporter_subject_message" formatted="true">Declaratie Overzicht  %s - %s</string>
     <string name="exporter_automated_message">Automated message from Asodo.</string>
     <string name="exporter_mail_description" formatted="true">\n%s\n%s\nKilometers gereden:      %d\nBeschrijving: %s</string>
     <string name="exporter_mail_no_description" formatted="true">\n%s\n%s\nKilometers gereden:      %d</string>
