@@ -1,8 +1,6 @@
 package com.example.ninja.Domain.exporter;
 
 import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,8 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
-import android.support.v4.content.FileProvider;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
@@ -23,28 +19,18 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfImportedPage;
-import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.fonts.otf.TableHeader;
-import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
-import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
-import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -68,7 +54,7 @@ public class Exporter {
         this.start = dates[0];
         this.end = dates[1];
         this.context = context;
-        this.category = category.toLowerCase();
+        this.category = category;
 
         createPath();
     }
@@ -127,7 +113,7 @@ public class Exporter {
                 Image image = Image.getInstance(stream.toByteArray());
                 image.scaleToFit(850,100);
                 image.setAlignment(Element.ALIGN_CENTER);
-                System.out.println(image);
+//                System.out.println(image);
                 document.add(image);
             } catch (BadElementException e) {
                 e.printStackTrace();
@@ -138,10 +124,30 @@ public class Exporter {
             for (int i=0; i<trips.size(); i++) {
                 JsonObject obj = trips.get(i).getAsJsonObject();
                 int distanceDriven = obj.get("distanceDriven").getAsInt();
+                int btint = obj.get("businessTrip").getAsInt();
+                String description = "";
+                if (obj.has("desDeviation")) {
+                    description = obj.get("desDeviation").getAsString();
+                }
+                String businessTrip = "";
+                switch (btint) {
+                    case 1:
+                        businessTrip = context.getString(R.string.start_route_business_trip);
+                        break;
+                    case 0:
+                        businessTrip = context.getString(R.string.start_route_personal_trip);
+                        break;
+                }
                 String startDate = obj.get("tripStarted").getAsString();
-
-                String output = String.format("\nf%s\nKilometers gereden:      %d", startDate, distanceDriven);
-                document.add(new Paragraph(output));
+                if (distanceDriven != 0) {
+                    if (description != null && !description.isEmpty()) {
+                        String output = String.format(context.getString(R.string.exporter_mail_description), startDate, businessTrip, distanceDriven, description);
+                        document.add(new Paragraph(output));
+                    } else {
+                        String output = String.format(context.getString(R.string.exporter_mail_no_description), startDate, businessTrip, distanceDriven);
+                        document.add(new Paragraph(output));
+                    }
+                }
             }
         } catch (DocumentException e) {
             e.printStackTrace();
