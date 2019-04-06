@@ -78,8 +78,8 @@
     <string name="activity_history_list_title" formatted="true">%s: %s - %s</string>
     <string name="activity_history_list_description" formatted="true">Afgelegde afstand: %d kilometers</string>
     <string name="activity_history_list_detail_invalid_detail">Fout bij het laden van rit!</string>
-    <string name="activity_history_list_detail_header_details">Rit details:</string>
-    <string name="activity_history_list_detail_header_description">Rit beschrijving:</string>
+    <string name="activity_history_list_detail_header_details">Rit details</string>
+    <string name="activity_history_list_detail_header_description">Rit beschrijving</string>
     <string name="activity_history_list_detail_label_from">Van:</string>
     <string name="activity_history_list_detail_label_to">Naar:</string>
     <string name="activity_history_list_detail_label_start">Begin:</string>
@@ -88,7 +88,7 @@
     <string name="activity_history_list_detail_label_no">nee</string>
     <string name="activity_history_list_detail_label_time_duration">Rit duur:</string>
     <string name="activity_history_list_detail_label_date">Datum:</string>
-    <string name="activity_history_list_detail_label_mileage">Kilometerstanden:</string>
+    <string name="activity_history_list_detail_label_mileage">Kilometerstanden</string>
     <string name="activity_history_list_detail_label_distance_driven">Afstand:</string>
     <string name="activity_history_list_detail_label_business_trip">Zakelijke reis:</string>
     <string name="activity_history_list_detail_label_bbCommuting">Woon werk:</string>
