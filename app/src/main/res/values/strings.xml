@@ -4,6 +4,8 @@
     <string name="zero">0</string>
     <string name="zerof">0.0</string>
     <string name="enable">Inschakelen</string>
+    <string name="start">Start</string>
+    <string name="end">Einde</string>
     <string name="default_ok">OK</string>
     <string name="retry">Retry</string>
     <string name="cancel">Annuleren</string>

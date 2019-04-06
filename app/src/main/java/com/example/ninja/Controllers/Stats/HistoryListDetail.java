@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -177,18 +178,24 @@ public class HistoryListDetail extends BackButtonActivity implements OnMapReadyC
             mMap.setMaxZoomPreference(17);
             LatLngList places = LatLngList.decode(detailTrip.getRoutePolyline()); // list of latlng
 
-            // Create polyline
-            for (int i = 0; i < places.size() - 1; i++) {
-                LatLng src = places.get(i);
-                LatLng dest = places.get(i + 1);
+            // Create markers
+            mMap.addMarker(new MarkerOptions().position(places.get(0)).title(getString(R.string.start)).zIndex(1.0f));
+            mMap.addMarker(new MarkerOptions().position(places.get(places.size()-1)).title(getString(R.string.end)));
 
-                // mMap is the Map Object
-                mMap.addPolyline(
-                        new PolylineOptions().add(
-                                new LatLng(src.latitude, src.longitude),
-                                new LatLng(dest.latitude, dest.longitude)
-                        ).width(5).color(Color.BLUE).geodesic(true)
-                );
+            // Create polyline
+            if(detailTrip.getTrackingSetting() == 2) {
+                for (int i = 0; i < places.size() - 1; i++) {
+                    LatLng src = places.get(i);
+                    LatLng dest = places.get(i + 1);
+
+                    // mMap is the Map Object
+                    mMap.addPolyline(
+                            new PolylineOptions().add(
+                                    new LatLng(src.latitude, src.longitude),
+                                    new LatLng(dest.latitude, dest.longitude)
+                            ).width(5).color(Color.BLUE).geodesic(true)
+                    );
+                }
             }
 
             // Generate bounds
