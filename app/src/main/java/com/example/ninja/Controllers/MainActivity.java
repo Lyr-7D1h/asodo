@@ -2,7 +2,6 @@ package com.example.ninja.Controllers;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,16 +11,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.example.ninja.Controllers.Routetracking.Route;
 import com.example.ninja.Controllers.Routetracking.Startroute;
-import com.example.ninja.Controllers.Stats.ItemListActivity;
-import com.example.ninja.Controllers.Stats.TimListView;
-import com.example.ninja.Controllers.loginscreen.LogActivity;
+import com.example.ninja.Controllers.Stats.HistoryList;
 import com.example.ninja.Domain.Global;
-import com.example.ninja.Domain.httpRequests.CustomListener;
-import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.util.ActivityUtils;
 import com.example.ninja.Domain.util.AlertUtils;
 import com.example.ninja.Domain.util.CacheUtils;
@@ -56,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         Button statistics = (Button) findViewById(R.id.statistics);
         statistics.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TimListView.class);
+                Intent intent = new Intent(MainActivity.this, HistoryList.class);
                 startActivity(intent);
             }
         });
@@ -69,63 +63,6 @@ public class MainActivity extends AppCompatActivity {
                 ActivityUtils.changeActivity(self, MainActivity.this, ExportActivity.class);
             }
         });
-
-//        // Functionality of options button
-//        Button options = (Button) findViewById(R.id.options);
-//        options.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                System.out.println("options"); // Placeholder
-//
-//                CacheUtils.deleteCache(context, "trips.list");
-//                // Example Request
-//                String jsonString = "{\"username\":\"huts\",\"password\":\"huts\"}";
-//                JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
-//
-//                AsodoRequester.newRequest("authenticate", json, MainActivity.this, new CustomListener() {
-//                    @Override
-//                    public void onResponse(JsonObject jsonResponse) {
-//                        System.out.println(jsonResponse);
-//                    }
-//                });
-//            }
-//        });
-
-//        // Functionality of logout button
-//        Button logout = (Button) findViewById(R.id.logout);
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                // Check for active trip
-//                if(((Global) self.getApplication()).isActiveTrip()) {
-//                    AlertUtils.showAlert("Doorgaan", "U heeft een actieve rit!\n\nAls u uitlogt zal deze rit verloren gaan.", self, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            // Kill service
-//                            ServiceUtils.killLocationService(self);
-//
-//                            // Delete user data
-//                            CacheUtils.deleteCache(context, "user.cache");
-//                            CacheUtils.deleteCache(context, "trips.cache");
-//
-//                            // Set data to unsynced
-//                            ((Global) self.getApplication()).setUnSynced();
-//
-//                            // Move user to login
-//                            ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);
-//                        }
-//                    }, true);
-//                } else {
-//                    // Delete user data
-//                    CacheUtils.deleteCache(context, "user.cache");
-//                    CacheUtils.deleteCache(context, "trips.cache");
-//
-//                    // Set data to unsynced
-//                    ((Global) self.getApplication()).setUnSynced();
-//
-//                    // Move user to login
-//                    ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);
-//                }
-//            }
-//        });
     }
 
     @Override
@@ -135,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         // Reset start button text if active trip
         Button start = (Button) findViewById(R.id.start);
         if(((Global) this.getApplication()).isActiveTrip()) {
-            start.setText(String.valueOf("Open actieve rit"));
+            start.setText(String.valueOf(getString(R.string.activity_main_active_trip)));
         }
     }
 
@@ -164,4 +101,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-

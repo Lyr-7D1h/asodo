@@ -7,14 +7,16 @@ import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.example.ninja.R;
+
 public class AlertUtils {
 
     public static void showAlert(String message, Activity context, DialogInterface.OnClickListener clickListener) {
-        showAlert("OK", message, context, clickListener);
+        showAlert(context.getString(R.string.default_ok), message, context, clickListener);
     }
 
     public static void showAlert(String button, String message, Activity context, DialogInterface.OnClickListener clickListener) {
-        showAlert(button, "NVT", message, context, clickListener, false);
+        showAlert(button, context.getString(R.string.nvt), message, context, clickListener, false);
     }
 
     public static void showAlert(String okButton, String cancelButton, String message, Activity context, DialogInterface.OnClickListener clickListener) {

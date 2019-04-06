@@ -2,6 +2,7 @@ package com.example.ninja.Domain.trips;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.location.Location;
 
 import java.io.Serializable;
@@ -10,10 +11,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.example.ninja.Domain.coordinates.LatLngList;
 import com.example.ninja.Domain.coordinates.LocationList;
+import com.example.ninja.Domain.coordinates.singleUpdates.LatLngWrapper;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
 import com.example.ninja.Domain.util.UserUtils;
+import com.example.ninja.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -59,6 +63,7 @@ public class Trip implements Serializable {
     public String getTripID() {
         return tripID;
     }
+
 
     public void setTripID(String tripID) {
         this.tripID = tripID;
@@ -316,6 +321,8 @@ public class Trip implements Serializable {
             res.add("routePolyline", new JsonPrimitive(""));
         }
 
+
+
         res.add("businessTrip", new JsonPrimitive(this.businessTrip));
         res.add("bbCommuting", new JsonPrimitive(this.bbCommuting));
 
@@ -335,6 +342,14 @@ public class Trip implements Serializable {
     }
 
     public void registerToDB(Context ctx) {
+        // Set city started and ended by location
+        if(getTrackingSetting() > 0) {
+            LatLngList latLngList = LatLngList.decode(getRoutePolyline());
+
+            setCityStarted(new LatLngWrapper(latLngList.get(0)).getCity(ctx));
+            setCityEnded(new LatLngWrapper(latLngList.get(latLngList.size() - 1)).getCity(ctx));
+        }
+
         AsodoRequester.newRequest("registerTrip", toJsonObject(), ctx, new CustomListener() {
             @Override
             public void onResponse(JsonObject jsonResponse) {
@@ -427,4 +442,5 @@ public class Trip implements Serializable {
         // Return
         return res;
     }
+
 }

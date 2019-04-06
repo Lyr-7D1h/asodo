@@ -80,7 +80,7 @@ public class RegActivity extends AppCompatActivity {
 
             // Check if two passwords match
             if (!password.equals(cnf_pwd)) {
-                registerFailed("Wachtwoorden komen niet overeen!");
+                registerFailed(getString(R.string.passwords_not_match));
                 return;
             }
 
@@ -109,7 +109,7 @@ public class RegActivity extends AppCompatActivity {
     public void registerResponseHandler(JsonObject response) {
         awaitingResponse = false;
         if (response.get("error") != null) {
-            registerFailed("Gebruikersnaam al in gebruik!");
+            registerFailed(getString(R.string.username_taken));
             return;
         }
 
@@ -121,7 +121,7 @@ public class RegActivity extends AppCompatActivity {
      */
     public void registerSuccess(JsonObject response) {
         // Show toast
-        Toast.makeText(RegActivity.this, "Succesvol geregistreerd!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(RegActivity.this, getString(R.string.register_success), Toast.LENGTH_SHORT).show();
 
         // Store response to file
         CacheUtils.cacheJsonObject(context, 0, response, "user.cache");

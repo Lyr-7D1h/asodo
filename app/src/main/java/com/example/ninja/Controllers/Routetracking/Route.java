@@ -7,23 +7,40 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import com.example.ninja.Controllers.LocationService;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Controllers.abstractActivities.PermissionActivity;
+import com.example.ninja.Domain.coordinates.LatLngList;
 import com.example.ninja.Domain.stateReceivers.LocationStateReceiver;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.util.AlertUtils;
 import com.example.ninja.Domain.util.PermissionUtils;
+import com.example.ninja.Domain.util.ServiceUtils;
 import com.example.ninja.R;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class Route extends PermissionActivity implements LocationStateReceiver.LocationStateReceiverListener {
 
@@ -77,7 +94,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     protected void onCreate(Bundle savedInstanceState) {
         // Init
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.route);
+        setContentView(R.layout.activity_route);
         System.out.println("FF create");
 
         // Init
@@ -137,6 +154,9 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
                     askCityInput(endLoader);
                     break;
                 case 6:
+                    lastUpdateReceived();
+                    break;
+                default:
                     lastUpdateReceived();
                     break;
             }
@@ -209,12 +229,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     }
 
     public void stopLocationService() {
-        // Stop location service
-        stopService(((Global) this.getApplication()).getLocationIntent());
-        ((Global) this.getApplication()).setLocationIntent(null);
-
-        // Set trip status to inactive
-        ((Global) this.getApplication()).setActiveTrip(false);
+        ServiceUtils.killLocationService(this);
     }
 
     public void updateLayouts(ConstraintLayout hide, ConstraintLayout show) {
@@ -261,6 +276,8 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
                         currentTrip.setCityEnded(cityEntered);
                         lastUpdateReceived();
                     }
+                } else {
+                    Toast.makeText(Route.this, getString(R.string.enter_city), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -268,10 +285,16 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     }
 
     public void lastUpdateReceived() {
-        // Update current Trip
+        // Init
         currentTrip = ((Global) getApplication()).getTrip();
-        // TODO calculate polyline, cityStarted, cityEnded, optimalDistance, kmDeviation
+
+        // Set trip ended
         currentTrip.setTripEnded();
+
+        // Set polyline
+        if (currentTrip.getTrackingSetting() > 0){
+            currentTrip.setRoutePolyline(new LatLngList(currentTrip.getLocationList()).encode());
+        }
 
         // Stop location service
         stopLocationService();
@@ -317,7 +340,14 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     public void permissionDeclined(int requestCode) {
         // Change tracking setting
         //TODO to 0
+        this.currentTrip = ((Global) this.getApplication()).getTrip();
         currentTrip.setTrackingSetting(0);
+
+        // Hide GPS prompts
+        findViewById(R.id.gpsDisabledInfo1).setVisibility(View.GONE);
+        findViewById(R.id.gpsDisabledInfo2).setVisibility(View.GONE);
+        findViewById(R.id.gpsDisabledInfo3).setVisibility(View.GONE);
+        shownGpsPrompt = true;
 
         // Start service
         startLocationService();
@@ -360,7 +390,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
                 shownGpsPrompt = true;
 
                 // Show alert
-                AlertUtils.showAlert("Inschakelen", "Annuleren", "GPS uitgeschakeld.\nKan locatie niet bepalen.", this, new DialogInterface.OnClickListener() {
+                AlertUtils.showAlert(getString(R.string.enable), getString(R.string.cancel), getString(R.string.gps_popup), this, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         showGpsPrompt();

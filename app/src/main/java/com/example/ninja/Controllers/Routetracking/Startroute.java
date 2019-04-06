@@ -1,14 +1,12 @@
 package com.example.ninja.Controllers.Routetracking;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -29,11 +27,10 @@ public class Startroute extends BackButtonActivity {
     private final Context context = this;
     private Trip currentTrip;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.start_route);
+        setContentView(R.layout.activity_start_route);
 
         checkActiveTrip();
 
@@ -61,7 +58,7 @@ public class Startroute extends BackButtonActivity {
 
                     initTrip(lastCachedMileage);
                 } else {
-                    Toast.makeText(Startroute.this, "Kan laatste kilometerstand niet laden!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Startroute.this, getString(R.string.start_route_no_last_mileage), Toast.LENGTH_SHORT).show();
                     initTrip(0);
                 }
             }
@@ -77,7 +74,7 @@ public class Startroute extends BackButtonActivity {
         currentTrip.setMileageStarted(lastMileage);
         ((TextView) findViewById(R.id.startkm)).setText(String.valueOf(lastMileage));
         if(lastMileage == 0) {
-            ((TextView) findViewById(R.id.confirmTV)).setText(String.valueOf("Vul kilometerstand in"));
+            ((TextView) findViewById(R.id.confirmTV)).setText(String.valueOf(getString(R.string.start_route_no_last_mileage_helper)));
         }
         findViewById(R.id.startkm).setEnabled(true);
 
@@ -103,7 +100,7 @@ public class Startroute extends BackButtonActivity {
         // Check for corrupt Trip
         if(currentTrip.getCarID().isEmpty()) {
             // Show toast
-            Toast.makeText(Startroute.this, "Geen auto voor route geselecteerd!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Startroute.this, getString(R.string.start_route_no_car), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -141,11 +138,11 @@ public class Startroute extends BackButtonActivity {
             int res = Integer.parseInt(startMileage);
 
             if(res < lastMileage) {
-                Toast.makeText(Startroute.this, "Fout: Kilometerstand lager dan laatste eindstand", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Startroute.this, getString(R.string.start_route_mileage_lower), Toast.LENGTH_SHORT).show();
                 return false;
             }
         } catch (NumberFormatException e) {
-            Toast.makeText(Startroute.this, "Fout: Kilometerstand is geen nummer", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Startroute.this, getString(R.string.mileage_no_number), Toast.LENGTH_SHORT).show();
             return false;
         }
 

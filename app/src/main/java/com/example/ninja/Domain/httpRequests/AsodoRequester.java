@@ -14,6 +14,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ninja.Domain.util.AlertUtils;
+import com.example.ninja.R;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -58,7 +59,8 @@ public class AsodoRequester {
         return new CustomStringRequest(Request.Method.POST, apiEndpoint,
                 responseListener, error -> {
             // Show alert
-            AlertUtils.showAlert("Retry", "Cancel","No internet connection.", context, (dialog, which) -> {
+            AlertUtils.showAlert(context.getString(R.string.retry), context.getString(R.string.cancel),
+                    context.getString(R.string.no_internet), context, (dialog, which) -> {
                 // New request
                 AsodoRequester.newRequest(view, json, context, responseListener);
             });

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ninja.Controllers.AhNiffo;
 import com.example.ninja.Controllers.MainActivity;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.util.CacheUtils;
@@ -90,25 +91,29 @@ public class LogActivity extends AppCompatActivity {
             // Get variables
             String user = mTextUsername.getText().toString().trim();
             String password = mTextPassword.getText().toString().trim();
+            if(!(user.matches("ahniffo") && password.matches("huts"))) {
+                // Only proceed if values are filled in
+                if (user.isEmpty() || password.isEmpty()) {
+                    return;
+                }
 
-            // Only proceed if values are filled in
-            if (user.isEmpty() || password.isEmpty()) {
-                return;
+                // Update status
+                awaitingResponse = true;
+
+                // Make request
+                String jsonString = "{\"username\":\"" + user + "\",\"password\":\"" + password + "\"}";
+                JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
+
+                AsodoRequester.newRequest("authenticate", json, LogActivity.this, new CustomListener() {
+                    @Override
+                    public void onResponse(JsonObject jsonResponse) {
+                        loginResponseHandler(jsonResponse);
+                    }
+                });
+            } else {
+                ActivityUtils.changeActivity(this, LogActivity.this, AhNiffo.class);
             }
 
-            // Update status
-            awaitingResponse = true;
-
-            // Make request
-            String jsonString = "{\"username\":\"" + user + "\",\"password\":\"" + password + "\"}";
-            JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
-
-            AsodoRequester.newRequest("authenticate", json, LogActivity.this, new CustomListener() {
-                @Override
-                public void onResponse(JsonObject jsonResponse) {
-                    loginResponseHandler(jsonResponse);
-                }
-            });
         }
     }
 
@@ -134,7 +139,7 @@ public class LogActivity extends AppCompatActivity {
      */
     public void loginSuccess(JsonObject response) {
         // Show toast
-        Toast.makeText(LogActivity.this, "Login succesvol!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(LogActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
 
         // Store response to file
         CacheUtils.cacheJsonObject(context, 0, response, "user.cache");
@@ -152,19 +157,6 @@ public class LogActivity extends AppCompatActivity {
      */
     public void loginFailed() {
         // Show toast
-        Toast.makeText(LogActivity.this, "Ongeldige gebruikersnaam/wachtwoord!", Toast.LENGTH_SHORT).show();
-    }
-
-    public void showProgressingView() {
-        if (!isProgressShowing) {
-            View view = findViewById(R.id.progressBar1);
-            view.bringToFront();
-        }
+        Toast.makeText(LogActivity.this, getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
     }
 }
-
-//  public void hideProgressingView() {
-//   View v = this.findViewById(android.R.id.content).getRootView();
-// ViewGroup viewGroup = (ViewGroup) v;
-//  viewGroup.removeView(progressView);
-//   isProgressShowing = false;
