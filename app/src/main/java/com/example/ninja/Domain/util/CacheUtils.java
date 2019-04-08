@@ -20,17 +20,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class CacheUtils {
-    public static void cacheObject(Context ctx, Object object, String name){
-        final GsonBuilder gbuilder = new GsonBuilder();
-        final Gson gson = gbuilder.create();
-
-        String json = gson.toJson(object);
-        System.out.println(json); // TODO remove
-
-        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-        cacheJsonObject(ctx, jsonObject, name);
-    }
-
     public static void cacheJsonObject(Context ctx, int writeMode, JsonObject jsonObject, String name) {
         FileOutputStream outputStream;
 

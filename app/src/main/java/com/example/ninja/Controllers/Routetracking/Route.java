@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -15,6 +16,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 
 import com.example.ninja.Controllers.LocationService;
+import com.example.ninja.Controllers.abstractActivities.BackButtonActivity;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Controllers.abstractActivities.PermissionActivity;
 import com.example.ninja.Domain.coordinates.LatLngList;
@@ -42,9 +45,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class Route extends PermissionActivity implements LocationStateReceiver.LocationStateReceiverListener {
+public class Route extends BackButtonActivity implements LocationStateReceiver.LocationStateReceiverListener {
 
-    private Trip currentTrip;
     private boolean shownGpsPrompt;
 
     // Layouts
@@ -52,7 +54,6 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     private ConstraintLayout routeLoader;
     private ConstraintLayout startLoader;
     private ConstraintLayout endLoader;
-    private ConstraintLayout cityFiller;
 
     // BroadcastReceiver
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -65,10 +66,8 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
                     case 2:
                         findViewById(R.id.kmtotaalCont).setVisibility(View.VISIBLE);
                     case 1:
-                        updateLayouts(startLoader, routeInformation);
-                        break;
                     case 0:
-                        askCityInput(startLoader);
+                        updateLayouts(startLoader, routeInformation);
                         break;
                 }
             }
@@ -81,11 +80,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
 
             // Final update
             if(intent.hasExtra("finalUpdate")) {
-                if(((Global) getApplication()).getTrip().getTrackingSetting() > 0) {
-                    lastUpdateReceived();
-                } else {
-                    askCityInput(routeInformation);
-                }
+                lastUpdateReceived();
             }
         }
     };
@@ -118,7 +113,6 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
         this.routeLoader = findViewById(R.id.routeLoader);
         this.startLoader = findViewById(R.id.startLoader);
         this.endLoader = findViewById(R.id.endLoader);
-        this.cityFiller = findViewById(R.id.enterCity);
     }
 
     @Override
@@ -127,33 +121,26 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
         System.out.println("FF Start");
 
         // Init currentTrip
-        this.currentTrip = ((Global) this.getApplication()).getTrip();
+        Trip currentTrip = ((Global) this.getApplication()).getTrip();
 
         // Set layout
         if(((Global) this.getApplication()).isActiveTrip()) {
             // Trip already active
-            System.out.println(((Global) this.getApplication()).getTripStatus());
             switch (((Global) this.getApplication()).getTripStatus()) {
                 case 1:
                     this.startLoader.setVisibility(View.VISIBLE);
                     break;
                 case 2:
-                    askCityInput(startLoader);
-                    break;
-                case 3:
                     if(currentTrip.getTrackingSetting() == 2) {
                         findViewById(R.id.kmtotaalCont).setVisibility(View.VISIBLE);
                     }
                     this.routeLoader.setVisibility(View.VISIBLE);
                     requestUpdate();
                     break;
-                case 4:
+                case 3:
                     this.endLoader.setVisibility(View.VISIBLE);
                     break;
-                case 5:
-                    askCityInput(endLoader);
-                    break;
-                case 6:
+                case 4:
                     lastUpdateReceived();
                     break;
                 default:
@@ -161,18 +148,17 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
                     break;
             }
         } else {
-            // Start new trip
-            if(currentTrip.getTrackingSetting() > 0) {
-                this.startLoader.setVisibility(View.VISIBLE);
-
-                // Check location permission
-                if(PermissionUtils.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, this.get_REQUEST_CODE_FINE_LOCATION())) {
-                    permissionAccepted(this.get_REQUEST_CODE_FINE_LOCATION());
-                }
-            } else {
-                askCityInput(startLoader);
-                permissionDeclined(get_REQUEST_CODE_FINE_LOCATION());
+            if(currentTrip.getTrackingSetting() == 0) {
+                // Hide GPS prompts
+                findViewById(R.id.gpsDisabledInfo1).setVisibility(View.GONE);
+                findViewById(R.id.gpsDisabledInfo2).setVisibility(View.GONE);
+                findViewById(R.id.gpsDisabledInfo3).setVisibility(View.GONE);
+                shownGpsPrompt = true;
             }
+
+            // Start new trip
+            this.startLoader.setVisibility(View.VISIBLE);
+            startLocationService();
         }
     }
 
@@ -180,9 +166,6 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     public void onResume() {
         super.onResume();
         System.out.println("FF Door");
-
-        // Init currentTrip
-        this.currentTrip = ((Global) this.getApplication()).getTrip();
 
         // This registers mMessageReceiver to receive messages.
         LocalBroadcastManager.getInstance(this)
@@ -195,6 +178,9 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     }
 
     public void startLocationService() {
+        // Init currentTrip
+        Trip currentTrip = ((Global) this.getApplication()).getTrip();
+
         // Get tracking setting
         int trackingSetting = currentTrip.getTrackingSetting();
 
@@ -216,11 +202,7 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
 
     public void requestFinalUpdate() {
         // Update layouts
-        if(((Global) getApplication()).getTrip().getTrackingSetting() > 0) {
-            updateLayouts(routeInformation, endLoader);
-        } else {
-            askCityInput(routeInformation);
-        }
+        updateLayouts(routeInformation, endLoader);
 
         // Send intent
         Intent intent = new Intent("routeBroadcaster");
@@ -248,45 +230,9 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
         kmend.setText(String.valueOf(estimation));
     }
 
-    public void askCityInput(ConstraintLayout hide) {
-        // Update layouts
-        updateLayouts(hide, cityFiller);
-        if(((Global) getApplication()).getTrip().getCityStarted() != null) {
-            ((EditText) findViewById(R.id.enterCityET)).setText(null);
-            findViewById(R.id.enterStartCityTV).setVisibility(View.GONE);
-            findViewById(R.id.enterEndCityTV).setVisibility(View.VISIBLE);
-        }
-
-        // Set on click listener
-        ((Button) findViewById(R.id.enterCitySubmit)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String cityEntered = ((EditText) findViewById(R.id.enterCityET)).getText().toString();
-                if(!cityEntered.isEmpty()) {
-                    // Update status
-                    ((Global) getApplication()).updateTripStatus();
-
-                    // Set city
-                    currentTrip = ((Global) getApplication()).getTrip();
-                    if (currentTrip.getCityStarted() == null) {
-                        currentTrip.setCityStarted(cityEntered);
-                        updateLayouts(cityFiller, routeInformation);
-                        requestUpdate();
-                    } else {
-                        currentTrip.setCityEnded(cityEntered);
-                        lastUpdateReceived();
-                    }
-                } else {
-                    Toast.makeText(Route.this, getString(R.string.enter_city), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-    }
-
     public void lastUpdateReceived() {
         // Init
-        currentTrip = ((Global) getApplication()).getTrip();
+        Trip currentTrip = ((Global) getApplication()).getTrip();
 
         // Set trip ended
         currentTrip.setTripEnded();
@@ -326,31 +272,6 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-    // Location permission accepted
-    @Override
-    public void permissionAccepted(int requestCode) {
-        // Start service
-        startLocationService();
-    }
-
-    // Location permission declined
-    @Override
-    public void permissionDeclined(int requestCode) {
-        // Change tracking setting
-        //TODO to 0
-        this.currentTrip = ((Global) this.getApplication()).getTrip();
-        currentTrip.setTrackingSetting(0);
-
-        // Hide GPS prompts
-        findViewById(R.id.gpsDisabledInfo1).setVisibility(View.GONE);
-        findViewById(R.id.gpsDisabledInfo2).setVisibility(View.GONE);
-        findViewById(R.id.gpsDisabledInfo3).setVisibility(View.GONE);
-        shownGpsPrompt = true;
-
-        // Start service
-        startLocationService();
     }
 
     @Override
