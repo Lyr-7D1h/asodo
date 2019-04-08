@@ -1,7 +1,6 @@
 package com.example.ninja.Controllers;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -156,7 +155,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                     currentTrip.addLocation(location);
 
                     // Update activity
-                    broadcastNudes();
+                    broadcastFirstUpdate();
 
                     if(trackingSetting == 2) {
                         // Start tracking
@@ -165,7 +164,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                 }
             });
         } else {
-            broadcastNudes();
+            broadcastFirstUpdate();
         }
     }
 
@@ -206,13 +205,13 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         }
     }
 
-    public void broadcastNudes() {
+    public void broadcastFirstUpdate() {
         // Update status
         ((Global) getApplication()).updateTripStatus();
-        if(((Global) getApplication()).getTrip().getTrackingSetting() > 0) {
-            ((Global) getApplication()).updateTripStatus();
-        } else {
-            updateNotification(getString(R.string.route_city_begin));
+
+        // Update notification
+        if(((Global) getApplication()).getTrip().getTrackingSetting() == 0) {
+            updateNotification(getString(R.string.route_end_route));
         }
 
         // Send intent
@@ -222,6 +221,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     }
 
     public void broadcastEstimation() {
+        // Update notification
         if(((Global) getApplication()).getTrip().getTrackingSetting() == 0) {
             updateNotification(getString(R.string.route_end_route));
         }
@@ -239,11 +239,6 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     public void broadcastFinalUpdate() {
         // Update status
         ((Global) getApplication()).updateTripStatus();
-        if(((Global) getApplication()).getTrip().getTrackingSetting() > 0) {
-            ((Global) getApplication()).updateTripStatus();
-        } else {
-            updateNotification(getString(R.string.route_city_end));
-        }
 
         // Send intent
         Intent intent = new Intent("locationBroadcaster");
@@ -276,22 +271,22 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
 
     @Override
     public IBinder onBind(Intent intent) {
-        throw new UnsupportedOperationException("Huts op!");
+        throw new UnsupportedOperationException("");
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        System.out.println("Connected b*tches");
+        System.out.println("Connected");
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        System.out.println("Connection suspended b*tches");
+        System.out.println("Connection suspended");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        System.out.println("Connection failed b*tches");
+        System.out.println("Connection failed");
     }
 
     @Override
@@ -303,10 +298,10 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                 case 1:
                     updateNotification(getString(R.string.route_checking));
                     break;
-                case 3:
+                case 2:
                     updateNotification();
                     break;
-                case 4:
+                case 3:
                     updateNotification(getString(R.string.route_locating_end_location));
                     break;
             }
