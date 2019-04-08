@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -15,6 +16,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -338,8 +340,13 @@ public class Route extends PermissionActivity implements LocationStateReceiver.L
     // Location permission declined
     @Override
     public void permissionDeclined(int requestCode) {
-        // Change tracking setting
-        //TODO to 0
+        // Reset tracking setting preference
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("tracking_setting", "0");
+        editor.apply();
+
+        // Reset tracking setting in trip
         this.currentTrip = ((Global) this.getApplication()).getTrip();
         currentTrip.setTrackingSetting(0);
 

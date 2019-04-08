@@ -36,6 +36,7 @@ public class Startroute extends BackButtonActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_route);
 
+        // Redirect
         checkActiveTrip();
 
         // Init
@@ -69,11 +70,10 @@ public class Startroute extends BackButtonActivity {
         });
     }
 
-    private void initInputs() {
-
-    }
-
     private void initTrip(int lastMileage) {
+        // Init
+        currentTrip = ((Global) getApplication()).getTrip();
+
         // Init start mileage
         currentTrip.setMileageStarted(lastMileage);
         ((TextView) findViewById(R.id.startkm)).setText(String.valueOf(lastMileage));
@@ -93,6 +93,9 @@ public class Startroute extends BackButtonActivity {
                 bbCommutingCont.setVisibility(View.GONE);
             }
         });
+
+        // Check location permission
+        //TODO
 
         // Start button
         final Button startButton = findViewById(R.id.start);
@@ -134,7 +137,7 @@ public class Startroute extends BackButtonActivity {
             return false;
         }
 
-        currentTrip.setMileageStarted(Integer.parseInt(startMileage)); //TODO validate
+        currentTrip.setMileageStarted(Integer.parseInt(startMileage));
         return true;
     }
 
