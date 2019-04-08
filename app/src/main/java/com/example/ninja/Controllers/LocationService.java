@@ -25,6 +25,7 @@ import com.example.ninja.Domain.stateReceivers.LocationStateReceiver;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.coordinates.CustomLocationCallback;
 import com.example.ninja.Domain.coordinates.CustomLocationRequest;
+import com.example.ninja.Domain.util.LocaleUtils;
 import com.example.ninja.Domain.util.NotificationUtils;
 import com.example.ninja.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -89,6 +90,9 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Set locale
+        LocaleUtils.setLocale(this);
 
         // Create client
         googleApiClient = new GoogleApiClient.Builder(this)
