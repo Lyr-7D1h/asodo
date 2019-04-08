@@ -1,3 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">YCA_NINJA</string>
+    <string name="app_name">Asodo</string>
+    <string name="app_name_cap">ASODO</string>
+    <string name="zero">0</string>
+    <string name="zerof">0.0</string>
+    <string name="enable">Enable</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
+    <string name="undefined">\?\?\?</string>
+    <string name="nvt">NVT</string>
+    <string name="no_internet">No internet connection!</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="login_success">Login successful!</string>
+    <string name="login_failed">Invalid username/password</string>
+    <string name="niet_geregistreerd">Not Registered?</string>
+    <string name="registreer">Register</string>
+    <string name="passwords_not_match">Passwords are not the same!</string>
+    <string name="username_taken">Username already in use!</string>
+    <string name="register_success">Successful registered!</string>
+    <string name="Kenteken">License plate</string>
+    <string name="al_geregistreerd">Already registered?</string>
+    <string name="login2">Login</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="language">Language</string>
+    <string name="language_summary">Change the language of the app</string>
+    <string name="language_default_value">Dutch</string>
+    <string-array name="language_entries">
+        <item>Dutch</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>nl</item>
+        <item>en</item>
+    </string-array>
+    <string name="settings_cache_size_title">Number of saved trips</string>
+    <string name="settings_cache_size_summary">Determine how many trips will be saved locally on the phone for offline mode</string>
+    <string-array name="settings_cache_size_entries">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>25</item>
+        <item>50</item>
+        <item>100</item>
+        <item>Alles</item>
+    </string-array>
+    <string-array name="settings_cache_size_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>25</item>
+        <item>50</item>
+        <item>100</item>
+        <item>0</item>
+    </string-array>
+    <string name="settings_tracking_setting_title">Trip tracking</string>
+    <string name="settings_tracking_setting_summary">Determine how GPS will be used during your trips</string>
+    <string-array name="settings_tracking_setting_entries">
+        <item>Track entire trip</item>
+        <item>Only determine start and ending location with GPS</item>
+        <item>No triptracking</item>
+    </string-array>
+    <string-array name="settings_tracking_setting_values">
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string name="notification_title">Active trip</string>
+    <string name="channel_name">Trip notifications</string>
+    <string name="channel_description">Notifications that will be shown during an active trip</string>
+    <string name="loading">Loading…</string>
+    <string name="calendar_tip">Select two dates before you download the pdf</string>
+    <string name="calendar_send">Send</string>
+    <string name="end_route">Trip has ended</string>
+    <string name="confirm_km">Confirm mileage</string>
+    <string name="route_description">Trip description:</string>
+    <string name="route_km_hint">Mileage</string>
+    <string name="end_route_description_hint">Add a description</string>
+    <string name="end_route_confirm">Confirm</string>
+    <string name="endcheck_confirm_km">Confirm mileage</string>
+    <string name="route_load">Loading trip…</string>
+    <string name="route_checking">Starting location is being determined…</string>
+    <string name="route_error_gps">Your current location can\'t be determined.</string>
+    <string name="route_activate_location">Activate Location Services</string>
+    <string name="route_locating_end_location">Ending location is being determined…</string>
+    <string name="route_error_no_location">Your current location can\'t be determined.</string>
+    <string name="route_activate_location_services">Activate Location Services</string>
+    <string name="route_travel_confirmed">Active trip</string>
+    <string name="gps_popup">GPS disabled\n\nCan\'t determine location.</string>
+    <string name="route_km">km</string>
+    <string name="route_current_km_input">Traveled distance:</string>
+    <string name="route_estimation">Traveled distance: %.1f km</string>
+    <string name="route_gps_disabled">GPS disabled</string>
+    <string name="route_cant_confirm_location">Your current location can\'t be determined.</string>
+    <string name="route_end_route">End trip</string>
+    <string name="route_city_begin">Enter starting city</string>
+    <string name="route_city_end">Enter ending city</string>
+    <string name="route_city_confirm">Confirm</string>
+    <string name="route_city_cityet">Enter a city</string>
+    <string name="start_route">Start trip</string>
+    <string name="start_route_confirm_km">Confirm mileage:</string>
+    <string name="start_route_loading">Loading…</string>
+    <string name="start_route_">Start km input</string>
+    <string name="start_route_business_trip">Business trip</string>
+    <string name="start_route_personal_trip">Personal trip</string>
+    <string name="start_route_home_work">Home work</string>
+    <string name="start_route_start">Start trip</string>
+    <string name="start_route_no_last_mileage">Can\'t load last mileage!</string>
+    <string name="start_route_no_last_mileage_helper">Enter mileage</string>
+    <string name="start_route_no_car">No car selected for trip!</string>
+    <string name="start_route_mileage_lower">Error: Mileage is lower than last entered mileage</string>
+    <string name="mileage_no_number">Error: Mileage isn\'t a number</string>
+    <string name="mileage_lower_than_start">Error: Mileage is lower than starting mileage</string>
+    <string name="enter_city">Enter a city</string>
+    <string name="stats_back">Back</string>
+    <string name="stats_statistics">Statistics</string>
+    <string name="activity_history_list_title">%s: %s - %s</string>
+    <string name="activity_history_list_description">Traveled distance %d kilometers</string>
+    <string name="activity_history_list_show_cache">Offline mode\nNo network available</string>
+    <string name="activity_history_list_refres_results">Trips are being synchronised</string>
+    <string name="activity_history_list_detail_invalid_detail">Error loading trip!</string>
+    <string name="activity_history_list_detail_header_details">Trip details</string>
+    <string name="activity_history_list_detail_header_description">Trip description</string>
+    <string name="activity_history_list_detail_label_from">From:</string>
+    <string name="activity_history_list_detail_label_to">To:</string>
+    <string name="activity_history_list_detail_label_start">Start:</string>
+    <string name="activity_history_list_detail_label_end">End:</string>
+    <string name="activity_history_list_detail_label_yes">yes</string>
+    <string name="activity_history_list_detail_label_no">no</string>
+    <string name="activity_history_list_detail_label_time_duration">Trip duration:</string>
+    <string name="activity_history_list_detail_label_date">Date:</string>
+    <string name="activity_history_list_detail_label_mileage">Mileages</string>
+    <string name="activity_history_list_detail_label_distance_driven">Distance:</string>
+    <string name="activity_history_list_detail_label_business_trip">Business trip</string>
+    <string name="activity_history_list_detail_label_bbCommuting">Home work</string>
+    <string name="activity_log_logo">Asodo</string>
+    <string name="activity_main_start">Start new trip</string>
+    <string name="activity_main_statistics">Trip history</string>
+    <string name="activity_main_export">Export</string>
+    <string name="activity_main_active_trip">Open active trip</string>
+    <string name="activity_export_business_personal">Business &amp; personal trips</string>
+    <string name="activity_export_business">Business trips</string>
+    <string name="activity_export_personal">Personal trips</string>
+    <string name="activity_export_no_two_dates">You haven\'t selected two dates yet</string>
+    <string name="exporter_no_folder">Can\'t generate folder</string>
+    <string name="exporter_no_permission">Access denied to external storage</string>
+    <string name="exporter_no_email_client">No email client installed</string>
+    <string name="exporter_download_successful">PDF Download Successful!</string>
+    <string name="exporter_subject_message">Declaration Overview %s - %s</string>
+    <string name="exporter_automated_message">Automated message from Asodo.</string>
+    <string name="options_menu_settings">Options</string>
+    <string name="options_menu_logout">Logout</string>
+    <string name="default_ok">OK</string>
+    <string name="continue_">Continue</string>
+    <string name="welkom_gebruiker">Welcome User!</string>
+    <string name="active_trip_warning">You have an active trip!\n\nIf u log out, this trip will be canceled.</string>
+    <string name="exporter_mail_no_description">\n%s\n%s\nKilometers driven:      %d</string>
+    <string name="exporter_mail_description">\n%s\n%s\nKilometers driven:      %d\nDescription: %s</string>
 </resources>
