@@ -60,14 +60,14 @@
     <string name="settings_tracking_setting_title">Trip tracking</string>
     <string name="settings_tracking_setting_summary">Determine how GPS will be used during your trips</string>
     <string-array name="settings_tracking_setting_entries">
-        <item>Geen routetracking</item>
-        <item>Bepaal alleen begin- en eindlocatie via GPS</item>
-        <item>Volledige routetracking</item>
+        <item>Track entire trip</item>
+        <item>Only determine start and ending location with GPS</item>
+        <item>No triptracking</item>
     </string-array>
     <string-array name="settings_tracking_setting_values">
-        <item>0</item>
-        <item>1</item>
         <item>2</item>
+        <item>1</item>
+        <item>0</item>
     </string-array>
     <string name="notification_title">Active trip</string>
     <string name="channel_name">Trip notifications</string>
@@ -107,7 +107,7 @@
     <string name="start_route_">Start km input</string>
     <string name="start_route_business_trip">Business trip</string>
     <string name="start_route_personal_trip">Personal trip</string>
-    <string name="start_route_home_work">Home werk</string>
+    <string name="start_route_home_work">Home work</string>
     <string name="start_route_start">Start trip</string>
     <string name="start_route_no_last_mileage">Can\'t load last mileage!</string>
     <string name="start_route_no_last_mileage_helper">Enter mileage</string>
