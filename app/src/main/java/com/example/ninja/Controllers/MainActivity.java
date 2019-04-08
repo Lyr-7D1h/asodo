@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         Button start = (Button) findViewById(R.id.start);
         if(((Global) this.getApplication()).isActiveTrip()) {
             start.setText(String.valueOf(getString(R.string.activity_main_active_trip)));
+        } else {
+            start.setText(String.valueOf(getString(R.string.activity_main_start)));
         }
     }
 
