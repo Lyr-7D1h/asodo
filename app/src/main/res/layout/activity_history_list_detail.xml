@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,17 +8,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/mapCont"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:minHeight="200dp">
 
             <fragment
@@ -28,6 +22,7 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:minHeight="200dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +32,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
             android:orientation="vertical">
 
             <LinearLayout
@@ -83,8 +77,8 @@
                             android:contentDescription="@string/activity_history_list_detail_label_from"
                             android:text="@string/activity_history_list_detail_label_from"
                             android:textStyle="bold"
-                            tools:text="@string/activity_history_list_detail_label_from"
-                            tools:ignore="NestedWeights" />
+                            tools:ignore="NestedWeights"
+                            tools:text="@string/activity_history_list_detail_label_from" />
 
                         <TextView
                             android:id="@+id/detailsCityStartedTV"
@@ -109,8 +103,8 @@
                             android:contentDescription="@string/activity_history_list_detail_label_to"
                             android:text="@string/activity_history_list_detail_label_to"
                             android:textStyle="bold"
-                            tools:text="@string/activity_history_list_detail_label_to"
-                            tools:ignore="NestedWeights" />
+                            tools:ignore="NestedWeights"
+                            tools:text="@string/activity_history_list_detail_label_to" />
 
                         <TextView
                             android:id="@+id/detailsCityEndedTV"
@@ -161,8 +155,8 @@
                                 android:contentDescription="@string/activity_history_list_detail_label_start"
                                 android:text="@string/activity_history_list_detail_label_start"
                                 android:textStyle="bold"
-                                tools:text="@string/activity_history_list_detail_label_start"
-                                tools:ignore="NestedWeights" />
+                                tools:ignore="NestedWeights"
+                                tools:text="@string/activity_history_list_detail_label_start" />
 
                             <TextView
                                 android:id="@+id/detailsMileageStartedTV"
@@ -187,8 +181,8 @@
                                 android:contentDescription="@string/activity_history_list_detail_label_end"
                                 android:text="@string/activity_history_list_detail_label_end"
                                 android:textStyle="bold"
-                                tools:text="@string/activity_history_list_detail_label_end"
-                                tools:ignore="NestedWeights" />
+                                tools:ignore="NestedWeights"
+                                tools:text="@string/activity_history_list_detail_label_end" />
 
                             <TextView
                                 android:id="@+id/detailsMileageEndedTV"
@@ -281,8 +275,8 @@
                                 android:contentDescription="@string/activity_history_list_detail_label_start"
                                 android:text="@string/activity_history_list_detail_label_start"
                                 android:textStyle="bold"
-                                tools:text="@string/activity_history_list_detail_label_start"
-                                tools:ignore="NestedWeights" />
+                                tools:ignore="NestedWeights"
+                                tools:text="@string/activity_history_list_detail_label_start" />
 
                             <TextView
                                 android:id="@+id/detailsTimeStartedTV"
@@ -307,8 +301,8 @@
                                 android:contentDescription="@string/activity_history_list_detail_label_end"
                                 android:text="@string/activity_history_list_detail_label_end"
                                 android:textStyle="bold"
-                                tools:text="@string/activity_history_list_detail_label_end"
-                                tools:ignore="NestedWeights" />
+                                tools:ignore="NestedWeights"
+                                tools:text="@string/activity_history_list_detail_label_end" />
 
                             <TextView
                                 android:id="@+id/detailsTimeEndedTV"
@@ -404,46 +398,34 @@
 
             </LinearLayout>
 
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/detailsDesDeviationCont"
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/pane"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <ScrollView
+                <TextView
+                    android:id="@+id/textView12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/pane"
-                    android:padding="16dp"
-                    tools:ignore="UselessParent">
+                    android:contentDescription="@string/activity_history_list_detail_header_details"
+                    android:text="@string/activity_history_list_detail_header_description"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="@string/activity_history_list_detail_header_description" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textView12"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/activity_history_list_detail_header_details"
-                            android:text="@string/activity_history_list_detail_header_description"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            tools:text="@string/activity_history_list_detail_header_description" />
-
-                        <TextView
-                            android:id="@+id/detailsDesDeviationTV"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="@string/loading" />
-                    </LinearLayout>
-                </ScrollView>
-
-            </FrameLayout>
+                <TextView
+                    android:id="@+id/detailsDesDeviationTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/loading" />
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</ScrollView>
