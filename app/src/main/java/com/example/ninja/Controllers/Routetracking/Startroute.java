@@ -188,6 +188,8 @@ public class Startroute extends PermissionActivity {
 
             if(res < lastMileage) {
                 AlertUtils.showAlert(getString(R.string.proceed), getString(R.string.cancel), getString(R.string.start_route_mileage_lower), this, (dialog, which) -> callback.callback(true), (dialog, which) -> callback.callback(false));
+            } else {
+                callback.callback(true);
             }
         } catch (NumberFormatException e) {
             Toast.makeText(Startroute.this, getString(R.string.mileage_no_number), Toast.LENGTH_SHORT).show();
