@@ -11,6 +11,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,8 +48,13 @@ public class Startroute extends PermissionActivity {
         Trip currentTrip = new Trip(context);
         ((Global) this.getApplication()).setTrip(currentTrip);
 
+        // Init number picker
+        ((NumberPicker) findViewById(R.id.npStart)).setWrapSelectorWheel(false);
+        ((NumberPicker) findViewById(R.id.npStart)).setMinValue(0);
+        ((NumberPicker) findViewById(R.id.npStart)).setMaxValue(1000000);
+
         // Set disabled
-        findViewById(R.id.startkm).setEnabled(false);
+        findViewById(R.id.npStart).setEnabled(false);
         findViewById(R.id.start).setEnabled(false);
 
         // Check location permission
@@ -88,11 +94,13 @@ public class Startroute extends PermissionActivity {
 
         // Init start mileage
         currentTrip.setMileageStarted(lastMileage);
-        ((TextView) findViewById(R.id.startkm)).setText(String.valueOf(lastMileage));
+
+        ((NumberPicker) findViewById(R.id.npStart)).setValue(lastMileage);
+        findViewById(R.id.npStart).setEnabled(true);
+
         if(lastMileage == 0) {
             ((TextView) findViewById(R.id.confirmTV)).setText(String.valueOf(getString(R.string.start_route_no_last_mileage_helper)));
         }
-        findViewById(R.id.startkm).setEnabled(true);
 
         // Business switch trip
         Switch businessTripSwitch = findViewById(R.id.businessTrip);
@@ -153,7 +161,7 @@ public class Startroute extends PermissionActivity {
         }
 
         // Validate start mileage
-        String startMileage = ((EditText) findViewById(R.id.startkm)).getText().toString();
+        String startMileage = String.valueOf(((NumberPicker) findViewById(R.id.npStart)).getValue());
         if(!validMileage(startMileage, lastMileage)) {
             return false;
         }

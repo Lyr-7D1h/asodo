@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.example.ninja.Domain.Global;
@@ -15,16 +16,18 @@ import com.example.ninja.R;
 
 public class Endroute extends AppCompatActivity {
 
-    private EditText kmend;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_route);
 
         // Init
-        kmend = findViewById(R.id.kmend);
         Trip currentTrip = ((Global) this.getApplication()).getTrip();
+
+        // Init number picker
+        ((NumberPicker) findViewById(R.id.npEnd)).setWrapSelectorWheel(false);
+        ((NumberPicker) findViewById(R.id.npEnd)).setMinValue(0);
+        ((NumberPicker) findViewById(R.id.npEnd)).setMaxValue(1000000);
 
         // Fill field
         fillEstimation();
@@ -41,7 +44,7 @@ public class Endroute extends AppCompatActivity {
 
     public void fillEstimation() {
         Trip currentTrip = ((Global) this.getApplication()).getTrip();
-        kmend.setText(String.valueOf(currentTrip.getMileageStarted() + currentTrip.getEstimatedKMDriven()));
+        ((NumberPicker) findViewById(R.id.npEnd)).setValue(currentTrip.getMileageStarted() + currentTrip.getEstimatedKMDriven());
     }
 
     public void onEndButtonClick(View v) {
@@ -80,7 +83,7 @@ public class Endroute extends AppCompatActivity {
         }
 
         // Get final mileage
-        String finalMileage = kmend.getText().toString();
+        String finalMileage = String.valueOf(((NumberPicker) findViewById(R.id.npEnd)).getValue());
         if(!validateMileage(finalMileage)) {
             return false;
         }

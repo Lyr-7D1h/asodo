@@ -42,21 +42,20 @@
                 android:text="@string/confirm_km"
                 android:textAlignment="textStart" />
 
-            <EditText
-                android:id="@+id/kmend"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:text="@string/zero"
-                android:textAlignment="textStart"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:hint="@string/route_km_hint"
-                android:importantForAutofill="no"
-                tools:targetApi="o" />
+                android:layout_height="wrap_content">
+
+                <NumberPicker
+                    android:id="@+id/npEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
         </LinearLayout>
 
         <LinearLayout
