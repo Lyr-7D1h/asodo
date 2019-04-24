@@ -161,4 +161,5 @@
     <string name="exporter_mail_no_description">\n%s\n%s\nKilometers driven:      %d</string>
     <string name="exporter_mail_description">\n%s\n%s\nKilometers driven:      %d\nDescription: %s</string>
     <string name="proceed">Proceed</string>
+    <string name="start_route_type_trip">Trip type:</string>
 </resources>

@@ -143,4 +143,5 @@
     <string name="exporter_mail_description" formatted="true">\n%s\n%s\nKilometers gereden:      %d\nBeschrijving: %s</string>
     <string name="exporter_mail_no_description" formatted="true">\n%s\n%s\nKilometers gereden:      %d</string>
     <string name="proceed">Doorgaan</string>
+    <string name="start_route_type_trip">Soort rit:</string>
 </resources>
