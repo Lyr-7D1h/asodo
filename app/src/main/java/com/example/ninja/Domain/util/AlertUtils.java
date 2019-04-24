@@ -16,19 +16,23 @@ public class AlertUtils {
     }
 
     public static void showAlert(String button, String message, Activity context, DialogInterface.OnClickListener clickListener) {
-        showAlert(button, context.getString(R.string.nvt), message, context, clickListener, false);
+        showAlert(button, context.getString(R.string.nvt), message, context, clickListener, null,false);
     }
 
     public static void showAlert(String okButton, String cancelButton, String message, Activity context, DialogInterface.OnClickListener clickListener) {
-        showAlert(okButton, cancelButton, message, context, clickListener, true);
+        showAlert(okButton, cancelButton, message, context, clickListener, null);
     }
 
-    private static void showAlert(String okButton, String cancelButton, String message, Activity context, DialogInterface.OnClickListener clickListener, boolean showNegative) {
+    public static void showAlert(String okButton, String cancelButton, String message, Activity context, DialogInterface.OnClickListener successListener, DialogInterface.OnClickListener cancelListener) {
+        showAlert(okButton, cancelButton, message, context, successListener, cancelListener, true);
+    }
+
+    private static void showAlert(String okButton, String cancelButton, String message, Activity context, DialogInterface.OnClickListener successListener, DialogInterface.OnClickListener cancelListener, boolean showNegative) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        builder.setMessage(message).setCancelable(false).setPositiveButton(okButton, clickListener);
+        builder.setMessage(message).setCancelable(false).setPositiveButton(okButton, successListener);
         if(showNegative) {
-            builder.setNegativeButton(cancelButton, null);
+            builder.setNegativeButton(cancelButton, cancelListener);
         }
         builder.show();
     }
