@@ -56,7 +56,7 @@ public class HistoryListDetail extends BackButtonActivity implements OnMapReadyC
         // Init trip
         OnMapReadyCallback self = this;
         int position = getIntent().getIntExtra("position", -1);
-        ((Global) this.getApplication()).getTripCache(new AsodoRequesterCallback() {
+        ((Global) this.getApplication()).getSyncManager().getTripCache(new AsodoRequesterCallback() {
             @Override
             public void callback(JsonObject jsonResponse) {
                 try {

@@ -87,7 +87,7 @@ public class HistoryList extends BackButtonActivity implements NetworkStateRecei
         // Update refresher status
         historyListRefresh.setRefreshing(refresh);
 
-        ((Global) this.getApplication()).getTripCache(new AsodoRequesterCallback() {
+        ((Global) this.getApplication()).getSyncManager().getTripCache(new AsodoRequesterCallback() {
             @Override
             public void callback(JsonObject jsonResponse) {
                 JsonArray cachedTrips = new TripList(jsonResponse).getTrips();

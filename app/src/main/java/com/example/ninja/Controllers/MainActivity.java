@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Reset start button text if active trip
         Button start = (Button) findViewById(R.id.start);
-        if(((Global) this.getApplication()).isActiveTrip()) {
+        if(((Global) this.getApplication()).getActiveTripManager().isActiveTrip()) {
             start.setText(String.valueOf(getString(R.string.activity_main_active_trip)));
         } else {
             start.setText(String.valueOf(getString(R.string.activity_main_start)));
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         Activity self = this;
 
         // Check for active trip
-        if(((Global) self.getApplication()).isActiveTrip()) {
+        if(((Global) self.getApplication()).getActiveTripManager().isActiveTrip()) {
             AlertUtils.showAlert(getString(R.string.continue_), getString(R.string.cancel), getString(R.string.active_trip_warning), self, (dialog, which) -> logout(true));
         } else {
             logout(false);
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         CacheUtils.deleteCache(context, "trips.cache");
 
         // Set data to unsynced
-        ((Global) self.getApplication()).setUnSynced();
+        ((Global) self.getApplication()).getSyncManager().setUnSynced();
 
         // Move user to login
         ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);

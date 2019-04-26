@@ -22,7 +22,7 @@ public class Endroute extends AppCompatActivity {
         setContentView(R.layout.activity_end_route);
 
         // Init
-        Trip currentTrip = ((Global) this.getApplication()).getTrip();
+        Trip currentTrip = ((Global) this.getApplication()).getActiveTripManager().getTrip();
 
         // Init number picker
         ((NumberPicker) findViewById(R.id.npEnd)).setWrapSelectorWheel(false);
@@ -43,21 +43,21 @@ public class Endroute extends AppCompatActivity {
     }
 
     public void fillEstimation() {
-        Trip currentTrip = ((Global) this.getApplication()).getTrip();
+        Trip currentTrip = ((Global) this.getApplication()).getActiveTripManager().getTrip();
         ((NumberPicker) findViewById(R.id.npEnd)).setValue(currentTrip.getMileageStarted() + currentTrip.getEstimatedKMDriven());
     }
 
     public void onEndButtonClick(View v) {
         // Init
-        Trip currentTrip = ((Global) this.getApplication()).getTrip();
+        Trip currentTrip = ((Global) this.getApplication()).getActiveTripManager().getTrip();
 
         // Update trip
         if(updateTrip()) {
             // Sync and cache trip
-            ((Global) this.getApplication()).addTripToCache(currentTrip);
+            ((Global) this.getApplication()).getSyncManager().addTripToCache(currentTrip);
 
             // Reset trip
-            ((Global) this.getApplication()).setTrip(null);
+            ((Global) this.getApplication()).getActiveTripManager().setTrip(null);
 
             // Move activity
             finish();
@@ -66,7 +66,7 @@ public class Endroute extends AppCompatActivity {
 
     public boolean updateTrip() {
         // Init
-        Trip currentTrip = ((Global) this.getApplication()).getTrip();
+        Trip currentTrip = ((Global) this.getApplication()).getActiveTripManager().getTrip();
 
         // Get deviation
         currentTrip.setDesDeviation(((EditText) findViewById(R.id.desDeviation)).getText().toString());
@@ -94,7 +94,7 @@ public class Endroute extends AppCompatActivity {
 
     public boolean validateMileage(String finalMileage) {
         // Init
-        Trip currentTrip = ((Global) this.getApplication()).getTrip();
+        Trip currentTrip = ((Global) this.getApplication()).getActiveTripManager().getTrip();
 
         try {
             int res = Integer.parseInt(finalMileage);

@@ -49,7 +49,7 @@ public class Startroute extends PermissionActivity {
 
         // Init
         Trip currentTrip = new Trip(context);
-        ((Global) this.getApplication()).setTrip(currentTrip);
+        ((Global) this.getApplication()).getActiveTripManager().setTrip(currentTrip);
 
         // Init number picker
         ((NumberPicker) findViewById(R.id.npStart)).setWrapSelectorWheel(false);
@@ -73,7 +73,7 @@ public class Startroute extends PermissionActivity {
     }
 
     private void getLastMileage() {
-        ((Global) this.getApplication()).getTripCache(new AsodoRequesterCallback() {
+        ((Global) this.getApplication()).getSyncManager().getTripCache(new AsodoRequesterCallback() {
             @Override
             public void callback(JsonObject jsonResponse) {
             JsonArray cachedTrips = new TripList(jsonResponse).getTrips();
@@ -93,7 +93,7 @@ public class Startroute extends PermissionActivity {
 
     private void initTrip(int lastMileage) {
         // Init
-        Trip currentTrip = ((Global) getApplication()).getTrip();
+        Trip currentTrip = ((Global) getApplication()).getActiveTripManager().getTrip();
 
         // Init start mileage
         currentTrip.setMileageStarted(lastMileage);
@@ -125,7 +125,7 @@ public class Startroute extends PermissionActivity {
 
     public void onStartButtonClick(View v, int lastMileage) {
         // Init
-        Trip currentTrip = ((Global) getApplication()).getTrip();
+        Trip currentTrip = ((Global) getApplication()).getActiveTripManager().getTrip();
 
         // Check for corrupt Trip
         if(currentTrip.getCarID().isEmpty()) {
@@ -150,7 +150,7 @@ public class Startroute extends PermissionActivity {
 
     public void updateTrip(int lastMileage, ValidationCallback callback) {
         // Init
-        Trip currentTrip = ((Global) getApplication()).getTrip();
+        Trip currentTrip = ((Global) getApplication()).getActiveTripManager().getTrip();
 
         // Set values
         currentTrip.setTripStarted();
@@ -198,7 +198,7 @@ public class Startroute extends PermissionActivity {
     }
 
     public boolean checkActiveTrip() {
-        if(((Global) this.getApplication()).isActiveTrip()) {
+        if(((Global) this.getApplication()).getActiveTripManager().isActiveTrip()) {
             ActivityUtils.changeActivity(this, Startroute.this, Route.class);
             finish();
             return true;
@@ -222,7 +222,7 @@ public class Startroute extends PermissionActivity {
         editor.apply();
 
         // Reset tracking setting in trip
-        Trip currentTrip = ((Global) this.getApplication()).getTrip();
+        Trip currentTrip = ((Global) this.getApplication()).getActiveTripManager().getTrip();
         currentTrip.setTrackingSetting(0);
 
         // Show start city input
