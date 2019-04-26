@@ -17,6 +17,7 @@ import com.example.ninja.Domain.stateReceivers.NetworkStateReceiver;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.trips.TripList;
 import com.example.ninja.Domain.util.CacheUtils;
+import com.example.ninja.Domain.util.Callback;
 import com.example.ninja.Domain.util.ConnectivityUtils;
 import com.example.ninja.Domain.util.LocaleUtils;
 import com.example.ninja.Domain.util.UserUtils;
@@ -165,35 +166,69 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
             return;
         }
 
-        // Sync
-        syncTripRegistrationQueue();
-        syncTripList();
-        delayedSyncTripList();
+        // Sync registration
+        syncTripRegistrationQueue(new Callback() {
+            @Override
+            public void callback() {
+                // Sync trip list
+                syncTripList(new Callback() {
+                    @Override
+                    public void callback() {
+                        //Resync
+                        delayedSyncTripList();
 
-        // Update sync status
-        synced = true;
+                        // Update sync status
+                        synced = true;
+                    }
+                });
+            }
+        });
     }
 
-    private void syncTripRegistrationQueue() {
+    private void syncTripRegistrationQueue(Callback callback) {
         // Register trips
+        Context self = this;
+        registerTrip(new Callback() {
+            @Override
+            public void callback() {
+                // Update local variable
+                tripRegistrationQueue = new TripList();
+
+                // Cache
+                CacheUtils.cacheJsonObject(self, 0, tripRegistrationQueue.toJsonObject(), "tripRegistrationQueue.cache");
+
+                // Callback
+                callback.callback();
+            }
+        });
+    }
+
+    private void registerTrip(Callback callback) {
         JsonArray trips = tripRegistrationQueue.getTrips();
-        for (int i = 0; i < trips.size(); i++) {
-            Trip trip = Trip.build(trips.get(i).getAsJsonObject());
-            trip.registerToDB(this);
+        if(trips.size() > 0) {
+            // Upload next trip
+            Trip trip = Trip.build(trips.get(0).getAsJsonObject());
+            trip.registerToDB(this, new Callback() {
+                @Override
+                public void callback() {
+                    // Remove from queue
+                    tripRegistrationQueue.getTrips().remove(0);
+
+                    // Register next trip
+                    registerTrip(callback);
+                }
+            });
+        } else {
+            // Exit point - no trips left
+            callback.callback();
         }
-
-        // Update local variable
-        tripRegistrationQueue = new TripList();
-
-        // Cache
-        CacheUtils.cacheJsonObject(this, 0, tripRegistrationQueue.toJsonObject(), "tripRegistrationQueue.cache");
     }
 
     private void delayedSyncTripList() {
         new Thread(() -> {
             try {
                 Thread.sleep(1000);
-                syncTripList();
+                syncTripList(null);
             }
             catch (Exception e){
                 // Do nothing
@@ -201,7 +236,7 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
         }).start();
     }
 
-    private void syncTripList() {
+    private void syncTripList(Callback callback) {
         if(ConnectivityUtils.isNetworkAvailable(this)) {
             // Init
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -227,6 +262,11 @@ public class Global extends Application implements NetworkStateReceiver.NetworkS
 
                     // Cache
                     CacheUtils.cacheJsonObject(self, 0, tripCache.toJsonObject(), "trips.cache");
+
+                    // Callback
+                    if(callback != null) {
+                        callback.callback();
+                    }
                 }
             });
         }
