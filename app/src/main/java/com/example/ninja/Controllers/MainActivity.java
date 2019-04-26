@@ -135,5 +135,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Move user to login
         ActivityUtils.changeActivity(self, MainActivity.this, LogActivity.class);
+        finish();
     }
 }
