@@ -1,6 +1,7 @@
 package com.example.ninja.Domain;
 
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -8,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.drm.DrmStore;
 import android.location.LocationManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
 
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
@@ -74,7 +76,7 @@ public class Global extends Application {
 
         // Init syncStateReceiver
         this.syncStateReceiver = new SyncStateReceiver(this.syncManager);
-        this.registerReceiver(syncStateReceiver, new IntentFilter(SyncManager.SYNC_CHANGED_ACTION));
+        LocalBroadcastManager.getInstance(this).registerReceiver(syncStateReceiver, new IntentFilter(SyncManager.SYNC_CHANGED_ACTION));
     }
 
     public ActiveTripManager getActiveTripManager() {

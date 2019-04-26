@@ -73,7 +73,7 @@ public class SyncStateReceiver extends BroadcastReceiver {
         notifyState(l);
     }
 
-    public void removeListener(LocationStateReceiver.LocationStateReceiverListener l) {
+    public void removeListener(SyncStateReceiverListener l) {
         listeners.remove(l);
     }
 

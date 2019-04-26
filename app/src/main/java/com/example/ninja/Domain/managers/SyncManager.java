@@ -2,7 +2,9 @@ package com.example.ninja.Domain.managers;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
 
 import com.example.ninja.Domain.Global;
@@ -67,8 +69,20 @@ public class SyncManager implements NetworkStateReceiver.NetworkStateReceiverLis
         return synced;
     }
 
+    private void broadCastUpdate() {
+        Intent intent = new Intent(SyncManager.SYNC_CHANGED_ACTION);
+        LocalBroadcastManager.getInstance(global).sendBroadcast(intent);
+    }
+
+    private void setSynced() {
+        this.synced = true;
+        broadCastUpdate();
+    }
+
     public void setUnSynced() {
         this.synced = false;
+        broadCastUpdate();
+
         sync();
     }
 
@@ -99,7 +113,7 @@ public class SyncManager implements NetworkStateReceiver.NetworkStateReceiverLis
                         delayedSyncTripList();
 
                         // Update sync status
-                        synced = true;
+                        setSynced();
                     }
                 });
             }
@@ -219,10 +233,7 @@ public class SyncManager implements NetworkStateReceiver.NetworkStateReceiverLis
         CacheUtils.cacheJsonObject(global, 0, tripRegistrationQueue.toJsonObject(), "tripRegistrationQueue.cache");
 
         // Update sync status
-        synced = false;
-        if(ConnectivityUtils.isNetworkAvailable(global)) {
-            sync();
-        }
+        setUnSynced();
     }
 
     @Override
@@ -235,6 +246,6 @@ public class SyncManager implements NetworkStateReceiver.NetworkStateReceiverLis
     @Override
     public void networkUnavailable() {
         // Force unsync on network lost
-        synced = false;
+        setUnSynced();
     }
 }
