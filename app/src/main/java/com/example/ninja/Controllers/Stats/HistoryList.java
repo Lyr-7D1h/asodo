@@ -14,6 +14,7 @@ import com.example.ninja.Controllers.loginscreen.RegActivity;
 import com.example.ninja.Domain.Global;
 import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
 import com.example.ninja.Domain.stateReceivers.NetworkStateReceiver;
+import com.example.ninja.Domain.stateReceivers.SyncStateReceiver;
 import com.example.ninja.Domain.stats.CustomArrayAdapter;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.trips.TripList;
@@ -27,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class HistoryList extends BackButtonActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
+public class HistoryList extends BackButtonActivity implements SyncStateReceiver.SyncStateReceiverListener {
 
     private CustomArrayAdapter arrayAdapter;
     private SwipeRefreshLayout historyListRefresh;
@@ -54,7 +55,7 @@ public class HistoryList extends BackButtonActivity implements NetworkStateRecei
         System.out.println(hasBeenLoaded);
 
         // Register for network updates
-        ((Global) getApplication()).receiveNetworkUpdates(this);
+        ((Global) getApplication()).getSyncStateReceiver().addListener(this);
     }
 
     public void initListView() {
@@ -143,11 +144,11 @@ public class HistoryList extends BackButtonActivity implements NetworkStateRecei
         super.onPause();
 
         // Unregister for network updates
-        ((Global) getApplication()).unregisterNetworkUpdates(this);
+        ((Global) getApplication()).getSyncStateReceiver().removeListener(this);
     }
 
     @Override
-    public void networkAvailable() {
+    public void onSync() {
         if(showingCache || !hasBeenLoaded) {
             // Update status
             showingCache = false;
@@ -163,7 +164,7 @@ public class HistoryList extends BackButtonActivity implements NetworkStateRecei
     }
 
     @Override
-    public void networkUnavailable() {
+    public void onDesync() {
         if(!showingCache || !hasBeenLoaded) {
             // Update list
             showingCache = true;
