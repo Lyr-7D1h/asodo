@@ -3,14 +3,17 @@ package com.example.ninja.Controllers.Routetracking;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import com.example.ninja.Domain.httpRequests.AsodoRequesterCallback;
 import com.example.ninja.Domain.trips.Trip;
 import com.example.ninja.Domain.trips.TripList;
 import com.example.ninja.Domain.util.ActivityUtils;
+import com.example.ninja.Domain.util.AlertUtils;
 import com.example.ninja.Domain.util.PermissionUtils;
 import com.example.ninja.R;
 import com.google.gson.JsonArray;
@@ -45,10 +49,15 @@ public class Startroute extends PermissionActivity {
 
         // Init
         Trip currentTrip = new Trip(context);
-        ((Global) this.getApplication()).setTrip(currentTrip);
+        ((Global) this.getApplication()).getActiveTripManager().setTrip(currentTrip);
+
+        // Init number picker
+        ((NumberPicker) findViewById(R.id.npStart)).setWrapSelectorWheel(false);
+        ((NumberPicker) findViewById(R.id.npStart)).setMinValue(0);
+        ((NumberPicker) findViewById(R.id.npStart)).setMaxValue(1000000);
 
         // Set disabled
-        findViewById(R.id.startkm).setEnabled(false);
+        findViewById(R.id.npStart).setEnabled(false);
         findViewById(R.id.start).setEnabled(false);
 
         // Check location permission
@@ -64,7 +73,7 @@ public class Startroute extends PermissionActivity {
     }
 
     private void getLastMileage() {
-        ((Global) this.getApplication()).getTripCache(new AsodoRequesterCallback() {
+        ((Global) this.getApplication()).getSyncManager().getTripCache(new AsodoRequesterCallback() {
             @Override
             public void callback(JsonObject jsonResponse) {
             JsonArray cachedTrips = new TripList(jsonResponse).getTrips();
@@ -84,15 +93,17 @@ public class Startroute extends PermissionActivity {
 
     private void initTrip(int lastMileage) {
         // Init
-        Trip currentTrip = ((Global) getApplication()).getTrip();
+        Trip currentTrip = ((Global) getApplication()).getActiveTripManager().getTrip();
 
         // Init start mileage
         currentTrip.setMileageStarted(lastMileage);
-        ((TextView) findViewById(R.id.startkm)).setText(String.valueOf(lastMileage));
+
+        ((NumberPicker) findViewById(R.id.npStart)).setValue(lastMileage);
+        findViewById(R.id.npStart).setEnabled(true);
+
         if(lastMileage == 0) {
             ((TextView) findViewById(R.id.confirmTV)).setText(String.valueOf(getString(R.string.start_route_no_last_mileage_helper)));
         }
-        findViewById(R.id.startkm).setEnabled(true);
 
         // Business switch trip
         Switch businessTripSwitch = findViewById(R.id.businessTrip);
@@ -114,7 +125,7 @@ public class Startroute extends PermissionActivity {
 
     public void onStartButtonClick(View v, int lastMileage) {
         // Init
-        Trip currentTrip = ((Global) getApplication()).getTrip();
+        Trip currentTrip = ((Global) getApplication()).getActiveTripManager().getTrip();
 
         // Check for corrupt Trip
         if(currentTrip.getCarID().isEmpty()) {
@@ -124,17 +135,22 @@ public class Startroute extends PermissionActivity {
         }
 
         // Update trip
-        if(updateTrip(lastMileage)) {
-            // Move to next activity
-            Intent intent = new Intent(v.getContext(), Route.class);
-            startActivity(intent);
-            finish();
-        }
+        updateTrip(lastMileage, new ValidationCallback() {
+            @Override
+            public void callback(boolean valid) {
+                if(valid) {
+                    // Move to next activity
+                    Intent intent = new Intent(v.getContext(), Route.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
     }
 
-    public boolean updateTrip(int lastMileage) {
+    public void updateTrip(int lastMileage, ValidationCallback callback) {
         // Init
-        Trip currentTrip = ((Global) getApplication()).getTrip();
+        Trip currentTrip = ((Global) getApplication()).getActiveTripManager().getTrip();
 
         // Set values
         currentTrip.setTripStarted();
@@ -148,38 +164,41 @@ public class Startroute extends PermissionActivity {
                 currentTrip.setCityStarted(cityEntered);
             } else {
                 Toast.makeText(Startroute.this, getString(R.string.enter_city), Toast.LENGTH_SHORT).show();
-                return false;
+                callback.callback(false);
+                return;
             }
         }
 
         // Validate start mileage
-        String startMileage = ((EditText) findViewById(R.id.startkm)).getText().toString();
-        if(!validMileage(startMileage, lastMileage)) {
-            return false;
-        }
-
-        currentTrip.setMileageStarted(Integer.parseInt(startMileage));
-        return true;
+        String startMileage = String.valueOf(((NumberPicker) findViewById(R.id.npStart)).getValue());
+        validMileage(startMileage, lastMileage, new ValidationCallback() {
+            @Override
+            public void callback(boolean valid) {
+                if(valid) {
+                    currentTrip.setMileageStarted(Integer.parseInt(startMileage));
+                    callback.callback(true);
+                }
+            }
+        });
     }
 
-    public boolean validMileage(String startMileage, int lastMileage) {
+    public void validMileage(String startMileage, int lastMileage, ValidationCallback callback) {
         try {
             int res = Integer.parseInt(startMileage);
 
             if(res < lastMileage) {
-                Toast.makeText(Startroute.this, getString(R.string.start_route_mileage_lower), Toast.LENGTH_SHORT).show();
-                return false;
+                AlertUtils.showAlert(getString(R.string.proceed), getString(R.string.cancel), getString(R.string.start_route_mileage_lower), this, (dialog, which) -> callback.callback(true), (dialog, which) -> callback.callback(false));
+            } else {
+                callback.callback(true);
             }
         } catch (NumberFormatException e) {
             Toast.makeText(Startroute.this, getString(R.string.mileage_no_number), Toast.LENGTH_SHORT).show();
-            return false;
+            callback.callback(false);
         }
-
-        return true;
     }
 
     public boolean checkActiveTrip() {
-        if(((Global) this.getApplication()).isActiveTrip()) {
+        if(((Global) this.getApplication()).getActiveTripManager().isActiveTrip()) {
             ActivityUtils.changeActivity(this, Startroute.this, Route.class);
             finish();
             return true;
@@ -203,7 +222,7 @@ public class Startroute extends PermissionActivity {
         editor.apply();
 
         // Reset tracking setting in trip
-        Trip currentTrip = ((Global) this.getApplication()).getTrip();
+        Trip currentTrip = ((Global) this.getApplication()).getActiveTripManager().getTrip();
         currentTrip.setTrackingSetting(0);
 
         // Show start city input
@@ -211,6 +230,10 @@ public class Startroute extends PermissionActivity {
 
         // Get mileage
         getLastMileage();
+    }
+
+    private abstract class ValidationCallback {
+        public abstract void callback(boolean valid);
     }
 }
 

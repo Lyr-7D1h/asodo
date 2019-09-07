@@ -8,13 +8,13 @@ import com.example.ninja.Domain.Global;
 
 public class ServiceUtils {
     public static void killLocationService(Activity activity) {
-        if(((Global) activity.getApplication()).isActiveTrip()) {
+        if(((Global) activity.getApplication()).getActiveTripManager().isActiveTrip()) {
             // Kill service
-            killService(activity, ((Global) activity.getApplication()).getLocationIntent());
+            killService(activity, ((Global) activity.getApplication()).getActiveTripManager().getLocationIntent());
 
             // Reset variables
-            ((Global) activity.getApplication()).setLocationIntent(null);
-            ((Global) activity.getApplication()).setActiveTrip(false);
+            ((Global) activity.getApplication()).getActiveTripManager().setLocationIntent(null);
+            ((Global) activity.getApplication()).getActiveTripManager().setActiveTrip(false);
         }
     }
 

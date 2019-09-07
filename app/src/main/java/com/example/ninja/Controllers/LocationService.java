@@ -54,7 +54,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         public void onReceive(Context context, Intent intent) {
             if (intent.hasExtra("finalUpdate")) {
                 // Update status
-                ((Global) getApplication()).updateTripStatus();
+                ((Global) getApplication()).getActiveTripManager().updateTripStatus();
 
                 if (trackingSetting > 0) {
                     // Stop tracking
@@ -121,7 +121,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         googleApiClient.connect();
 
         // Init variables
-        this.currentTrip = ((Global) this.getApplication()).getTrip();
+        this.currentTrip = ((Global) this.getApplication()).getActiveTripManager().getTrip();
         this.trackingSetting = intent.getIntExtra("trackingSetting", 0);
 
         // Init location variables
@@ -211,10 +211,10 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
 
     public void broadcastFirstUpdate() {
         // Update status
-        ((Global) getApplication()).updateTripStatus();
+        ((Global) getApplication()).getActiveTripManager().updateTripStatus();
 
         // Update notification
-        if(((Global) getApplication()).getTrip().getTrackingSetting() == 0) {
+        if(((Global) getApplication()).getActiveTripManager().getTrip().getTrackingSetting() == 0) {
             updateNotification(getString(R.string.route_end_route));
         }
 
@@ -226,7 +226,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
 
     public void broadcastEstimation() {
         // Update notification
-        if(((Global) getApplication()).getTrip().getTrackingSetting() == 0) {
+        if(((Global) getApplication()).getActiveTripManager().getTrip().getTrackingSetting() == 0) {
             updateNotification(getString(R.string.route_end_route));
         }
 
@@ -242,7 +242,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
 
     public void broadcastFinalUpdate() {
         // Update status
-        ((Global) getApplication()).updateTripStatus();
+        ((Global) getApplication()).getActiveTripManager().updateTripStatus();
 
         // Send intent
         Intent intent = new Intent("locationBroadcaster");
@@ -296,7 +296,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     @Override
     public void locationAvailable() {
         if((trackingSetting == 1 && isRequestingSingleUpdate) || trackingSetting == 2) {
-            int tripStatus = ((Global) getApplication()).getTripStatus();
+            int tripStatus = ((Global) getApplication()).getActiveTripManager().getTripStatus();
 
             switch (tripStatus) {
                 case 1:

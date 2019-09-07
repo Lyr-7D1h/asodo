@@ -16,6 +16,7 @@ import com.example.ninja.Domain.coordinates.LocationList;
 import com.example.ninja.Domain.coordinates.singleUpdates.LatLngWrapper;
 import com.example.ninja.Domain.httpRequests.AsodoRequester;
 import com.example.ninja.Domain.httpRequests.CustomListener;
+import com.example.ninja.Domain.util.Callback;
 import com.example.ninja.Domain.util.UserUtils;
 import com.example.ninja.R;
 import com.google.gson.JsonObject;
@@ -341,7 +342,7 @@ public class Trip implements Serializable {
         return res;
     }
 
-    public void registerToDB(Context ctx) {
+    public void registerToDB(Context ctx, Callback callback) {
         // Set city started and ended by location
         if(getTrackingSetting() > 0) {
             LatLngList latLngList = LatLngList.decode(getRoutePolyline());
@@ -353,7 +354,11 @@ public class Trip implements Serializable {
         AsodoRequester.newRequest("registerTrip", toJsonObject(), ctx, new CustomListener() {
             @Override
             public void onResponse(JsonObject jsonResponse) {
+                // Set tripID
                 setTripID(jsonResponse.get("tripID").getAsString());
+
+                // Callback
+                callback.callback();
             }
         });
     }

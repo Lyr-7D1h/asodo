@@ -50,7 +50,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         // Resync on settings change
         findPreference("cache_size").setOnPreferenceChangeListener((preference, o) -> {
-            ((Global) application).setUnSynced();
+            ((Global) application).getSyncManager().setUnSynced();
             return true;
         });
     }

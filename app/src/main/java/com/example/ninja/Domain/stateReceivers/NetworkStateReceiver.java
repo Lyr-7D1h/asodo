@@ -35,7 +35,7 @@ public class NetworkStateReceiver extends BroadcastReceiver {
         notifyStateToAll();
     }
 
-    private void notifyStateToAll() {
+    public void notifyStateToAll() {
         for(NetworkStateReceiverListener listener : listeners)
             notifyState(listener);
     }

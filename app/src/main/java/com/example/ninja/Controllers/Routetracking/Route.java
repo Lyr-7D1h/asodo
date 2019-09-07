@@ -62,7 +62,7 @@ public class Route extends BackButtonActivity implements LocationStateReceiver.L
             // First location receiced
             if(intent.hasExtra("firstUpdate")) {
                 // Update layouts
-                switch (((Global) getApplication()).getTrip().getTrackingSetting()) {
+                switch (((Global) getApplication()).getActiveTripManager().getTrip().getTrackingSetting()) {
                     case 2:
                         findViewById(R.id.kmtotaalCont).setVisibility(View.VISIBLE);
                     case 1:
@@ -121,12 +121,12 @@ public class Route extends BackButtonActivity implements LocationStateReceiver.L
         System.out.println("FF Start");
 
         // Init currentTrip
-        Trip currentTrip = ((Global) this.getApplication()).getTrip();
+        Trip currentTrip = ((Global) this.getApplication()).getActiveTripManager().getTrip();
 
         // Set layout
-        if(((Global) this.getApplication()).isActiveTrip()) {
+        if(((Global) this.getApplication()).getActiveTripManager().isActiveTrip()) {
             // Trip already active
-            switch (((Global) this.getApplication()).getTripStatus()) {
+            switch (((Global) this.getApplication()).getActiveTripManager().getTripStatus()) {
                 case 1:
                     this.startLoader.setVisibility(View.VISIBLE);
                     break;
@@ -179,7 +179,7 @@ public class Route extends BackButtonActivity implements LocationStateReceiver.L
 
     public void startLocationService() {
         // Init currentTrip
-        Trip currentTrip = ((Global) this.getApplication()).getTrip();
+        Trip currentTrip = ((Global) this.getApplication()).getActiveTripManager().getTrip();
 
         // Get tracking setting
         int trackingSetting = currentTrip.getTrackingSetting();
@@ -187,11 +187,11 @@ public class Route extends BackButtonActivity implements LocationStateReceiver.L
         // Start up service
         Intent locationIntent = new Intent(Route.this, LocationService.class);
         locationIntent.putExtra("trackingSetting", trackingSetting);
-        ((Global) this.getApplication()).setLocationIntent(locationIntent);
+        ((Global) this.getApplication()).getActiveTripManager().setLocationIntent(locationIntent);
         startService(locationIntent);
 
         // Set trip status to active
-        ((Global) this.getApplication()).setActiveTrip(true);
+        ((Global) this.getApplication()).getActiveTripManager().setActiveTrip(true);
     }
 
     public void requestUpdate() {
@@ -232,7 +232,7 @@ public class Route extends BackButtonActivity implements LocationStateReceiver.L
 
     public void lastUpdateReceived() {
         // Init
-        Trip currentTrip = ((Global) getApplication()).getTrip();
+        Trip currentTrip = ((Global) getApplication()).getActiveTripManager().getTrip();
 
         // Set trip ended
         currentTrip.setTripEnded();
@@ -276,7 +276,7 @@ public class Route extends BackButtonActivity implements LocationStateReceiver.L
 
     @Override
     public void locationAvailable() {
-        int trackingSetting = ((Global) getApplication()).getTrip().getTrackingSetting();
+        int trackingSetting = ((Global) getApplication()).getActiveTripManager().getTrip().getTrackingSetting();
 
         if(trackingSetting > 0) {
             findViewById(R.id.gpsDisabledInfo1).setVisibility(View.GONE);
@@ -293,7 +293,7 @@ public class Route extends BackButtonActivity implements LocationStateReceiver.L
 
     @Override
     public void locationUnavailable() {
-        int trackingSetting = ((Global) getApplication()).getTrip().getTrackingSetting();
+        int trackingSetting = ((Global) getApplication()).getActiveTripManager().getTrip().getTrackingSetting();
 
         if(trackingSetting > 0) {
             findViewById(R.id.enableLocationServices1).setOnClickListener(v -> showGpsPrompt());

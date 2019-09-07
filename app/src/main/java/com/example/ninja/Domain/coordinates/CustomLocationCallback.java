@@ -39,7 +39,7 @@ public class CustomLocationCallback extends LocationCallback {
 
             System.out.println(location);
             System.out.println(location.getAccuracy());
-            System.out.println(((Global) this.locationService.getApplication()).isActiveTrip());
+            System.out.println(((Global) this.locationService.getApplication()).getActiveTripManager().isActiveTrip());
             System.out.println("Current list: " + this.currentTrip.getLocationList().getLocationsSize());
         }
     }

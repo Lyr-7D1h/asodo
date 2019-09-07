@@ -46,7 +46,7 @@ public class LogActivity extends AppCompatActivity {
         // Check if user is logged in
         try {
             if(CacheUtils.readCache(context, "user.cache") != null) {
-                if(((Global) this.getApplication()).isActiveTrip()) {
+                if(((Global) this.getApplication()).getActiveTripManager().isActiveTrip()) {
                     Intent intent = new Intent(LogActivity.this, MainActivity.class);
                     intent.putExtra("redirect", 1);
                     startActivity(intent);
@@ -149,7 +149,7 @@ public class LogActivity extends AppCompatActivity {
         CacheUtils.cacheJsonObject(context, 0, response, "user.cache");
 
         // Sync routes
-        ((Global) this.getApplication()).sync();
+        ((Global) this.getApplication()).getSyncManager().sync();
 
         // Move to home
         ActivityUtils.changeActivity(this, LogActivity.this, MainActivity.class);

@@ -3,6 +3,7 @@ package com.example.ninja.Controllers.Stats;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -49,10 +51,12 @@ public class HistoryListDetail extends BackButtonActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_list_detail);
 
+//        ((ConstraintLayout) findViewById(R.id.mapCont));
+
         // Init trip
         OnMapReadyCallback self = this;
         int position = getIntent().getIntExtra("position", -1);
-        ((Global) this.getApplication()).getTripCache(new AsodoRequesterCallback() {
+        ((Global) this.getApplication()).getSyncManager().getTripCache(new AsodoRequesterCallback() {
             @Override
             public void callback(JsonObject jsonResponse) {
                 try {

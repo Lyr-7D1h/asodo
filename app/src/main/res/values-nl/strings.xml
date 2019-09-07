@@ -100,7 +100,7 @@
     <string name="start_route_no_last_mileage">Kan laatste kilometerstand niet laden!</string>
     <string name="start_route_no_last_mileage_helper">Vul kilometerstand in</string>
     <string name="start_route_no_car">Geen auto voor rit geselecteerd!</string>
-    <string name="start_route_mileage_lower">Fout: Kilometerstand lager dan laatste eindstand</string>
+    <string name="start_route_mileage_lower">Ingevulde kilometerstand is lager dan laatste eindstand. Weet u zeker dat u wil doorgaan?</string>
     <string name="mileage_no_number">Fout: Kilometerstand is geen nummer</string>
     <string name="mileage_lower_than_start">Fout: Kilometerstand lager dan beginstand</string>
     <string name="enter_city">Vul een stad in</string>
@@ -142,4 +142,6 @@
     <string name="exporter_automated_message">Automated message from Asodo.</string>
     <string name="exporter_mail_description" formatted="true">\n%s\n%s\nKilometers gereden:      %d\nBeschrijving: %s</string>
     <string name="exporter_mail_no_description" formatted="true">\n%s\n%s\nKilometers gereden:      %d</string>
+    <string name="proceed">Doorgaan</string>
+    <string name="start_route_type_trip">Soort rit:</string>
 </resources>
